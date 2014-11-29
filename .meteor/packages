@@ -8,4 +8,5 @@ less
 nemo64:bootstrap
 iron:router
 accounts-password
-ian:accounts-ui-bootstrap-3
+accounts-base
+
