@@ -9,4 +9,5 @@ nemo64:bootstrap
 iron:router
 accounts-password
 accounts-base
+anti:fake
 
