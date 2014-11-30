@@ -3,21 +3,48 @@
     <h1>suchfeld und data</h1>
   </div>
   {{> searchForm}}
-  {{> searchResult}}
+  {{> searchResults}}
 </template>
 
 
 <template name="searchForm">
-	<div class="input-group">
-		<input type="text" class="form-control searchForm" id="searchForm" placeholder="das merken die nie">
-		<span class="input-group-addon">search</span>
-	</div>
+  <form class="search">
+    <input type="text" name="text" placeholder="search" />
+  </form>
 </template>
 
-<template name="searchResult">
-	<div class="panel panel-default">
-		<div class="panel-body">
-			{{result}}
-		</div>
+<template name="result">
+	<tr>
+		<td> {{this._id}} </td>
+		<td> {{this.name}} </td>
+		<td> {{this.comment}} </td>
+	</tr>
+</template>
+
+<template name="searchResults" qty="{{qty}}" hasResults="{{hasResults}}">
+	{{#tableWrapper3 heading=qty field1="id" field2="name" field3="comment" display=hasResults}}
+		{{#each results}}
+			{{> result}}
+		{{/each}}
+	{{/tableWrapper3}}
+</template>
+
+<template name="tableWrapper3">
+	<h2>{{this.heading}}</h2>
+	<!-- {{#if display}} -->
+	<div class="span3"> 
+	<table class="table table-condensed table-hover">
+		<thead>
+			<tr>
+		        <td>{{this.field1}}</td>
+		        <td>{{this.field2}}</td>
+		        <td>{{this.field3}}</td>
+	      	</tr>
+	    </thead>
+	    <tbody>
+			{{> UI.contentBlock}}
+		</tbody>
+	</table>
 	</div>
+	<!-- {{/if}} -->
 </template>
