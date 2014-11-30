@@ -2,4 +2,22 @@
   <div class="jumbotron">
     <h1>suchfeld und data</h1>
   </div>
+  {{> searchForm}}
+  {{> searchResult}}
+</template>
+
+
+<template name="searchForm">
+	<div class="input-group">
+		<input type="text" class="form-control searchForm" id="searchForm" placeholder="das merken die nie">
+		<span class="input-group-addon">search</span>
+	</div>
+</template>
+
+<template name="searchResult">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			{{result}}
+		</div>
+	</div>
 </template>
