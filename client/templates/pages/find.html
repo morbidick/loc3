@@ -22,7 +22,7 @@
 </template>
 
 <template name="searchResults" qty="{{qty}}" hasResults="{{hasResults}}">
-	{{#tableWrapper3 heading=qty field1="id" field2="name" field3="comment" display=hasResults}}
+	{{#tableWrapper3 heading=qty field1="id" field2="name" field3="comment"}}
 		{{#each results}}
 			{{> result}}
 		{{/each}}
@@ -31,7 +31,6 @@
 
 <template name="tableWrapper3">
 	<h2>{{this.heading}}</h2>
-	<!-- {{#if display}} -->
 	<div class="span3"> 
 	<table class="table table-condensed table-hover">
 		<thead>
@@ -46,5 +45,4 @@
 		</tbody>
 	</table>
 	</div>
-	<!-- {{/if}} -->
 </template>

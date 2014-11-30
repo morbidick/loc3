@@ -18,20 +18,11 @@ Template.searchResults.helpers({
 			return results;
 		}
 	},
-	"hasResult": function() {
-		var resultQty = Session.get("resultQty");
-		if((typeof resultQty) === "number" && resultQty > 0) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	},
 
 	"qty": function() {
 		var resultQty = Session.get("resultQty");
 		if((typeof resultQty) === "number" && resultQty > 0) {
-			return resultQty + " results";
+			return resultQty + " results for: \"" + Session.get("search") + "\"";
 		}
 		else {
 			return "no results";

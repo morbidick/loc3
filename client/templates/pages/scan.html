@@ -2,4 +2,48 @@
   <div class="jumbotron">
     <h1>scanning</h1>
   </div>
+  {{> scanForm}}
+  {{> scanResults}}
+</template>
+
+<template name="scan">
+	<tr>
+		<td>{{this.scan}}</td>
+		<td>{{this.type}}</td>
+		<td>{{this.name}}</td>
+		<td>{{this.location}}</td>
+	</tr>
+</template>
+
+<template name="scanForm">
+  <form class="scan">
+    <input type="text" name="text" placeholder="scan" />
+  </form>
+</template>
+
+<template name="scanResults">
+	{{#tableWrapper4 heading="scans" field1="id" field2="type" field3="name" field4="location"}}
+		{{#each results}}
+			{{> scan}}
+		{{/each}}
+	{{/tableWrapper4}}
+</template>
+
+<template name="tableWrapper4">
+	<h2>{{this.heading}}</h2>
+	<div class="span"> 
+	<table class="table table-condensed table-hover">
+		<thead>
+			<tr>
+		        <td>{{this.field1}}</td>
+		        <td>{{this.field2}}</td>
+		        <td>{{this.field3}}</td>
+		        <td>{{this.field4}}</td>
+	      	</tr>
+	    </thead>
+	    <tbody>
+			{{> UI.contentBlock}}
+		</tbody>
+	</table>
+	</div>
 </template>
