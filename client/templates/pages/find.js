@@ -58,10 +58,10 @@ Template.searchResults.helpers({
     }
 
     // Meteor.call("logCommand", modq);
-
-    results = Items.find(modq, {limit: 100});
-    Session.set("resultQty", results.count());
-
+    if(active) {
+      results = Items.find(modq, {limit: 100});
+      Session.set("resultQty", results.count());
+    }
     return results;
 	},
 
