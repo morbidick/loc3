@@ -48,18 +48,18 @@ Template.searchResults.helpers({
     vendor = "";
     if (query["vendor"] && query["vendor"] !== "") {
       vendor = ".*" + vendor + query["vendor"] + ".*";
-      modq["team"] = {"$regex": team};
+      modq["vendor"] = {"$regex": vendor};
       active = true;
-    }    
+    }
     locations = query["locations"];
     if (locations.length > 0) {
       modq["location.type"] = {"$in": locations}
       active = true;
     }
 
-    Meteor.call("logCommand", modq);
+    // Meteor.call("logCommand", modq);
 
-    results = Items.find(modq, {limit: 20});
+    results = Items.find(modq, {limit: 100});
     Session.set("resultQty", results.count());
 
     return results;

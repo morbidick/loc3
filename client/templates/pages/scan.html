@@ -2,6 +2,7 @@
   <div class="jumbotron">
     <h1>scanning</h1>
   </div>
+  {{> submissionForm}}
   {{> scanForm}}
   {{> scanResults}}
 </template>
@@ -16,10 +17,103 @@
 </template>
 
 <template name="scanForm">
-  <form class="scan">
-    <input type="text" name="text" placeholder="scan" />
+  <form class="form-horizontal" role="form">
+    <!-- <input type="text" name="text" placeholder="scan" /> -->
+	<div class="form-group">
+		<label for="scan1" class="col-sm-1 control-label">Scan</label>
+		<div class="col-sm-3">
+			<input class="form-control" id="scan1" placeholder="barcode">
+		</div>
+	</div>
   </form>
 </template>
+
+<template name="submissionForm">
+	<form class="form-horizontal" role="form">
+		
+		<div class="form-group">
+			<label for="submissionName1" class="col-sm-3 control-label">Name</label>
+			<div class="col-sm-5">
+				<input class="form-control" id="submissionName1" placeholder="Name">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label type="text" for="submissionTeam1" class="col-sm-3 control-label">Team</label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" id="submissionTeam1" placeholder="Team">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label type="text" for="submissionVendor1" class="col-sm-3 control-label">Vendor</label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" id="submissionVendor1" placeholder="Vendor">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label type="text" for="submissionBy1" class="col-sm-3 control-label">Submitted by</label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" id="submissionBy1" placeholder="submitted by (aka your name here)">
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label type="text" for="submissionLocations1" class="col-sm-3 control-label">Location</label>
+			<div class="col-sm-2">
+				<div class="radio">
+					<label>
+						<input id="submissionLocations1" name="locationsRadio1" value="world" type="radio"> World
+					</label>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="radio">
+					<label>
+						<input id="submissionLocations2" name="locationsRadio1" value="halleh" type="radio"> HalleH
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-3 col-sm-2">
+				<div class="radio">
+					<label>
+						<input id="submissionLocations3" name="locationsRadio1" value="cch" type="radio"> CCH
+					</label>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="radio">
+					<label>
+						<input id="submissionLocations4" name="locationsRadio1" value="transport" type="radio"> Transport
+					</label>
+				</div>
+			</div>
+		</div>
+
+		{{#if locationWorld}}
+			world
+		{{/if}}
+		{{#if locationHalleH}}
+			halleh
+		{{/if}}
+		{{#if locationCCH}}
+			cch
+		{{/if}}
+		{{#if locationTransport}}
+			transport
+		{{/if}}
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-default">submit query</button>
+			</div>
+		</div>
+	</form>
+</template>
+
 
 <template name="scanResults">
 	{{#tableWrapper4 heading="scans" field1="id" field2="type" field3="name" field4="location"}}

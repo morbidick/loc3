@@ -79,12 +79,14 @@
 	<tr>
 		<td> {{this._id}} </td>
 		<td> {{this.name}} </td>
-		<td> {{this.comment}} </td>
+		<td> {{this.team}} </td>
+		<td> {{this.vendor}} </td>
+		<td> {{this.location.type}} </td>
 	</tr>
 </template>
 
 <template name="searchResults" qty="{{qty}}" hasResults="{{hasResults}}">
-	{{#tableWrapper3 heading=qty field1="id" field2="name" field3="comment"}}
+	{{#tableWrapper3 heading=qty field1="id" field2="name" field3="team" field4="vendor" field5="location"}}
 	{{#each results}}
 	{{> result}}
 	{{/each}}
@@ -100,6 +102,8 @@
 					<td>{{this.field1}}</td>
 					<td>{{this.field2}}</td>
 					<td>{{this.field3}}</td>
+					<td>{{this.field4}}</td>
+					<td>{{this.field5}}</td>
 				</tr>
 			</thead>
 			<tbody>

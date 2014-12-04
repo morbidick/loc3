@@ -4,30 +4,60 @@ Template.scanForm.created = function () {
 };
 
 Template.scanForm.events({
-  "submit .scan": function (event) {
+  "submit form": function (event) {
     var text, scans, oldDoc;
-    text = event.target.text.value;
-    event.target.text.value = "";
-  	event.preventDefault();
-
+  	scan = $( '#scan1' ).val();
+  	Meteor.call("logCommand", scan);
     scans = Session.get("scans");
-    if (validScan(text)) {
-	    oldDoc = Items.findOne({"_id": text});
-	    // Meteor.call("logCommand", oldDoc);
+
+    if (validScan(scan)) {
+	    oldDoc = Items.findOne({"_id": scan});
 	    if (oldDoc) {
-		    scans.push({"scan": text, "type": "INVALID: already set", "name": oldDoc.name, "location": oldDoc.location.type});    	    	
+		    scans.push({"scan": scan, "type": "INVALID: already set", "name": oldDoc.name, "location": oldDoc.location.type});    	    	
 	    }
 	    else {
-		    scans.push({"scan": text, "type": "VALID", "name": "new", "location": "new"});
+		    scans.push({"scan": scan, "type": "VALID", "name": "new", "location": "new"});
 	    }
 	    Session.set("scans", scans);
-    }
-    else {
-
     }
     return false;
   }
 });
+
+Template.submissionForm.events({
+  "submit form": function (event) {
+  	var name, team, vendor, location, query, radio;
+  	name = $( '#submissionName1' ).val();
+    team = $( '#submissionTeam1' ).val();
+  	vendor = $( '#submissionVendor1' ).val();
+  	submissionBy = $( '#submissionBy1' ).val();
+
+  	// get radio status
+  	radio = $( 'type:radio, input:checked' );
+  	location = "";
+  	if(radio.val()) {
+  		location = radio.val();
+  	}
+    Meteor.call("logCommand", {"name": name, "team": team, "vendor": vendor, "submissionBy": submissionBy, "location": location});
+    Session.set("submissionData", {"name": name, "team": team, "vendor": vendor, "submissionBy": submissionBy, "location": location});
+    return false;
+  }
+});
+
+Template.submissionForm.helpers({
+	"locationWorld": function() {
+		return false;
+	},
+	"locationHalleH": function() {
+		return false;
+	},
+	"locationCCH": function() {
+		return false;
+	},
+	"locationTransport": function() {
+		return false;
+	}
+})
 
 Template.scanResults.helpers({
 	"results": function () {
