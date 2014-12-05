@@ -68,15 +68,36 @@ Template.searchResults.helpers({
 	"qty": function() {
 		var resultQty = Session.get("resultQty");
 		if((typeof resultQty) === "number" && resultQty > 0) {
-      if (resultQty < 101) {
-  			return resultQty + " results";
-      }
-      else {
-        return resultQty + " results, only 100 are shown"
-      }
+			return resultQty + " results";
 		}
 		else {
 			return "no results";
 		}
 	}
+});
+
+Template.findId.events({
+  "submit form": function () {
+    var itemId = $( '#queryId1' ).val();
+    if ( /^\d{8}$/.test(itemId) ) {
+      Session.set("findById", itemId);
+    }
+    return false;
+  }
+});
+
+Template.presentId.helpers({
+  "fromdb": function() {
+    var itemId, data;
+    itemId = Session.get("findById");
+    if (!itemId) {
+      return {found: false};
+    }
+    data = Items.findOne({"_id": itemId});
+    if (!data) {
+      return {found: false};
+    }
+    data.found = true;
+    return data;
+  }
 });

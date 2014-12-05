@@ -2,8 +2,34 @@
 	<div class="jumbotron">
 		<h1>suchfeld und data</h1>
 	</div>
-	{{> searchForm}}
-	{{> searchResults}}
+<!-- 	{{> searchForm}}
+	{{> searchResults}} -->
+	{{> searchTab}}
+</template>
+
+<template name="searchTab">
+	<div role="tabpanel">
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active">
+				<a href="#fullSearch" aria-controls="fullSearch" role="tab" data-toggle="tab">Full Search</a>
+			</li>
+			<li role="presentation">
+				<a href="#findId" aria-controls="findId" role="tab" data-toggle="tab">Find ID</a>
+			</li>
+		</ul>
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="fullSearch">
+				{{> searchForm}}
+				{{> searchResults}}
+			</div>
+			<div role="tabpanel" class="tab-pane" id="findId">
+				{{> findId}}
+				{{> presentId}}
+			</div>
+		</div>
+	</div>
 </template>
 
 
@@ -70,11 +96,6 @@
 	</form>
 </template>
 
-<!-- 
-<template name="detailedResult">
-
-</template>
--->
 <template name="result">
 	<tr>
 		<td> {{this._id}} </td>
@@ -111,4 +132,77 @@
 			</tbody>
 		</table>
 	</div>
+</template>
+
+<template name="findId">
+	<form class="form-horizontal" role="form">
+		<div class="form-group">
+			<label for="queryName1" class="col-sm-2 control-label">ID</label>
+			<div class="col-sm-10">
+				<input class="form-control" id="queryId1" placeholder="8 digit id">
+			</div>
+		</div>
+	</form>
+</template>
+
+<template name="presentLocation">
+	<ul class="list-group">
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Type</strong></span>
+		    <span class="col-sm-9">{{type}}</span>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Timestamp</strong></span>
+		    <span class="col-sm-9">{{timestamp}}</span>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Submitted By</strong></span>
+		    <span class="col-sm-9">{{entry_by}}</span>
+		</li>
+	</ul>
+</template>
+
+<template name="presentValue">
+	<li class="list-group-item row">
+		<span class="col-sm-2 text-right"><strong>{{heading}}</strong></span>
+	    <span class="col-sm-8">{{content}}</span>
+    	<span class="btn-group btn-group btn-group-xs col-sm-2" role="group" aria-label="edit line">
+			<button type="button" class="btn btn-default edit">edit</button>
+			<button type="button" class="btn btn-default done">done</button>
+		</span>
+	</li>
+</template>
+
+<template name="presentId">
+	{{#with fromdb}}
+		{{#if found}}
+			<ul class="list-group">
+				{{> presentValue heading="ID" content=this._id}}
+				{{> presentValue heading="Name" content=this.name}}
+				{{> presentValue heading="Team" content=this.team}}
+				{{> presentValue heading="Vendor" content=this.vendor}}
+				{{> presentValue heading="Comment" content=this.comment}}
+				<li class="list-group-item row">
+					<span class="col-sm-2 text-right">
+						<strong>Location</strong><br>
+				    	<span class="btn-group btn-group btn-group-xs col-sm-2" role="group" aria-label="edit line">
+							<button type="button" class="btn btn-default edit">edit</button>
+							<button type="button" class="btn btn-default done">done</button>
+						</span>
+					</span>
+				    <span class="col-sm-10">{{> presentLocation type=location.type timestamp=location.timestamp entry_by=location.entry_by}}</span>
+				</li>
+				<li class="list-group-item row">
+					<span class="col-sm-2 text-right"><strong>Past Locations</strong></span>
+					<span class="col-sm-10">
+						{{#each past_locations}}
+						    {{> presentLocation}}
+						{{/each}}
+					</span>
+				</li>
+			</ul>
+		{{else}}
+			Begone! No such item was ever heard of!
+		{{/if}}
+	{{/with}}
 </template>
