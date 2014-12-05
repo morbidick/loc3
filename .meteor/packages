@@ -7,7 +7,8 @@ meteor-platform
 less
 nemo64:bootstrap
 iron:router
-accounts-password
 accounts-base
 anti:fake
+accounts-ui-bootstrap-3
+accounts-password
 
