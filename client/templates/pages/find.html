@@ -2,11 +2,10 @@
 	<div class="jumbotron">
 		<h1>suchfeld und data</h1>
 	</div>
-<!-- 	{{> searchForm}}
-	{{> searchResults}} -->
 	{{> searchTab}}
 </template>
 
+<!-- Tabs to toggle search modes -->
 <template name="searchTab">
 	<div role="tabpanel">
 		<!-- Nav tabs -->
@@ -32,31 +31,30 @@
 	</div>
 </template>
 
-
+<!-- Big ass form to search for a single item using full text search on fields -->
 <template name="searchForm">
 	<form class="form-horizontal" role="form">
-		
+		<!-- basic fields -->
 		<div class="form-group">
 			<label for="queryName1" class="col-sm-2 control-label">Name</label>
 			<div class="col-sm-10">
 				<input class="form-control" id="queryName1" placeholder="Name">
 			</div>
 		</div>
-
 		<div class="form-group">
 			<label type="text" for="queryTeam1" class="col-sm-2 control-label">Team</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" id="queryTeam1" placeholder="Team">
 			</div>
 		</div>
-
 		<div class="form-group">
 			<label type="text" for="queryVendor1" class="col-sm-2 control-label">Vendor</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" id="queryVendor1" placeholder="Vendor">
 			</div>
 		</div>
-		
+
+		<!-- location checkboxes -->
 		<div class="form-group">
 			<label type="text" for="queryLocations1" class="col-sm-2 control-label">Location</label>
 			<div class="col-sm-2">
@@ -88,6 +86,7 @@
 				</div>
 			</div>
 		</div>
+		<!-- submit button -->
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button type="submit" class="btn btn-default">submit query</button>
@@ -96,6 +95,8 @@
 	</form>
 </template>
 
+<!-- Display one-liner describing item -->
+<!-- TODO provide a link to the detailed view  -->
 <template name="result">
 	<tr>
 		<td> {{this._id}} </td>
@@ -106,14 +107,18 @@
 	</tr>
 </template>
 
-<template name="searchResults" qty="{{qty}}" hasResults="{{hasResults}}">
+<!-- Display all results for our sessions search -->
+<!-- TODO make pretty -->
+<template name="searchResults" qty="{{qty}}">
 	{{#tableWrapper3 heading=qty field1="id" field2="name" field3="team" field4="vendor" field5="location"}}
-	{{#each results}}
-	{{> result}}
-	{{/each}}
+		{{#each results}}
+			{{> result}}
+		{{/each}}
 	{{/tableWrapper3}}
 </template>
 
+<!-- Ultra shitty table wrapper -->
+<!-- TODO get rid of this, rewrite with dynamic #columns -->
 <template name="tableWrapper3">
 	<h2>{{this.heading}}</h2>
 	<div class="span3"> 
@@ -134,6 +139,7 @@
 	</div>
 </template>
 
+<!-- Provides a one-line search for item ids -->
 <template name="findId">
 	<form class="form-horizontal" role="form">
 		<div class="form-group">
@@ -145,6 +151,8 @@
 	</form>
 </template>
 
+<!-- Describes a single location as alist group item -->
+<!-- needs location fields -->
 <template name="presentLocation">
 	<ul class="list-group">
 		<li class="list-group-item row">
@@ -162,6 +170,8 @@
 	</ul>
 </template>
 
+<!-- Describes a single value as a list group item -->
+<!-- needs heading, content, dbName, refId (item id) -->
 <template name="presentValue">
 	<li class="list-group-item row">
 		{{#if notEditing heading}}
@@ -177,7 +187,7 @@
 				</span>
 			</form>
 		{{/if}}
-
+		<!-- Dont clutter up the ui, show it only if it is supposed to work -->
 		{{#if currentUser}}
 	    	<span class="col-sm-2">
 				<button type="button" class="btn btn-default toggleEdit">
@@ -192,15 +202,19 @@
 	</li>
 </template>
 
+<!-- Describes a complete item to a given id -->
+<!-- TODO make this usable for links, push id as argument -->
 <template name="presentId">
 	{{#with fromdb}}
 		{{#if found}}
 			<ul class="list-group">
+				<!-- add all basic fields here -->
 				{{> presentValue heading="ID" content=this._id dbName="_id" refId=this._id}}
 				{{> presentValue heading="Name" content=this.name dbName="name" refId=this._id}}
 				{{> presentValue heading="Team" content=this.team dbName="team" refId=this._id}}
 				{{> presentValue heading="Vendor" content=this.vendor dbName="vendor" refId=this._id}}
 				{{> presentValue heading="Comment" content=this.comment dbName="comment" refId=this._id}}
+				<!-- locations are a bit more tricky -->
 				<li class="list-group-item row">
 					<span class="col-sm-2 text-right">
 						<strong>Location</strong><br>
@@ -217,6 +231,7 @@
 				</li>
 			</ul>
 		{{else}}
+			<!-- id not found -->
 			Begone! No such item was ever heard of!
 		{{/if}}
 	{{/with}}
