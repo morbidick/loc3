@@ -164,12 +164,31 @@
 
 <template name="presentValue">
 	<li class="list-group-item row">
-		<span class="col-sm-2 text-right"><strong>{{heading}}</strong></span>
-	    <span class="col-sm-8">{{content}}</span>
-    	<span class="btn-group btn-group btn-group-xs col-sm-2" role="group" aria-label="edit line">
-			<button type="button" class="btn btn-default edit">edit</button>
-			<button type="button" class="btn btn-default done">done</button>
-		</span>
+		{{#if notEditing heading}}
+			<span class="col-sm-2"><strong>{{heading}}</strong></span>
+			<span class="col-sm-8">{{content}}</span>
+		{{else}}
+			<form role="form">
+				<span class="form-group">
+					<label for="queryValue1" class="col-sm-2 control-label">{{heading}}</label>
+					<span class="col-sm-8">
+						<input class="form-control" editingTag="{{heading}}" value="{{content}}">
+					</span>
+				</span>
+			</form>
+		{{/if}}
+
+		{{#if currentUser}}
+	    	<span class="col-sm-2">
+				<button type="button" class="btn btn-default toggleEdit">
+					{{#if notEditing heading}}
+						edit
+					{{else}}
+						cancel
+					{{/if}}
+				</button>
+			</span>
+    	{{/if}}
 	</li>
 </template>
 
@@ -177,18 +196,14 @@
 	{{#with fromdb}}
 		{{#if found}}
 			<ul class="list-group">
-				{{> presentValue heading="ID" content=this._id}}
-				{{> presentValue heading="Name" content=this.name}}
-				{{> presentValue heading="Team" content=this.team}}
-				{{> presentValue heading="Vendor" content=this.vendor}}
-				{{> presentValue heading="Comment" content=this.comment}}
+				{{> presentValue heading="ID" content=this._id dbName="_id" refId=this._id}}
+				{{> presentValue heading="Name" content=this.name dbName="name" refId=this._id}}
+				{{> presentValue heading="Team" content=this.team dbName="team" refId=this._id}}
+				{{> presentValue heading="Vendor" content=this.vendor dbName="vendor" refId=this._id}}
+				{{> presentValue heading="Comment" content=this.comment dbName="comment" refId=this._id}}
 				<li class="list-group-item row">
 					<span class="col-sm-2 text-right">
 						<strong>Location</strong><br>
-				    	<span class="btn-group btn-group btn-group-xs col-sm-2" role="group" aria-label="edit line">
-							<button type="button" class="btn btn-default edit">edit</button>
-							<button type="button" class="btn btn-default done">done</button>
-						</span>
 					</span>
 				    <span class="col-sm-10">{{> presentLocation type=location.type timestamp=location.timestamp entry_by=location.entry_by}}</span>
 				</li>

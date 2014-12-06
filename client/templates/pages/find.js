@@ -86,6 +86,36 @@ Template.findId.events({
   }
 });
 
+Template.presentValue.helpers({
+  "notEditing": function(heading) {
+    var state;
+    state = Session.get("findIdEditing_" + heading);
+    return !state;
+  },
+});
+
+Template.presentValue.events({
+  "submit form": function () {
+    var refId, dbName, newData, state;
+    refId = this.refId;
+    dbName = this.dbName;
+    newData = {};
+    newData[dbName] = $( '[editingTag="'+this.heading+'"]').val();
+    Items.update({"_id": refId}, {$set: newData});
+
+    state = Session.get("findIdEditing_" + this.heading);
+    Session.set("findIdEditing_" + this.heading, !state);
+ 
+    return false;
+  },
+  "click .toggleEdit": function() {
+    var state;
+    state = Session.get("findIdEditing_" + this.heading);
+    Session.set("findIdEditing_" + this.heading, !state);
+    return false;   
+  }
+});
+
 Template.presentId.helpers({
   "fromdb": function() {
     var itemId, data;
