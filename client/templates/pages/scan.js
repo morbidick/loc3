@@ -1,25 +1,25 @@
 Template.scanForm.created = function () {
 	Session.setDefault("scans", []);
-	// Meteor.call("logCommand", "scans reset");
 };
 
 Template.scanForm.events({
   "submit form": function (event) {
-    var text, scans, oldDoc;
+    var text, usr, scan, scans, oldDoc, data;
   	scan = $( '#scan1' ).val();
-  	Meteor.call("logCommand", scan);
-    scans = Session.get("scans");
-
-    if (validScan(scan)) {
-	    oldDoc = Items.findOne({"_id": scan});
-	    if (oldDoc) {
-		    scans.push({"scan": scan, "type": "INVALID", "name": oldDoc.name, "location": oldDoc.location.type});    	    	
+  	//check if we got a scan
+  	if (validScan(scan)) {
+    	//Set up data
+	  	usr = Meteor.userId();
+    	if (oldDoc) {
+		}
+		// Track scans via either user (more persistent) or session
+	  	if (usr) {
+			Meteor.users.update({"_id": usr}, {$addToSet: {"scans": scan}})
 	    }
-	    else {
-		    scans.push({"scan": scan, "type": "VALID", "name": "new", "location": "new"});
-	    }
-	    Session.set("scans", scans);
-    }
+	    $( '#scan1' ).val("");
+  	}
+  	//TODO notify of invalid scan
+  	// prevent default event handling
     return false;
   }
 });
@@ -40,16 +40,15 @@ Template.submissionForm.events({
 	data = {"name": name, "team": team, "vendor": vendor, "submissionBy": submissionBy, "location": location};
 
     if (validateSubmission(data)) {
-    	scans = Session.get("scans");
+    	scans = Meteor.user().scans.map(mapScan);
     	for (var i = 0; i < scans.length; i++) {
-    		if (scans[i]["type"] === "VALID") {
+    		if (scans[i]["valid"]) {
 		    	data["_id"] = scans[i].scan;
-		    	// Meteor.call("logCommand", data);
     			Meteor.call("insertCommand", data);
     		}
     	}
+    	clearScans();
     	$( '#submissionName1' ).val("");
-    	Session.set("scans", []);
     }
     else {
 	    Session.set("submissionData", data);
@@ -83,13 +82,38 @@ Template.submissionForm.helpers({
 		var sD = Session.get("submissionData");
 		return sD["team"] === "";	
 	}
-})
+});
 
 Template.scanResults.helpers({
 	"results": function () {
-		return Session.get("scans");
+		return Meteor.user().scans.map(mapScan);
 	}
 });
+
+Template.scanResults.events({
+	"click .clear": function () {
+		clearScans();
+		return false;
+	}
+});
+
+var mapScan = function (scan) {
+	var doc = Items.findOne({"_id": scan});
+	if (doc) {
+		return {"scan": scan, "name": doc["name"], valid: false};
+	}
+	return {"scan": scan, "name": "new", valid: true};
+}
+
+var clearScans = function () {
+	var usr = Meteor.userId();
+	Meteor.users.update({"_id": usr}, {$set: {"scans": []}});
+};
+
+var getScans = function () {
+ 	var usr = Meteor.user();
+	return usr.scans;
+}
 
 var validateSubmission = function (data) {
 	if (!data["name"] || data["name"] === "") {
