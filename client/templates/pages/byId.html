@@ -1,0 +1,133 @@
+<template name="findById">
+	<ul class="list-group">
+		<!-- add all basic fields here -->
+		{{> presentValue heading="ID" content=_id dbName="_id" refId=_id}}
+		{{> presentValue heading="Name" content=name dbName="name" refId=_id}}
+		{{> presentValue heading="Team" content=team dbName="team" refId=_id}}
+		{{> presentValue heading="Vendor" content=vendor dbName="vendor" refId=_id}}
+		{{> presentValue heading="Comment" content=comment dbName="comment" refId=_id}}
+		<!-- locations are a bit more tricky -->
+		<li class="list-group-item row">
+			<span class="col-sm-2 text-right">
+				<strong>Location</strong><br>
+			</span>
+		    <span class="col-sm-10">{{> presentLocation type=location.type timestamp=location.timestamp entry_by=location.entry_by}}</span>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-2 text-right"><strong>Past Locations</strong></span>
+			<span class="col-sm-10">
+				{{#each past_locations}}
+				    {{> presentLocation}}
+				{{/each}}
+			</span>
+		</li>
+	</ul>
+</template>
+
+<template name="noSuchId">
+	<h4>Begone!</h4>
+	no such id
+</template>
+
+<template name="loaad">
+	<h4>chill</h4>
+	fetching db
+</template>
+
+<!-- Provides a one-line search for item ids -->
+<template name="findId">
+	<form class="form-horizontal" role="form">
+		<div class="form-group">
+			<label for="queryName1" class="col-sm-2 control-label">ID</label>
+			<div class="col-sm-10">
+				<input class="form-control" id="queryId1" placeholder="8 digit id">
+			</div>
+		</div>
+	</form>
+</template>
+
+<!-- Describes a single location as alist group item -->
+<!-- needs location fields -->
+<template name="presentLocation">
+	<ul class="list-group">
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Type</strong></span>
+		    <span class="col-sm-9">{{type}}</span>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Timestamp</strong></span>
+		    <span class="col-sm-9">{{timestamp}}</span>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Submitted By</strong></span>
+		    <span class="col-sm-9">{{entry_by}}</span>
+		</li>
+	</ul>
+</template>
+
+<!-- Describes a single value as a list group item -->
+<!-- needs heading, content, dbName, refId (item id) -->
+<template name="presentValue">
+	<li class="list-group-item row">
+		{{#if notEditing heading}}
+			<span class="col-sm-2"><strong>{{heading}}</strong></span>
+			<span class="col-sm-8">{{content}}</span>
+		{{else}}
+			<form role="form">
+				<span class="form-group">
+					<label for="queryValue1" class="col-sm-2 control-label">{{heading}}</label>
+					<span class="col-sm-8">
+						<input class="form-control" editingTag="{{heading}}" value="{{content}}">
+					</span>
+				</span>
+			</form>
+		{{/if}}
+		<!-- Dont clutter up the ui, show it only if it is supposed to work -->
+		{{#if currentUser}}
+	    	<span class="col-sm-2">
+				<button type="button" class="btn btn-default toggleEdit">
+					{{#if notEditing heading}}
+						edit
+					{{else}}
+						cancel
+					{{/if}}
+				</button>
+			</span>
+    	{{/if}}
+	</li>
+</template>
+
+<!-- Describes a complete item to a given id -->
+<!-- TODO make this usable for links, push id as argument -->
+<template name="presentId">
+	{{#with fromdb}}
+		{{#if found}}
+			<ul class="list-group">
+				<!-- add all basic fields here -->
+				{{> presentValue heading="ID" content=this._id dbName="_id" refId=this._id}}
+				{{> presentValue heading="Name" content=this.name dbName="name" refId=this._id}}
+				{{> presentValue heading="Team" content=this.team dbName="team" refId=this._id}}
+				{{> presentValue heading="Vendor" content=this.vendor dbName="vendor" refId=this._id}}
+				{{> presentValue heading="Comment" content=this.comment dbName="comment" refId=this._id}}
+				<!-- locations are a bit more tricky -->
+				<li class="list-group-item row">
+					<span class="col-sm-2 text-right">
+						<strong>Location</strong><br>
+					</span>
+				    <span class="col-sm-10">{{> presentLocation type=location.type timestamp=location.timestamp entry_by=location.entry_by}}</span>
+				</li>
+				<li class="list-group-item row">
+					<span class="col-sm-2 text-right"><strong>Past Locations</strong></span>
+					<span class="col-sm-10">
+						{{#each past_locations}}
+						    {{> presentLocation}}
+						{{/each}}
+					</span>
+				</li>
+			</ul>
+		{{else}}
+			<!-- id not found -->
+			Begone! No such item was ever heard of!
+		{{/if}}
+	{{/with}}
+</template>

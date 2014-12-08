@@ -90,6 +90,18 @@ Template.searchResults.helpers({
 	}
 });
 
+Template.findById.helpers({
+  "itemId": function () {
+    var id;
+    if (this.itemId) {
+      return this.itemId;
+    }
+    else {
+      return "";
+    }
+  }
+});
+
 // Find by id events
 Template.findId.events({
   "submit form": function () {
@@ -139,9 +151,9 @@ Template.presentValue.events({
 
 // Detailed item description helpers
 Template.presentId.helpers({
-  // Get a single doc from our db referred to by the session 
+  // Get a single doc from our db referred 
   "fromdb": function() {
-    var itemId, data;
+    var itemId, data; 
     itemId = Session.get("findById");
     if (!itemId) {
       return {found: false};
