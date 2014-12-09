@@ -12,12 +12,8 @@
       </div>
       <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
         <ul class="nav navbar-nav">
-          <li>
-            <a href="{{pathFor 'findPage'}}">Find</a>
-          </li>
-          <li>
-            <a href="{{pathFor 'scanPage'}}">Scan</a>
-          </li>
+          {{> findNav}}
+          {{> scanNav}}
           <li>
             <a href="{{pathFor 'mapsPage'}}">Map</a>
           </li>
@@ -29,4 +25,33 @@
       </nav>
     </div>
   </header>
+</template>
+
+
+<template name="scanNav">
+  <li role="presentation" class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+      Scan <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" role="menu">
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="{{pathFor 'relocatePage'}}">relocate</a></li>
+
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="{{pathFor 'singlePage'}}">single</a></li>
+
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="{{pathFor 'bulkPage'}}">bulk</a></li>
+    </ul>
+  </li>
+</template>
+
+<template name="findNav">
+  <li role="presentation" class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+      Find <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" role="menu">
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="{{pathFor 'findPageFull'}}">using attributes</a></li>
+
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="{{pathFor 'findPageId'}}">using ID</a></li>
+    </ul>
+  </li>
 </template>

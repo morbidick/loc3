@@ -2,33 +2,11 @@
 	<div class="jumbotron">
 		<h1>suchfeld und data</h1>
 	</div>
-	{{> searchTab}}
 </template>
 
-<!-- Tabs to toggle search modes -->
-<template name="searchTab">
-	<div role="tabpanel">
-		<!-- Nav tabs -->
-		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation" class="active">
-				<a href="#fullSearch" aria-controls="fullSearch" role="tab" data-toggle="tab">Full Search</a>
-			</li>
-			<li role="presentation">
-				<a href="#findId" aria-controls="findId" role="tab" data-toggle="tab">Find ID</a>
-			</li>
-		</ul>
-		<!-- Tab panes -->
-		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane active" id="fullSearch">
-				{{> searchForm}}
-				{{> searchResults}}
-			</div>
-			<div role="tabpanel" class="tab-pane" id="findId">
-				{{> findId}}
-				{{> presentId}}
-			</div>
-		</div>
-	</div>
+<template name="findPageFull">
+	{{> searchForm}}
+	{{> searchResults}}
 </template>
 
 <!-- Big ass form to search for a single item using full text search on fields -->

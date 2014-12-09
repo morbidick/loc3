@@ -1,40 +1,33 @@
-Template.scanForm.created = function () {
-	Session.setDefault("scans", []);
-};
-
-Template.scanForm.events({
-  "submit form": function (event) {
-    var text, usr, scan, scans, oldDoc, data;
-  	scan = $( '#scan1' ).val();
-  	//check if we got a scan
-  	if (validScan(scan)) {
-    	//Set up data
+Template.bulkScan.events({
+  "submit form": function (event, template) {
+    var usr, scan;
+	scan = template.$( '#scan' ).val();
+  	if (/^\d{8}$/.test(scan)) {
 	  	usr = Meteor.userId();
-    	if (oldDoc) {
-		}
-		// Track scans via either user (more persistent) or session
 	  	if (usr) {
-			Meteor.users.update({"_id": usr}, {$addToSet: {"scans": scan}})
+			Meteor.users.update(
+				{"_id": usr}, 
+				{$addToSet: {"scans": scan}}
+			);
 	    }
-	    $( '#scan1' ).val("");
+	    template.$( '#scan' ).val("");
   	}
   	//TODO notify of invalid scan
-  	// prevent default event handling
     return false;
   }
 });
 
-Template.submissionForm.events({
-  "submit form": function (event) {
+Template.bulkForm.events({
+  "submit form": function (event, template) {
   	var name, team, vendor, location, data, radio, scans;
 
   	event.preventDefault();
 
-  	name = $( '#submissionName1' ).val();
-    team = $( '#submissionTeam1' ).val();
-  	vendor = $( '#submissionVendor1' ).val();
-  	submissionBy = $( '#submissionBy1' ).val();
-  	radio = $( 'type:radio, input:checked' );
+  	name = template.$( '#submissionName' ).val();
+    team = template.$( '#submissionTeam' ).val();
+  	vendor = template.$( '#submissionVendor' ).val();
+  	submissionBy = template.$( '#submissionBy' ).val();
+  	radio = template.$( 'type:radio, input:checked' );
 
 	location = {"type": radio.val(), "entry_by": submissionBy};
 	data = {"name": name, "team": team, "vendor": vendor, "submissionBy": submissionBy, "location": location};
@@ -48,7 +41,7 @@ Template.submissionForm.events({
     		}
     	}
     	clearScans();
-    	$( '#submissionName1' ).val("");
+    	template.$( '#submissionName' ).val("");
     }
     else {
 	    Session.set("submissionData", data);
@@ -57,18 +50,18 @@ Template.submissionForm.events({
   }
 });
 
-Template.submissionForm.helpers({
+Template.bulkForm.helpers({
 	"locationWorld": function() {
-		return false;
+		return Session.get("submissionLocation") === "world";
 	},
 	"locationHalleH": function() {
-		return false;
+		return Session.get("submissionLocation") === "halleh";
 	},
 	"locationCCH": function() {
-		return false;
+		return Session.get("submissionLocation") === "cch";
 	},
 	"locationTransport": function() {
-		return false;
+		return Session.get("submissionLocation") === "transport";
 	},
 	"nameError": function() {
 		var sD = Session.get("submissionData");
@@ -84,13 +77,13 @@ Template.submissionForm.helpers({
 	}
 });
 
-Template.scanResults.helpers({
-	"results": function () {
+Template.bulkList.helpers({
+	"scans": function () {
 		return Meteor.user().scans.map(mapScan);
 	}
 });
 
-Template.scanResults.events({
+Template.bulkList.events({
 	"click .clear": function () {
 		clearScans();
 		return false;
@@ -110,11 +103,6 @@ var clearScans = function () {
 	Meteor.users.update({"_id": usr}, {$set: {"scans": []}});
 };
 
-var getScans = function () {
- 	var usr = Meteor.user();
-	return usr.scans;
-}
-
 var validateSubmission = function (data) {
 	if (!data["name"] || data["name"] === "") {
 		return false;
@@ -126,13 +114,4 @@ var validateSubmission = function (data) {
 		return false;
 	}
 	return true;
-}
-
-var validScan = function (scan) {
-	if (scan !== null && scan !== undefined && (typeof scan) === "string") {
-		// scanning 8 digits?
-		// /^203\d{5}$/  or suchlike
-		return /^\d{8}$/.test(scan);
-	}
-	return false;
 }

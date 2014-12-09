@@ -1,0 +1,61 @@
+<template name="bulkPage">
+	<div class="row">
+		<div class="col-sm-6">
+			{{> bulkScan}}
+			{{> bulkList}}
+		</div>
+		<div class="col-sm-6">
+			{{> bulkForm}}
+		</div>
+	</div>
+</template>
+
+<template name="bulkScan">
+	<form class="form-horizontal" role="form">
+		<div class="form-group">
+			<label for="scan" class="col-sm-3 control-label">Scan</label>
+			<div class="col-sm-9">
+				<input class="form-control" id="scan" placeholder="barcode">
+			</div>
+		</div>
+	</form>
+</template>
+
+<template name="scan">
+	<li class="list-group-item {{#if valid}}list-group-item-success{{else}}list-group-item-danger{{/if}} row">
+		<span class="col-xs-2 col-lg-1 text-right">
+			<strong>ID</strong>
+		</span>
+	    <span class="col-xs-10 col-lg-3">{{this.scan}}</span>
+		<span class="col-xs-2 text-right">
+			<strong>Name</strong>
+		</span>
+	    <span class="col-xs-10 col-lg-6">{{this.name}}</span>
+	</li>
+</template>
+
+<template name="bulkList">
+	<ul class="list-group">
+		{{#each scans}}
+			{{>scan}}
+		{{/each}}
+	</ul>
+	<div class="col-sm-2">
+		<button class="btn btn-default clear">clear scans</button>
+	</div>
+</template>
+
+<template name="bulkForm">
+	<form class="form-horizontal" role="form">		
+		{{> submissionGroup id="submissionName" name="Name"}}
+		{{> submissionGroup id="submissionTeam" name="Team"}}
+		{{> submissionGroup id="submissionVendor" name="Vendor"}}
+		{{> submissionGroup id="submissionBy" name="User"}}
+		{{> locationGroup}}
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-default">submit query</button>
+			</div>
+		</div>
+	</form>
+</template>
