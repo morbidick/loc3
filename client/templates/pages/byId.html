@@ -3,6 +3,60 @@
 	{{> presentId idStore="findById"}}
 </template>
 
+<template name="noSuchId">
+	<h4>Begone!</h4>
+	no such id
+</template>
+
+<template name="loaad">
+	<h4>chill</h4>
+	fetching db
+</template>
+
+<!-- Provides a one-line search for item ids -->
+<template name="findId">
+	<form class="form-horizontal" role="form">
+		<div class="form-group">
+			<label for="queryName1" class="col-sm-2 control-label">ID</label>
+			<div class="col-sm-10">
+				<input class="form-control" id="queryId1" placeholder="8 digit id">
+			</div>
+		</div>
+	</form>
+</template>
+
+<!-- Describes a single value as a list group item -->
+<!-- needs heading, content, dbName, refId (item id) -->
+<template name="presentValue">
+	<li class="list-group-item row editingBound" editing="true">
+		{{#if editing}}
+			<form role="form">
+				<span class="form-group">
+					<label for="queryValue1" class="col-sm-2 control-label">{{heading}}</label>
+					<span class="col-sm-8">
+						<input type="text" class="form-control" value="{{content}}">
+					</span>
+				</span>
+			</form>
+		{{else}}
+			<span class="col-sm-2"><strong>{{heading}}</strong></span>
+			<span class="col-sm-8">{{content}}</span>
+		{{/if}}
+		<!-- Dont clutter up the ui, show it only if it is supposed to work -->
+		{{#if currentUser}}
+	    	<span class="col-sm-2">
+				<button type="button" class="btn btn-default toggleEdit">
+					{{#if editing}}
+						cancel
+					{{else}}
+						edit
+					{{/if}}
+				</button>
+			</span>
+    	{{/if}}
+	</li>
+</template>
+
 <template name="findById">
 	<ul class="list-group">
 		<!-- add all basic fields here -->
@@ -29,60 +83,6 @@
 	</ul>
 </template>
 
-<template name="noSuchId">
-	<h4>Begone!</h4>
-	no such id
-</template>
-
-<template name="loaad">
-	<h4>chill</h4>
-	fetching db
-</template>
-
-<!-- Provides a one-line search for item ids -->
-<template name="findId">
-	<form class="form-horizontal" role="form">
-		<div class="form-group">
-			<label for="queryName1" class="col-sm-2 control-label">ID</label>
-			<div class="col-sm-10">
-				<input class="form-control" id="queryId1" placeholder="8 digit id">
-			</div>
-		</div>
-	</form>
-</template>
-
-<!-- Describes a single value as a list group item -->
-<!-- needs heading, content, dbName, refId (item id) -->
-<template name="presentValue">
-	<li class="list-group-item row">
-		{{#if notEditing heading}}
-			<span class="col-sm-2"><strong>{{heading}}</strong></span>
-			<span class="col-sm-8">{{content}}</span>
-		{{else}}
-			<form role="form">
-				<span class="form-group">
-					<label for="queryValue1" class="col-sm-2 control-label">{{heading}}</label>
-					<span class="col-sm-8">
-						<input class="form-control" editingTag="{{heading}}" value="{{content}}">
-					</span>
-				</span>
-			</form>
-		{{/if}}
-		<!-- Dont clutter up the ui, show it only if it is supposed to work -->
-		{{#if currentUser}}
-	    	<span class="col-sm-2">
-				<button type="button" class="btn btn-default toggleEdit">
-					{{#if notEditing heading}}
-						edit
-					{{else}}
-						cancel
-					{{/if}}
-				</button>
-			</span>
-    	{{/if}}
-	</li>
-</template>
-
 <!-- Describes a complete item to a given id -->
 <!-- TODO make this usable for links, push id as argument -->
 <template name="presentId">
@@ -90,7 +90,7 @@
 		{{#if found}}
 			<ul class="list-group">
 				<!-- add all basic fields here -->
-				{{> presentValue heading="ID" content=this._id dbName="_id" refId=this._id}}
+				{{> presentValue heading="ID" content=this._id dbName="_id" refId=this._id editing="true"}}
 				{{> presentValue heading="Name" content=this.name dbName="name" refId=this._id}}
 				{{> presentValue heading="Team" content=this.team dbName="team" refId=this._id}}
 				{{> presentValue heading="Vendor" content=this.vendor dbName="vendor" refId=this._id}}

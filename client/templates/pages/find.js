@@ -115,37 +115,32 @@ Template.findId.events({
   }
 });
 
-// Detailed item description helpers
 Template.presentValue.helpers({
-  // check if a given value is being edited
-  "notEditing": function(heading) {
-    var state;
-    state = Session.get("findIdEditing_" + heading);
-    return !state;
-  },
+  "editing": function () {
+    var template = Template.instance();
+    console.log(template);
+    var asdf = template.find( '.editingBound' );
+    // Meteor.call("logCommand", "blubb");
+    // var editing = item.attr("editing");
+    // return editing === "true";
+    return template.data.editing;
+  }
 });
 
 // Detailed item description events (editing)
 Template.presentValue.events({
-  "submit form": function () {
-    var refId, dbName, newData, state;
-    refId = this.refId;
-    dbName = this.dbName;
+  "submit form": function (event, template) {
+    var text, newData;
+    text = template.$( "type:text" ).val();
     newData = {};
-    // TODO figure out if there is a less ugly way of doing this
-    newData[dbName] = $( '[editingTag="'+this.heading+'"]').val();
+    newData[this.dbName] = text;
     Items.update({"_id": refId}, {$set: newData});
-    // toggle editing
-    state = Session.get("findIdEditing_" + this.heading);
-    Session.set("findIdEditing_" + this.heading, !state);
-    
     return false;
   },
-  "click .toggleEdit": function() {
-    var state;
-    state = Session.get("findIdEditing_" + this.heading);
-    Session.set("findIdEditing_" + this.heading, !state);
-    return false;   
+  "click .toggleEdit": function(event, template) {
+    var item = template.$( '.editingBound' );
+    var editing = item.attr("editing");
+    // Meteor.call("logCommand", editing);
   }
 });
 
