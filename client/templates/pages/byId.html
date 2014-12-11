@@ -51,25 +51,6 @@
 	</form>
 </template>
 
-<!-- Describes a single location as alist group item -->
-<!-- needs location fields -->
-<template name="presentLocation">
-	<ul class="list-group">
-		<li class="list-group-item row">
-			<span class="col-sm-3 text-right"><strong>Type</strong></span>
-		    <span class="col-sm-9">{{type}}</span>
-		</li>
-		<li class="list-group-item row">
-			<span class="col-sm-3 text-right"><strong>Timestamp</strong></span>
-		    <span class="col-sm-9">{{timestamp}}</span>
-		</li>
-		<li class="list-group-item row">
-			<span class="col-sm-3 text-right"><strong>Submitted By</strong></span>
-		    <span class="col-sm-9">{{entry_by}}</span>
-		</li>
-	</ul>
-</template>
-
 <!-- Describes a single value as a list group item -->
 <!-- needs heading, content, dbName, refId (item id) -->
 <template name="presentValue">

@@ -2,6 +2,11 @@
   "environment": "dev",
   "public": {  
     "ean_prefix": "200",
-    "ean_prefix_dev": "201"
+    "ean_prefix_dev": "201",
+  	"locations": [	{"name": "world", "label": "World"},
+  					{"name": "cch", "label": "Congress"},
+  					{"name": "halleh", "label": "Halle H"},
+  					{"name": "transport", "label": "Transport"}
+  	]
   }
 }
