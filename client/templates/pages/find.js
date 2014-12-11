@@ -153,8 +153,8 @@ Template.presentValue.events({
 Template.presentId.helpers({
   // Get a single doc from our db referred 
   "fromdb": function() {
-    var itemId, data; 
-    itemId = Session.get("findById");
+    var itemId, data;
+    itemId = Session.get(this.idStore);
     if (!itemId) {
       return {found: false};
     }
