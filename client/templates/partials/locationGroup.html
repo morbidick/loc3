@@ -2,13 +2,32 @@
 <template name="locationGroup">
 	<div class="col-sm-12">
 	<div class="form-group">
-		<div class="btn-group btn-group-justified" role="group" data-toggle="buttons">
+		<div class="btn-group btn-group-justified" data-toggle="buttons">
 			{{#each locations}}
 				<label class="btn btn-primary">
-					<input type="radio" name="locationsRadio1" autocomplete="off" value="{{name}}"> {{label}}
+					<input type="radio" name="locGroup" autocomplete="off" value="{{name}}"> {{label}}
 				</label>
 			{{/each}}
 		</div>
 	</div>
+	</div>
+</template>
+
+<!-- Sublocations for a given location -->
+<template name="sublocationGroup">
+	<div class="form-group">
+		<label type="text" for="sublocationList" class="col-sm-4 control-label">Sublocation</label>
+
+		<div class="col-sm-8" id="sublocationList">
+			<div class="row">
+				{{#each sublocations location}}
+				<div class="col-sm-6">
+					<label type="text">
+						<input type="radio" name="subLocGroup" autocomplete="off" value="{{name}}"> {{label}}
+					</label>
+				</div>
+				{{/each}}
+			</div>
+		</div>
 	</div>
 </template>

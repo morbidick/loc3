@@ -3,10 +3,22 @@
   "public": {  
     "ean_prefix": "200",
     "ean_prefix_dev": "201",
-  	"locations": [	{"name": "world", "label": "World"},
-  					{"name": "cch", "label": "Congress"},
-  					{"name": "halleh", "label": "Halle H"},
-  					{"name": "transport", "label": "Transport"}
-  	]
+  	"locations": [	{"name": "world", "label": "World", "subdivide": false},
+          					{"name": "cch", "label": "Congress", "subdivide": false},
+          					{"name": "halleh", "label": "Halle H", "subdivide": true},
+          					{"name": "transport", "label": "Transport", "subdivide": false} ],
+    "sublocations": {"halleh": [ 
+                        {"name": "club", "label": "Club"},
+                        {"name": "seidenstrasse", "label": "Seidenstrasse"},
+                        {"name": "noc", "label": "NOC"},
+                        {"name": "gear1", "label": "Gear 1"},
+                        {"name": "gear2", "label": "Gear 2"},
+                        {"name": "gear3", "label": "Gear 3"},
+                        {"name": "lockdown", "label": "Lockdown"},
+                        {"name": "furniture1", "label": "Furniture 1"},
+                        {"name": "furniture2", "label": "Furniture 2"},
+                        {"name": "furniture3", "label": "Furniture 3"},
+                        {"name": "furniture4", "label": "Furniture 4"},
+                        {"name": "asm", "label": "Assembly"} ] }
   }
 }

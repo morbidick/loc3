@@ -17,9 +17,9 @@
 
 <template name="relocateScan">
 	<div class="form-group">
-		<label for="scan" class="col-sm-3 control-label">Scan</label>
+		<label for="rLScan" class="col-sm-3 control-label">Scan</label>
 		<div class="col-sm-9">
-			<input class="form-control" id="scan" placeholder="barcode">
+			<input class="form-control" id="rLScan" placeholder="barcode">
 		</div>
 	</div>
 </template>
@@ -39,7 +39,12 @@
 	<br>
 	<form class="form-horizontal" role="form">
 		{{> relocateScan}}
-		{{> locationGroup}}
+		{{> locationGroup name="lgRelocate"}}
+
+		{{#if modeSubdivided mode}}
+			{{> sublocationGroup location=mode}}
+		{{/if}}
+
 		{{#if modeIs "world"}}
 			{{> worldForm}}
 		{{/if}}
@@ -53,12 +58,25 @@
 			{{> transportForm}}
 		{{/if}}
 		<div class="form-group">
-			<label for="relocateComment" class="col-sm-3 control-label">Comment</label>
+			<label for="relocateBy" class="col-sm-12 control-label">
+				<p class="text-left">Moved by</p>
+			</label>
+			<div class="col-sm-12">
+				<input class="form-control" id="relocateBy"
+				placeholder="some person">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="relocateComment" class="col-sm-3 control-label">
+				<p class="text-left">Comment</p>
+			</label>
 			<div class="col-sm-12">
 				<input class="form-control" id="relocateComment" placeholder="Comment">
 			</div>
 		</div>
 	</form>
+	<br>
+	<input type="button" class="btn btn-primary tester" value="test">
 </template>
 
 <template name="worldForm">
@@ -77,7 +95,6 @@
 			<p class="form-control-static">Halle H</p>
 	    </div>
 	</div>
-	{{> sublocationsHalleH}}
 </template>
 
 <template name="cchForm">
@@ -96,80 +113,4 @@
 			<p class="form-control-static">Transport</p>
 	    </div>
 	</div>
-</template>
-
-<template name="sublocationsHalleH">
-	<div class="form-group">
-		<label type="text" for="relocationCustom" class="col-sm-4 control-label">Sublocation</label>
-		<div class="col-sm-4">
-			<div class="radio">
-				<label>
-					<input id="relocationCustom" name="relocationRadio2" value="custom" type="radio" checked> Custom
-				</label>
-			</div>
-		</div>
-		<div class="col-sm-4">
-			<div class="radio">
-				<label>
-					<input id="relocationNOC" name="relocationRadio2" value="noc" type="radio"> NOC
-				</label>
-			</div>
-		</div>
-	</div>
-	<div class="form-group">
-		<div class="col-sm-offset-4 col-sm-4">
-			<div class="radio">
-				<label>
-					<input id="relocationSeidenstrasse" name="relocationRadio2" value="seidenstrasse" type="radio"> Seidenstrasse
-				</label>
-			</div>
-		</div>
-		<div class="col-sm-4">
-			<div class="radio">
-				<label>
-					<input id="relocationLockdown" name="relocationRadio2" value="lockdown" type="radio"> Lockdown
-				</label>
-			</div>
-		</div>
-	</div>
-		<div class="form-group">
-		<div class="col-sm-offset-4 col-sm-4">
-			<div class="radio">
-				<label>
-					<input id="relocationClub" name="relocationRadio2" value="club" type="radio"> Club
-				</label>
-			</div>
-		</div>
-		<div class="col-sm-4">
-			<div class="radio">
-				<label>
-					<input id="relocationPA" name="relocationRadio2" value="pa" type="radio"> PA
-				</label>
-			</div>
-		</div>
-	</div>
-	<div class="form-group">
-		<div class="col-sm-offset-4 col-sm-4">
-			<div class="radio">
-				<label>
-					<input id="relocationFurniture" name="relocationRadio2" value="furniture" type="radio"> Furniture
-				</label>
-			</div>
-		</div>
-		<div class="col-sm-4">
-			<div class="radio">
-				<label>
-					<input id="relocationDividers" name="relocationRadio2" value="dividers" type="radio"> Dividers
-				</label>
-			</div>
-		</div>
-	</div>
-	{{#if sublocationIs "custom"}}
-		<div class="form-group">
-			<label for="customSublocation" class="col-sm-3 control-label">Custom</label>
-			<div class="col-sm-12">
-				<input class="form-control" id="customSublocation" placeholder="sublocation">
-			</div>
-		</div>
-	{{/if}}
 </template>

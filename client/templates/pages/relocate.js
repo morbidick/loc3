@@ -1,11 +1,11 @@
 Template.relocateScan.events({
   "submit form": function (event, template) {
     var usr, scan;
-	scan = template.$( '#scan' ).val();
+  	scan = template.$( '#scan' ).val();
   	if (/^\d{8}$/.test(scan)) {
 	  	usr = Meteor.userId();
 	  	if (usr) {	  		
-			Session.set("relocateId", scan);
+  			Session.set("relocateId", scan);
 	    }
 	    template.$( '#scan' ).val("");
   	}
@@ -32,39 +32,84 @@ Template.relocatePage.helpers({
 Template.relocateMode.created = function () {
   this.mode = new ReactiveVar;
   this.mode.set("none");
+  this.sublocation = new ReactiveVar;
+  this.sublocation.set("none");
+
+  this.bulk = new ReactiveVar;
+  this.state = new ReactiveVar;
+  this.autolocation = new ReactiveVar;
+  this.bulk.set(true);
+  this.state.set(true);
+  this.autolocation.set(true);
+}
+
+var isSubdivided = function (location) {
+    var sublocations = Meteor.settings.public.sublocations; 
+    if (sublocations[location]) {
+      return true;
+    }
+    return false;  
 }
 
 Template.relocateMode.helpers({
+  "mode": function () {
+    return Template.instance().mode.get();
+  },
   "modeIs": function (mode) {
     var current = Template.instance().mode.get();
     return mode === current;
+  },
+  "modeSubdivided": function (mode) {
+    var isIt = isSubdivided(mode);
+    return isIt;
   }
 });
 
-//TODO remove ambiguity
 Template.relocateMode.events({
-  "change [name='locationsRadio1']": function (event, template) {
-    var radio = template.$( "type:radio, input:checked" );
-    console.log(radio.val());
+  "change [name='locGroup']": function (event, template) {
+    var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="locGroup"]' );
     template.mode.set(radio.val());
-  }
-});
+  },
 
-Template.sublocationsHalleH.created = function () {
-  this.sublocation = new ReactiveVar;
-  this.sublocation.set("none");
-}
+  "change [name='locGroup']": function (event, template) {
+    var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="locGroup"]' );
+    template.mode.set(radio.val());
+  },  
 
-Template.sublocationsHalleH.helpers({
-  "sublocationIs": function (sublocation) {
-    var current = Template.instance().sublocation.get();
-    return sublocation === current;    
-  }
-});
+  "change [name='relocateBulkOption']": function (event, template) {
+    var current = template.bulk.get();
+    template.bulk.set(!current);
+  },
 
-Template.sublocationsHalleH.events({
-  "change [name='relocationRadio2']": function (event, template) {
-    var radio = template.$( 'type:radio, input:checked' );
-    template.sublocation.set(radio.val());
+  "change [name='relocateStateOption']": function (event, template) {
+    var current = template.state.get();
+    template.state.set(!current);
+  },
+
+  "change [name='relocateAutolocationOption']": function (event, template) {
+    var current = template.autolocation.get();
+    template.autolocation.set(!current);
+  },
+
+  "click .tester": function (event, template) {
+    var scan, location, sublocation, date, submittedby, movedby, comment;
+    scan = template.$( '#rLScan' ).val(); 
+    location = template.mode.get();
+    sublocation = "unused";
+    if (isSubdivided(location)) { 
+      var radio = template.$( '[name="subLocGroup"]' ).filter( ':radio' ).filter( ':checked' );
+      sublocation = radio.val();
+    }
+    date = new Date();
+    submittedby = Meteor.userId();
+    movedby = template.$( '#relocateBy' ).val();
+    comment = template.$( '#relocateComment' ).val();
+    console.log(scan);
+    console.log(location);
+    console.log(sublocation);
+    console.log(date);
+    console.log(submittedby);
+    console.log(movedby);
+    console.log(comment);
   }
 });
