@@ -1,8 +1,13 @@
 <template name="relocatePage">
 	<div class="row">
 		<div class="col-sm-6">
-			{{> relocateScan}}
-			{{> presentId idStore="relocateId"}}
+			{{#with fromdb}}
+				{{#if found}}
+					{{> findById data}}
+				{{else}}
+					{{> noSuchId}}
+				{{/if}}
+			{{/with}}
 		</div>
 		<div class="col-sm-6">
 			{{> relocateMode}}
@@ -11,51 +16,30 @@
 </template>
 
 <template name="relocateScan">
-	<form class="form-horizontal" role="form">
-		<div class="form-group">
-			<label for="scan" class="col-sm-3 control-label">Scan</label>
-			<div class="col-sm-9">
-				<input class="form-control" id="scan" placeholder="barcode">
-			</div>
+	<div class="form-group">
+		<label for="scan" class="col-sm-3 control-label">Scan</label>
+		<div class="col-sm-9">
+			<input class="form-control" id="scan" placeholder="barcode">
 		</div>
-	</form>
+	</div>
 </template>
 
 <template name="relocateMode">
-	<div class="btn-toolbar" role="toolbar" aria-label="relocate options">
-		
-		<div class="btn-group" role="group" data-toggle="buttons">
-			<label class="btn btn-primary active">
-				<input type="radio" name="relocationRadio1" id="radioWorld" autocomplete="off" value="world" checked> World
-			</label>
-
-			<label class="btn btn-primary">
-				<input type="radio" name="relocationRadio1" id="radioHalleH" autocomplete="off" value="halleh"> Halle H
-			</label>
-			
-			<label class="btn btn-primary">
-				<input type="radio" name="relocationRadio1" id="radioCch" autocomplete="off" value="cch"> Congress
-			</label>
-			
-			<label class="btn btn-primary">
-				<input type="radio" name="relocationRadio1" id="radioTransport" autocomplete="off" value="transport"> Transport
-			</label>
-		</div>
-
-		<div class="btn-group" role="group" data-toggle="buttons">
-			<label class="btn btn-primary active">
-				<input type="checkbox" name="relocateBulkOption" id="relocateBulkOption" autocomplete="off" value="bulk" checked> Bulk
-			</label>
-			<label class="btn btn-primary active">
-				<input type="checkbox" name="relocateStateOption" id="relocateStateOption" autocomplete="off" value="bulk" checked>State
-			</label>
-			<label class="btn btn-primary active">
-				<input type="checkbox" name="relocateAutolocationOption" id="relocateAutolocationOption" autocomplete="off" value="bulk" checked> Autolocation
-			</label>
-		</div>
-
+	<div class="btn-group btn-group-justified" role="group" data-toggle="buttons">
+		<label class="btn btn-primary active">
+			<input type="checkbox" name="relocateBulkOption" id="relocateBulkOption" autocomplete="off" value="bulk" checked> Bulk
+		</label>
+		<label class="btn btn-primary active">
+			<input type="checkbox" name="relocateStateOption" id="relocateStateOption" autocomplete="off" value="bulk" checked>State
+		</label>
+		<label class="btn btn-primary active">
+			<input type="checkbox" name="relocateAutolocationOption" id="relocateAutolocationOption" autocomplete="off" value="bulk" checked> Autolocation
+		</label>
 	</div>
+	<br>
 	<form class="form-horizontal" role="form">
+		{{> relocateScan}}
+		{{> locationGroup}}
 		{{#if modeIs "world"}}
 			{{> worldForm}}
 		{{/if}}

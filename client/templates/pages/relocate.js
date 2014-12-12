@@ -14,38 +14,57 @@ Template.relocateScan.events({
   }
 });
 
+Template.relocatePage.helpers({
+    "fromdb": function() {
+    var itemId, data;
+    itemId = Session.get("relocateId");
+    if (!itemId) {
+      return {found: false};
+    }
+    data = Items.findOne({"_id": itemId});
+    if (!data) {
+      return {found: false};
+    }
+    return {found: true, data: data};
+  }
+});
+
 Template.relocateMode.created = function () {
-  Session.set("relocateMode", "world");
+  this.mode = new ReactiveVar;
+  this.mode.set("none");
 }
 
 Template.relocateMode.helpers({
   "modeIs": function (mode) {
-    return mode === (Session.get("relocateMode"));
+    var current = Template.instance().mode.get();
+    return mode === current;
   }
 });
 
 //TODO remove ambiguity
 Template.relocateMode.events({
-  "change [name='relocationRadio1']": function (event, template) {
+  "change [name='locationsRadio1']": function (event, template) {
     var radio = template.$( "type:radio, input:checked" );
-    Session.set("relocateMode", radio.val());
+    console.log(radio.val());
+    template.mode.set(radio.val());
   }
 });
 
-Template.relocateMode.created = function () {
-  Session.set("relocateSublocation", "custom");
+Template.sublocationsHalleH.created = function () {
+  this.sublocation = new ReactiveVar;
+  this.sublocation.set("none");
 }
 
 Template.sublocationsHalleH.helpers({
   "sublocationIs": function (sublocation) {
-    return sublocation === (Session.get("relocateSublocation"));    
+    var current = Template.instance().sublocation.get();
+    return sublocation === current;    
   }
 });
 
 Template.sublocationsHalleH.events({
   "change [name='relocationRadio2']": function (event, template) {
     var radio = template.$( 'type:radio, input:checked' );
-    Meteor.call("logCommand", radio.val());
-    Session.set("relocateSublocation", radio.val());
+    template.sublocation.set(radio.val());
   }
 });

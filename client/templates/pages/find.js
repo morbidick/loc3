@@ -7,7 +7,7 @@ Template.searchForm.created = function () {
 Template.searchForm.events({
   // Called whenever full search is used
   // commits an object describing the search to session
-  "submit form": function (event) {
+  "submit form": function (event, template) {
   	var name, team, vendor, locations, query;
   	// basic fields
     name = $( '#queryName1' ).val();
@@ -88,76 +88,4 @@ Template.searchResults.helpers({
 			return "no results";
 		}
 	}
-});
-
-Template.findById.helpers({
-  "itemId": function () {
-    var id;
-    if (this.itemId) {
-      return this.itemId;
-    }
-    else {
-      return "";
-    }
-  }
-});
-
-// Find by id events
-Template.findId.events({
-  "submit form": function () {
-    var itemId = $( '#queryId1' ).val();
-    // TODO update this to use a global and more specific query
-    if ( /^\d{8}$/.test(itemId) ) {
-      Session.set("findById", itemId);
-    }
-    // prevent default
-    return false;
-  }
-});
-
-Template.presentValue.helpers({
-  "editing": function () {
-    var template = Template.instance();
-    console.log(template);
-    var asdf = template.find( '.editingBound' );
-    // Meteor.call("logCommand", "blubb");
-    // var editing = item.attr("editing");
-    // return editing === "true";
-    return template.data.editing;
-  }
-});
-
-// Detailed item description events (editing)
-Template.presentValue.events({
-  "submit form": function (event, template) {
-    var text, newData;
-    text = template.$( "type:text" ).val();
-    newData = {};
-    newData[this.dbName] = text;
-    Items.update({"_id": refId}, {$set: newData});
-    return false;
-  },
-  "click .toggleEdit": function(event, template) {
-    var item = template.$( '.editingBound' );
-    var editing = item.attr("editing");
-    // Meteor.call("logCommand", editing);
-  }
-});
-
-// Detailed item description helpers
-Template.presentId.helpers({
-  // Get a single doc from our db referred 
-  "fromdb": function() {
-    var itemId, data;
-    itemId = Session.get(this.idStore);
-    if (!itemId) {
-      return {found: false};
-    }
-    data = Items.findOne({"_id": itemId});
-    if (!data) {
-      return {found: false};
-    }
-    data.found = true;
-    return data;
-  }
 });

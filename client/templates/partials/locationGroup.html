@@ -1,0 +1,14 @@
+<!-- Each of the main locations -->
+<template name="locationGroup">
+	<div class="col-sm-12">
+	<div class="form-group">
+		<div class="btn-group btn-group-justified" role="group" data-toggle="buttons">
+			{{#each locations}}
+				<label class="btn btn-primary">
+					<input type="radio" name="locationsRadio1" autocomplete="off" value="{{name}}"> {{label}}
+				</label>
+			{{/each}}
+		</div>
+	</div>
+	</div>
+</template>

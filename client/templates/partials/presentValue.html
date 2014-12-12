@@ -1,0 +1,31 @@
+<!-- Describes a single value as a list group item -->
+<!-- needs heading, content, dbName, refId (item id) -->
+<template name="presentValue">
+	<li class="list-group-item row editingBound" editing="true">
+		{{#if editing}}
+			<form role="form">
+				<span class="form-group">
+					<label for="queryValue1" class="col-sm-2 control-label">{{heading}}</label>
+					<span class="col-sm-8">
+						<input type="text" class="form-control edit" value="{{content}}">
+					</span>
+				</span>
+			</form>
+		{{else}}
+			<span class="col-sm-2"><strong>{{heading}}</strong></span>
+			<span class="col-sm-8">{{content}}</span>
+		{{/if}}
+		<!-- Dont clutter up the ui, show it only if it is supposed to work -->
+		{{#if currentUser}}
+	    	<span class="col-sm-2">
+				<button type="button" class="btn btn-default toggleEdit">
+					{{#if editing}}
+						cancel
+					{{else}}
+						edit
+					{{/if}}
+				</button>
+			</span>
+    	{{/if}}
+	</li>
+</template>

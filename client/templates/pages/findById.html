@@ -1,0 +1,59 @@
+<template name="findPageId">
+	{{> findId}}
+	{{#with fromdb}}
+		{{#if found}}
+			{{> findById data}}
+		{{else}}
+			{{> noSuchId}}
+		{{/if}}
+	{{/with}}
+</template>
+
+<template name="noSuchId">
+	<h4>Begone!</h4>
+	no such id
+</template>
+
+<template name="load">
+	<h4>chill</h4>
+	fetching db
+</template>
+
+<!-- Provides a one-line search for item ids -->
+<template name="findId">
+	<form class="form-horizontal" role="form">
+		<div class="form-group">
+			<label for="queryName1" class="col-sm-2 control-label">ID</label>
+			<div class="col-sm-10">
+				<input class="form-control" id="queryId1" placeholder="8 digit id">
+			</div>
+		</div>
+	</form>
+</template>
+
+
+<template name="findById">
+	<ul class="list-group">
+		<!-- add all basic fields here -->
+		{{> presentValue heading="ID" content=_id dbName="_id" refId=_id}}
+		{{> presentValue heading="Name" content=name dbName="name" refId=_id}}
+		{{> presentValue heading="Team" content=team dbName="team" refId=_id}}
+		{{> presentValue heading="Vendor" content=vendor dbName="vendor" refId=_id}}
+		{{> presentValue heading="Comment" content=comment dbName="comment" refId=_id}}
+		<!-- locations are a bit more tricky -->
+		<li class="list-group-item row">
+			<span class="col-sm-2 text-right">
+				<strong>Location</strong><br>
+			</span>
+		    <span class="col-sm-10">{{> presentLocation type=location.type timestamp=location.timestamp entry_by=location.entry_by}}</span>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-2 text-right"><strong>Past Locations</strong></span>
+			<span class="col-sm-10">
+				{{#each past_locations}}
+				    {{> presentLocation}}
+				{{/each}}
+			</span>
+		</li>
+	</ul>
+</template>
