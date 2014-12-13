@@ -30,7 +30,7 @@ Template.bulkForm.helpers({
 
 Template.bulkForm.events({
 	"submit form": function (event, template) {
-		var name, team, vendor, location, data, radio, scans;
+		var name, team, vendor, location, data, radio, scans, date;
 
 		event.preventDefault();
 
@@ -39,9 +39,18 @@ Template.bulkForm.events({
 		vendor = template.$( '#submissionVendor' ).val();
 		submissionBy = template.$( '#submissionBy' ).val();
 		radio = template.$( '.locationRadio' ).filter( 'input:checked' );
+		date = new Date();
 
-		location = {"type": radio.val(), "entry_by": submissionBy};
-		data = {"name": name, "team": team, "vendor": vendor, "submissionBy": submissionBy, "location": location};
+		location = {	"type": radio.val(),
+						"timestamp": date,
+						"entry_by": submissionBy };
+		data = {	"created_at": date,
+					"name": name,
+					"location": location,
+					"team": team,
+					"vendor": vendor,
+					"past_locations": [],
+					"submission_by": submissionBy };
 
 		if (validateSubmission(data)) {
 			scans = Meteor.user().scans.map(mapScan);

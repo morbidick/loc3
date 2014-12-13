@@ -15,15 +15,6 @@
 	</div>
 </template>
 
-<template name="relocateScan">
-	<div class="form-group">
-		<label for="rLScan" class="col-sm-3 control-label">Scan</label>
-		<div class="col-sm-9">
-			<input class="form-control" id="rLScan" placeholder="barcode">
-		</div>
-	</div>
-</template>
-
 <template name="relocateMode">
 	<div class="btn-group btn-group-justified" role="group" data-toggle="buttons">
 		<label class="btn btn-primary active">
@@ -37,8 +28,8 @@
 		</label>
 	</div>
 	<br>
+	{{> relocateScan}}
 	<form class="form-horizontal" role="form">
-		{{> relocateScan}}
 		{{> locationGroup name="lgRelocate"}}
 
 		{{#if modeSubdivided mode}}
@@ -76,7 +67,17 @@
 		</div>
 	</form>
 	<br>
-	<input type="button" class="btn btn-primary tester" value="test">
+</template>
+
+<template name="relocateScan">
+	<form class="form-horizontal scan" role="form">
+		<div class="form-group">
+			<label for="rLScan" class="col-sm-3 control-label">Scan</label>
+			<div class="col-sm-9">
+				<input class="form-control scan" id="rLScan" placeholder="barcode">
+			</div>
+		</div>
+	</form>
 </template>
 
 <template name="worldForm">
