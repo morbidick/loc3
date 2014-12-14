@@ -1,12 +1,21 @@
 {
-  "environment": "dev",
   "public": {  
     "ean_prefix": "200",
-    "ean_prefix_dev": "201",
-  	"locations": [	{"name": "world", "label": "World"},
-  					{"name": "cch", "label": "Congress"},
-  					{"name": "halleh", "label": "Halle H"},
-  					{"name": "transport", "label": "Transport"}
-  	]
+    "ean_prefix_dev": "201"
+  },
+  "preseed": {
+    "items": {
+      "amount": 10000
+    },
+  	"locations": [
+      {"name": "world", "label": "World"},
+			{"name": "cch", "label": "Congress"},
+			{"name": "halleh", "label": "Halle H"},
+			{"name": "transport", "label": "Transport"}
+    ],
+    "teams": [
+      {"name": "NOC", "comment": "", "primary_phone_number": 1234 },
+      {"name": "VOC", "comment": "", "primary_phone_number": 1235 }
+    ]
   }
 }

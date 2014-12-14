@@ -1,6 +1,6 @@
 Template.locationGroup.helpers({
 	"locations": function () {
-		var locations = Meteor.settings.public.locations; 
+		var locations = Locations.find().fetch();
 		return locations;
 	}
 });
