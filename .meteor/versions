@@ -18,6 +18,7 @@ deps@1.0.5
 ejson@1.0.4
 email@1.0.4
 fastclick@1.0.1
+flash@0.0.0
 follower-livedata@1.0.2
 geojson-utils@1.0.1
 handlebars@1.0.1
@@ -56,6 +57,7 @@ reactive-dict@1.0.4
 reactive-var@1.0.3
 reload@1.1.1
 retry@1.0.1
+roles@0.0.0
 routepolicy@1.0.2
 service-configuration@1.0.2
 session@1.0.4

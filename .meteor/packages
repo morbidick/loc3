@@ -12,4 +12,6 @@ anti:fake
 accounts-password
 accounts-ui-bootstrap-3
 reactive-var
+roles
+flash
 

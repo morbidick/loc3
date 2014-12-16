@@ -19,7 +19,7 @@
                         "furniture3": {"name": "furniture3", "label": "Furniture 3"},
                         "furniture4": {"name": "furniture4", "label": "Furniture 4"},
                         "asm": {"name": "asm", "label": "Assembly"} } },
-    "ean_prefix_dev": "201",
+    "ean_prefix_dev": "201"
   },
   "preseed": {
     "items": {
@@ -42,7 +42,7 @@
           "furniture3": {"name": "furniture3", "label": "Furniture 3"},
           "furniture4": {"name": "furniture4", "label": "Furniture 4"},
           "asm": {"name": "asm", "label": "Assembly"}  
-        },
+        }
       },
       {"name": "transport", "label": "Transport"}
     ],

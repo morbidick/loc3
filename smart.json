@@ -1,5 +1,7 @@
 {
   "packages": {
-    "accounts-ui-bootstrap-3": {}
+    "accounts-ui-bootstrap-3": {},
+    "roles": {},
+    "flash": {}
   }
 }
