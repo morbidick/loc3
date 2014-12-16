@@ -4,7 +4,9 @@ Meteor.publish('items', function() {
 Meteor.publish('transports', function() {
   return Transports.find();
 });
-
+Meteor.publish('locations', function() {
+  return Locations.find();
+});
 Meteor.publish("userData", function () {
   if (this.userId) {
     return Meteor.users.find({_id: this.userId},

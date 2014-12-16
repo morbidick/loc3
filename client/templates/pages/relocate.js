@@ -17,8 +17,8 @@ Template.relocatePage.helpers({
 Template.relocateMode.created = function () {
   this.mode = new ReactiveVar;
   this.mode.set(null);
-  this.sublocation = new ReactiveVar;
-  this.sublocation.set(null);
+  this.sub = new ReactiveVar;
+  this.sub.set(null);
 
   this.bulk = new ReactiveVar;
   this.state = new ReactiveVar;
@@ -48,9 +48,9 @@ Template.relocateMode.events({
     template.mode.set(radio.val());
   },
 
-  "change [name='locGroup']": function (event, template) {
-    var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="locGroup"]' );
-    template.mode.set(radio.val());
+  "change [name='subLocGroup']": function (event, template) {
+    var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="subLocGroup"]' );
+    template.sub.set(radio.val());
   },  
 
   "change [name='relocateBulkOption']": function (event, template) {
@@ -118,14 +118,7 @@ Template.relocateMode.events({
   }
 });
 
-var pushLocation = function (id, location) {
-
-}
-
 var isSubdivided = function (location) {
-    if (!location) {
-      return false;
-    }
     var sublocations = Meteor.settings.public.sublocations; 
     if (sublocations[location]) {
       return true;

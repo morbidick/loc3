@@ -1,43 +1,121 @@
-Template.bulkScan.events({
-	"submit form": function (event, template) {
-		var usr, scan;
-		scan = template.$( '#scan' ).val();
-		if (/^\d{8}$/.test(scan)) {
-			usr = Meteor.userId();
-			if (usr) {
-				Meteor.users.update(
-					{"_id": usr}, 
-					{$addToSet: {"scans": scan}}
-					);
-			}
-			template.$( '#scan' ).val("");
-		}
-  	//TODO notify of invalid scan
-  	return false;
-  }
-});
-
-Template.bulkForm.created = function () {
-	this.location = new ReactiveVar;
-	this.location.set("none");
+Template.bulkPage.created = function () {
+	//Keep our list of scans in this
+	this.list = new ReactiveVar;
+	this.list.set({});
 }
 
-Template.bulkForm.helpers({
-	"locationIs": function () {
-		return Template.instance().location.get(); 
+Template.bulkPage.helpers({
+	//Helpers concerned with listing scans
+	"scanlist": function () {
+		var list = Template.instance().list.get();
+		var arr = $.map(list, function(el) { return el; });
+		return arr;
+	},
+	//BEWARE! call with scan item as context!
+	"style": function () {
+		if (this.valid) {
+			return "success";
+		}
+		if (this.overwrite) {
+			return "warning";
+		}
+		return "danger";
+	},
+	"listhandle": function () {
+		return Template.instance().list;
+	},
+
+	//Helpers concerned with displaying the form
+	"itemlist": function () {
+		var list = Template.instance().list.get();
+		return list;
 	}
 });
 
+Template.bulkPage.events({
+	"submit .scan": function (event, template) {
+		var usr, scan, db, item, current;
+
+		usr = Meteor.userId();
+		if (!usr) {
+			console.log("pls log in to scan");
+			return false;
+		}
+		scan = template.$( '#bScan' ).val();
+		if (/^\d{8}$/.test(scan)) {
+			db = Items.findOne({_id: scan});
+			if (db) {
+				item = {_id: scan, name: db.name, valid: false, overwrite: false};
+			}
+			else {
+				item = {_id: scan, name: "new", valid: true, overwrite: true};
+			}
+			current = template.list.get();
+			current[scan] = item;
+			template.list.set(current);
+			template.$( '#bScan' ).val("");
+		}
+		return false;
+	},
+	"click .remove": function (event, template) {
+		relatedId = event.target.attributes.relatedId.value;
+		var current = template.list.get();
+		delete current[relatedId];
+		template.list.set(current);
+		return false;
+	},
+	"click .overwrite": function (event, template) {
+		relatedId = event.target.attributes.relatedId.value;
+		var current = template.list.get();
+		current[relatedId].overwrite = !current[relatedId].overwrite;
+		template.list.set(current);
+		return false;
+	}
+});
+
+Template.bulkForm.created = function () {
+	this.main = new ReactiveVar;
+	this.main.set(null);
+	this.sub = new ReactiveVar;
+	this.sub.set(null);
+};
+
+Template.bulkForm.helpers({
+  "main": function () {
+    return Template.instance().main.get();
+  },
+  "locationIs": function (location) {
+    var current = Template.instance().main.get();
+    return location === current;
+  },
+  "locationSubdivided": function (location) {
+    if (!location) {
+      return false;
+    }
+    var sublocations = Meteor.settings.public.sublocations; 
+    if (sublocations[location]) {
+      return true;
+    }
+    return false;  
+  }
+});
+
 Template.bulkForm.events({
-	"submit form": function (event, template) {
-		var name, team, vendor, location, data, radio, scans, date;
+	"click .submit": function (event, template) {
+		var name, team, vendor, submissionBy, comment, location, date;
+		var radio, data, usr;
 
-		event.preventDefault();
-
+		usr = Meteor.user();
+		if(!usr) {
+			//how did you even get here somethingsomething
+			console.log("please log in to scan")
+			return false;
+		}
 		name = template.$( '#submissionName' ).val();
 		team = template.$( '#submissionTeam' ).val();
 		vendor = template.$( '#submissionVendor' ).val();
 		submissionBy = template.$( '#submissionBy' ).val();
+		comment = template.$( '#submissionComment' ).val();
 		radio = template.$( '.locationRadio' ).filter( 'input:checked' );
 		date = new Date();
 
@@ -50,17 +128,17 @@ Template.bulkForm.events({
 					"team": team,
 					"vendor": vendor,
 					"past_locations": [],
+					"comment": comment,
 					"submission_by": submissionBy };
-
 		if (validateSubmission(data)) {
-			scans = Meteor.user().scans.map(mapScan);
-			for (var i = 0; i < scans.length; i++) {
-				if (scans[i]["valid"]) {
-					data["_id"] = scans[i].scan;
-					Meteor.call("insertCommand", data);
+			var id;
+			for(id in this.items) {
+				if(this.items[id].valid || this.items[id].overwrite) {
+					console.log("writing to");
+					console.log(this.items[id]);
+					this.handle.set({});
 				}
 			}
-			clearScans();
 			template.$( '#submissionName' ).val("");
 		}
 		else {
@@ -70,46 +148,29 @@ Template.bulkForm.events({
 	},
 
 	"change [name='locGroup']": function (event, template) {
-    	var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="locGroup"]' );
-    	template.location.set(radio.val());
-  	}
+		var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="locGroup"]' );
+		template.main.set(radio.val());
+	},
+
+	"change [name='subLocGroup']": function (event, template) {
+		var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="subLocGroup"]' );
+		template.sub.set(radio.val());
+	},  
 });
 
-Template.bulkList.helpers({
-	"scans": function () {
-		return Meteor.user().scans.map(mapScan);
-	}
-});
-
-Template.bulkList.events({
-	"click .clear": function () {
-		clearScans();
-		return false;
-	}
-});
-
-var mapScan = function (scan) {
-	var doc = Items.findOne({"_id": scan});
-	if (doc) {
-		return {"scan": scan, "name": doc["name"], valid: false};
-	}
-	return {"scan": scan, "name": "new", valid: true};
-}
-
-var clearScans = function () {
-	var usr = Meteor.userId();
-	Meteor.users.update({"_id": usr}, {$set: {"scans": []}});
-};
-
+//TODO, some rudimentary checking, will have to performe more serious server side checks
 var validateSubmission = function (data) {
 	if (!data["name"] || data["name"] === "") {
+		console.log("missing name");
 		return false;
 	}
 	if (!data["team"] || data["team"] === "") {
+		console.log("missing team");
 		return false;
 	}
 	if (!data["vendor"] || data["vendor"] === "") {
+		console.log("missing vendor");
 		return false;
 	}
 	return true;
-}
+};

@@ -1,24 +1,54 @@
 {
-  "environment": "dev",
-  "public": {  
+  "public": {
+    "info_url": "https://orga.cccv.de/doku/31c3/loc",
     "ean_prefix": "200",
+  	"locations": {	"world": {"name": "world", "label": "World"},
+          					"cch": {"name": "cch", "label": "Congress"},
+          					"halleh": {"name": "halleh", "label": "Halle H"},
+          					"transport": {"name": "transport", "label": "Transport"} },
+    "sublocations": {"halleh": { 
+                        "club": {"name": "club", "label": "Club"},
+                        "seidenstrasse": {"name": "seidenstrasse", "label": "Seidenstrasse"},
+                        "noc": {"name": "noc", "label": "NOC"},
+                        "gear1": {"name": "gear1", "label": "Gear 1"},
+                        "gear2": {"name": "gear2", "label": "Gear 2"},
+                        "gear3": {"name": "gear3", "label": "Gear 3"},
+                        "lockdown": {"name": "lockdown", "label": "Lockdown"},
+                        "furniture1": {"name": "furniture1", "label": "Furniture 1"},
+                        "furniture2": {"name": "furniture2", "label": "Furniture 2"},
+                        "furniture3": {"name": "furniture3", "label": "Furniture 3"},
+                        "furniture4": {"name": "furniture4", "label": "Furniture 4"},
+                        "asm": {"name": "asm", "label": "Assembly"} } },
     "ean_prefix_dev": "201",
-  	"locations": [	{"name": "world", "label": "World", "subdivide": false},
-          					{"name": "cch", "label": "Congress", "subdivide": false},
-          					{"name": "halleh", "label": "Halle H", "subdivide": true},
-          					{"name": "transport", "label": "Transport", "subdivide": false} ],
-    "sublocations": {"halleh": [ 
-                        {"name": "club", "label": "Club"},
-                        {"name": "seidenstrasse", "label": "Seidenstrasse"},
-                        {"name": "noc", "label": "NOC"},
-                        {"name": "gear1", "label": "Gear 1"},
-                        {"name": "gear2", "label": "Gear 2"},
-                        {"name": "gear3", "label": "Gear 3"},
-                        {"name": "lockdown", "label": "Lockdown"},
-                        {"name": "furniture1", "label": "Furniture 1"},
-                        {"name": "furniture2", "label": "Furniture 2"},
-                        {"name": "furniture3", "label": "Furniture 3"},
-                        {"name": "furniture4", "label": "Furniture 4"},
-                        {"name": "asm", "label": "Assembly"} ] }
+  },
+  "preseed": {
+    "items": {
+      "amount": 10000
+    },
+    "locations": [
+      {"name": "world", "label": "World"},
+      {"name": "cch", "label": "Congress"},
+      {"name": "halleh", "label": "Halle H",
+        "sublocations": {
+          "club": {"name": "club", "label": "Club"},
+          "seidenstrasse": {"name": "seidenstrasse", "label": "Seidenstrasse"},
+          "noc": {"name": "noc", "label": "NOC"},
+          "gear1": {"name": "gear1", "label": "Gear 1"},
+          "gear2": {"name": "gear2", "label": "Gear 2"},
+          "gear3": {"name": "gear3", "label": "Gear 3"},
+          "lockdown": {"name": "lockdown", "label": "Lockdown"},
+          "furniture1": {"name": "furniture1", "label": "Furniture 1"},
+          "furniture2": {"name": "furniture2", "label": "Furniture 2"},
+          "furniture3": {"name": "furniture3", "label": "Furniture 3"},
+          "furniture4": {"name": "furniture4", "label": "Furniture 4"},
+          "asm": {"name": "asm", "label": "Assembly"}  
+        },
+      },
+      {"name": "transport", "label": "Transport"}
+    ],
+    "teams": [
+      {"name": "NOC", "comment": "", "primary_phone_number": 1234 },
+      {"name": "VOC", "comment": "", "primary_phone_number": 1235 }
+    ]
   }
 }
