@@ -32,22 +32,12 @@
 	<form class="form-horizontal" role="form">
 		{{> locationGroup name="lgRelocate"}}
 	
-		{{#if modeSubdivided mode}}
-			{{> sublocationGroup location=mode}}
+		{{#if mainSubdivided main}}
+			{{> sublocationGroup location=main}}
 		{{/if}}
 
-		{{#if modeIs "world"}}
-			{{> worldForm}}
-		{{/if}}
-		{{#if modeIs "halleh"}}
-			{{> hallehForm}}
-		{{/if}}
-		{{#if modeIs "cch"}}
-			{{> cchForm}}
-		{{/if}}
-		{{#if modeIs "transport"}}
-			{{> transportForm}}
-		{{/if}}
+		{{> additionalLocationInput location=main}}
+
 		<div class="form-group">
 			<label for="relocateBy" class="col-sm-12 control-label">
 				<p class="text-left">Moved by</p>
@@ -80,38 +70,12 @@
 	</form>
 </template>
 
-<template name="worldForm">
+<template name="additionalLocationInput">
 	<div class="form-group">
 		<label class="col-sm-4 control-label">Location</label>
 		<div class="col-sm-8">
-			<p class="form-control-static">World</p>
+			<p class="form-control-static">{{location}}</p>
 	    </div>
 	</div>
-</template>
-
-<template name="hallehForm">
-	<div class="form-group">
-		<label class="col-sm-4 control-label">Location</label>
-		<div class="col-sm-8">
-			<p class="form-control-static">Halle H</p>
-	    </div>
-	</div>
-</template>
-
-<template name="cchForm">
-	<div class="form-group">
-		<label class="col-sm-4 control-label">Location</label>
-		<div class="col-sm-8">
-			<p class="form-control-static">CCH</p>
-	    </div>
-	</div>
-</template>
-
-<template name="transportForm">
-	<div class="form-group">
-		<label class="col-sm-4 control-label">Location</label>
-		<div class="col-sm-8">
-			<p class="form-control-static">Transport</p>
-	    </div>
-	</div>
+	<!-- TODO additional fields -->
 </template>

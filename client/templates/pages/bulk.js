@@ -102,8 +102,8 @@ Template.bulkForm.helpers({
 
 Template.bulkForm.events({
 	"click .submit": function (event, template) {
-		var name, team, vendor, submissionBy, comment, location, date;
-		var radio, data, usr;
+		var name, team, vendor, comment, transport, location;
+		var radio, itemData, usr;
 
 		usr = Meteor.user();
 		if(!usr) {
@@ -114,24 +114,17 @@ Template.bulkForm.events({
 		name = template.$( '#submissionName' ).val();
 		team = template.$( '#submissionTeam' ).val();
 		vendor = template.$( '#submissionVendor' ).val();
-		submissionBy = template.$( '#submissionBy' ).val();
 		comment = template.$( '#submissionComment' ).val();
-		radio = template.$( '.locationRadio' ).filter( 'input:checked' );
-		date = new Date();
-		var main = template.main.get();
-		var sub = template.sub.get();
-		location = {	"main": main,
-						"sub": sub,
-						"timestamp": date,
-						"entry_by": submissionBy };
-		data = {	"created_at": date,
-					"name": name,
-					"location": location,
+		transport = template.$( '.transport-select option:selected' ).val();
+		location = {	"main": template.main.get(),
+						"sub": template.sub.get() };
+		itemData = {"name": name,
 					"team": team,
 					"vendor": vendor,
+					"transport": transport,
+					"location": location,
 					"past_locations": [],
-					"comment": comment,
-					"submission_by": submissionBy };
+					"comment": comment };
 		var submittedIds = [];
 		var id;
 		for(id in this.items) {
@@ -139,7 +132,7 @@ Template.bulkForm.events({
 				submittedIds.push(id);
 			}
 		}
-		Meteor.call("addItems", submittedIds, data, function (error, data) {
+		Meteor.call("addItems", submittedIds, itemData, function (error, data) {
 			if (error) {
 				Flash.danger(error);
 			}

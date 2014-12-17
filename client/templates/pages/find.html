@@ -32,39 +32,7 @@
 				<input type="text" class="form-control" id="queryVendor1" placeholder="Vendor">
 			</div>
 		</div>
-
-		<!-- location checkboxes -->
-		<div class="form-group">
-			<label type="text" for="queryLocations1" class="col-sm-2 control-label">Location</label>
-			<div class="col-sm-2">
-				<div class="checkbox">
-					<label>
-						<input id="queryLocations1" value="world" type="checkbox"> World
-					</label>
-				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="checkbox">
-					<label>
-						<input id="queryLocations2" value="halleh" type="checkbox"> HalleH
-					</label>
-				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="checkbox">
-					<label>
-						<input id="queryLocations3" value="cch" type="checkbox"> CCH
-					</label>
-				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="checkbox">
-					<label>
-						<input id="queryLocations4" value="transport" type="checkbox"> Transport
-					</label>
-				</div>
-			</div>
-		</div>
+		{{> locationQueryGroup}}
 		<!-- submit button -->
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
