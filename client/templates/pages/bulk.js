@@ -118,8 +118,10 @@ Template.bulkForm.events({
 		comment = template.$( '#submissionComment' ).val();
 		radio = template.$( '.locationRadio' ).filter( 'input:checked' );
 		date = new Date();
-
-		location = {	"type": radio.val(),
+		var main = template.main.get();
+		var sub = template.sub.get();
+		location = {	"main": main,
+						"sub": sub,
 						"timestamp": date,
 						"entry_by": submissionBy };
 		data = {	"created_at": date,
@@ -130,25 +132,27 @@ Template.bulkForm.events({
 					"past_locations": [],
 					"comment": comment,
 					"submission_by": submissionBy };
-		if (validateSubmission(data)) {
-			var id;
-			for(id in this.items) {
-				if(this.items[id].valid || this.items[id].overwrite) {
-					console.log("writing to");
-					console.log(this.items[id]);
-					this.handle.set({});
-				}
+		var submittedIds = [];
+		var id;
+		for(id in this.items) {
+			if(this.items[id].valid || this.items[id].overwrite) {
+				submittedIds.push(id);
 			}
-			template.$( '#submissionName' ).val("");
 		}
-		else {
-			Session.set("submissionData", data);
-		}
+		Meteor.call("addItems", submittedIds, data, function (error, data) {
+			if (error) {
+				Flash.danger(error);
+			}
+		});
+
+		template.$( '#submissionName' ).val("");
+
 		return false;
 	},
 
 	"change [name='locGroup']": function (event, template) {
 		var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="locGroup"]' );
+		template.sub.set(null);
 		template.main.set(radio.val());
 	},
 
@@ -157,20 +161,3 @@ Template.bulkForm.events({
 		template.sub.set(radio.val());
 	},  
 });
-
-//TODO, some rudimentary checking, will have to performe more serious server side checks
-var validateSubmission = function (data) {
-	if (!data["name"] || data["name"] === "") {
-		console.log("missing name");
-		return false;
-	}
-	if (!data["team"] || data["team"] === "") {
-		console.log("missing team");
-		return false;
-	}
-	if (!data["vendor"] || data["vendor"] === "") {
-		console.log("missing vendor");
-		return false;
-	}
-	return true;
-};
