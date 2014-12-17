@@ -28,7 +28,7 @@
     "locations": [
       {"name": "world", "label": "World"},
       {"name": "cch", "label": "Congress"},
-      {"name": "halleh", "label": "Halle H",
+      {"name": "halleh", "label": "Halle H", "sublocationMandatory": true,
         "sublocations": {
           "club": {"name": "club", "label": "Club"},
           "seidenstrasse": {"name": "seidenstrasse", "label": "Seidenstrasse"},
@@ -44,7 +44,8 @@
           "asm": {"name": "asm", "label": "Assembly"}  
         }
       },
-      {"name": "transport", "label": "Transport"}
+      {"name": "transport", "label": "Transport",
+        "additionalFields": ["transportId"]}
     ],
     "teams": [
       {"name": "NOC", "comment": "", "primary_phone_number": 1234 },
