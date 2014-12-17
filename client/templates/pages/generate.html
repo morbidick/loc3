@@ -1,0 +1,15 @@
+<template name="generatePage">
+  <h2>Generate ids</h2>
+  <form class="form-horizontal" role="form">
+    {{> submissionGroup id="start" name="Start"}}
+    {{> submissionGroup id="end" name="End"}}
+    <div class="col-sm-9 col-sm-offset-3">
+      <button type="submit" class="btn btn-default">generate!</button>
+    </div>
+  </form>
+  <div >
+    {{#each result}}
+      <div>{{this}}</div>
+    {{/each}}
+  </div>
+</template>
