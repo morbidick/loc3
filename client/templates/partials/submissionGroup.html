@@ -6,7 +6,15 @@
 			{{name}}
 		</label>
 		<div class="col-sm-9">
-			<input class="form-control" id="{{id}}" placeholder="{{name}}">
+      {{> Template.dynamic template=computedType }}
 		</div>
 	</div>
+</template>
+
+<template name="submissionGroupText">
+  <input class="form-control" id="{{id}}" placeholder="{{name}}" >
+</template>
+
+<template name="submissionGroupTextarea">
+  <textarea class="form-control" id="{{id}}" >{{name}}</textarea>
 </template>

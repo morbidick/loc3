@@ -3,8 +3,7 @@
   "dependencies": {
     "basePackages": {
       "accounts-ui-bootstrap-3": {},
-      "roles": {},
-      "flash": {}
+      "roles": {}
     },
     "packages": {
       "accounts-ui-bootstrap-3": {
@@ -16,11 +15,6 @@
         "git": "https://github.com/alanning/meteor-roles.git",
         "tag": "v1.2.11",
         "commit": "2d7dc91848ec874d3a0852c77f462d0fae749de5"
-      },
-      "flash": {
-        "git": "https://github.com/MixinLabs/meteor-flash.git",
-        "tag": "v0.2.0",
-        "commit": "5d63855328594f24b827eef6f7617f0a3cf12fa6"
       }
     }
   }

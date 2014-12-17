@@ -1,0 +1,32 @@
+<template name="teamsPage">
+  <h2>Teams</h2>
+  {{#teamsTableWrapper}}
+    {{#each teams}}
+      {{> teamTableRow}}
+    {{/each}}
+  {{/teamsTableWrapper}}
+  <a class="btn btn-default" href="{{pathFor route='addTeamPage'}}">new Team</a>
+</template>
+
+<template name="teamTableRow">
+  <tr>
+    <td> {{this._id}} </td>
+    <td> {{this.primary_phone_number}} </td>
+    <td> {{this.comment}} </td>
+  </tr>
+</template>
+
+<template name="teamsTableWrapper">
+  <table class="table table-condensed table-hover">
+    <thead>
+      <tr>
+        <td>Name</td>
+        <td>Phone Number</td>
+        <td>comment</td>
+      </tr>
+    </thead>
+    <tbody>
+      {{> UI.contentBlock}}
+    </tbody>
+  </table>
+</template>
