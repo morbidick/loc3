@@ -7,6 +7,9 @@ Meteor.publish('transports', function() {
 Meteor.publish('locations', function() {
   return Locations.find();
 });
+Meteor.publish('teams', function() {
+  return Teams.find();
+});
 Meteor.publish("userData", function () {
   if (this.userId) {
     return Meteor.users.find({_id: this.userId},

@@ -48,8 +48,8 @@
         "additionalFields": ["transportId"]}
     ],
     "teams": [
-      {"name": "NOC", "comment": "", "primary_phone_number": 1234 },
-      {"name": "VOC", "comment": "", "primary_phone_number": 1235 }
+      {"_id": "NOC", "comment": "", "primary_phone_number": 1234 },
+      {"_id": "VOC", "comment": "", "primary_phone_number": 1235 }
     ]
   }
 }
