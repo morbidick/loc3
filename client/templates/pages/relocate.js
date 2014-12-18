@@ -1,4 +1,3 @@
-
 Template.relocatePage.helpers({
     "fromdb": function() {
     var itemId, data;
@@ -15,8 +14,8 @@ Template.relocatePage.helpers({
 });
 
 Template.relocateMode.created = function () {
-  this.mode = new ReactiveVar;
-  this.mode.set(null);
+  this.main = new ReactiveVar;
+  this.main.set(null);
   this.sub = new ReactiveVar;
   this.sub.set(null);
 
@@ -29,15 +28,15 @@ Template.relocateMode.created = function () {
 }
 
 Template.relocateMode.helpers({
-  "mode": function () {
-    return Template.instance().mode.get();
+  "main": function () {
+    return Template.instance().main.get();
   },
-  "modeIs": function (mode) {
-    var current = Template.instance().mode.get();
-    return mode === current;
+  "mainIs": function (main) {
+    var current = Template.instance().main.get();
+    return main === current;
   },
-  "modeSubdivided": function (mode) {
-    var isIt = isSubdivided(mode);
+  "mainSubdivided": function (main) {
+    var isIt = isSubdivided(main);
     return isIt;
   }
 });
@@ -45,7 +44,8 @@ Template.relocateMode.helpers({
 Template.relocateMode.events({
   "change [name='locGroup']": function (event, template) {
     var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="locGroup"]' );
-    template.mode.set(radio.val());
+    template.sub.set(null);
+    template.main.set(radio.val());
   },
 
   "change [name='subLocGroup']": function (event, template) {
@@ -69,46 +69,22 @@ Template.relocateMode.events({
   },
 
   "submit .scan": function (event, template) {
-    var data, radio, usr, scan, location, locationUpdate, itemId;
+    var itemId, location;
     usr = Meteor.user();
-    if (!usr) {
-      //please log in somethingsomething
-      console.log("missing user");
-      return false;
-    }       
-    scan = template.$( '#rLScan' ).val(); 
-    if (!/^\d{8}$/.test(scan)) {
-       //invalid scan somethingsomething
-      console.log("invalid scan");
-      return false;
-    }
-    data = Items.findOne({"_id": scan});
-    if (!data) {
-      //no such item somethingsomething
-      console.log("none such item")
-      return false;
-    }
-    Session.set("relocateId", scan);
-
-    moveTo = resolveLocation(template, data);
-    if (!moveTo.main || moveTo.sub === null) {
-      //missing location somethingsomething
-      console.log("cant resolve location, provide one pls");
-      return false;
-    }
-    locationUpdate = {};
-    locationUpdate.type = moveTo.main;
-    locationUpdate.moved_by = template.$( '#relocateBy' ).val();
-    locationUpdate.entry_by = usr.username;
-    locationUpdate.comment = template.$( '#relocateComment' ).val();
-    locationUpdate.timestamp = new Date();
-    if (moveTo.sub) {
-      locationUpdate.sublocation = moveTo.sub;
+    itemId = template.$( '#rLScan' ).val();
+    Session.set("relocateId", itemId);
+    location = {
+      main: template.main.get(),
+      sub: template.sub.get(),
+      moved_by: template.$( '#relocateBy' ).val(),
+      comment: template.$( '#relocateComment' ).val(),
     }
     if (template.bulk.get()) {
-      var past = data.past_locations;
-      past.unshift(data.location);
-      Items.update({_id: scan}, {$set: {past_locations: past, location: locationUpdate}});
+      Meteor.call("moveItem", itemId, location, function (error, data) {
+        if (error) {
+          Flash.danger(error);
+        }
+      });
     }
     if (!template.state.get()) {
       template.$( '#relocateBy' ).val("");
@@ -129,7 +105,7 @@ var isSubdivided = function (location) {
 var resolveLocation = function (template, item) {
   var team, preferred, auto, location;
   location = {};
-  location.main = template.mode.get();
+  location.main = template.main.get();
   auto = template.autolocation.get();
   if (isSubdivided(location.main)) {
     location.sub = null;

@@ -1,6 +1,7 @@
 Template.searchForm.created = function () {
   // TODO figure out setDefaults behavior and why it seems to be confusing if used here 
-  Session.set("query", {"name": "", "team": "", "vendor": "", "locations": []});
+  this.query = new ReactiveVar();
+  this.query.set({});
 }
 
 // Fulltext search events
@@ -10,26 +11,27 @@ Template.searchForm.events({
   "submit form": function (event, template) {
   	var name, team, vendor, locations, query;
   	// basic fields
-    name = $( '#queryName1' ).val();
-    team = $( '#queryTeam1' ).val();
-  	vendor = $( '#queryVendor1' ).val();
 
     // location checkboxes
-  	locations = [];
-  	if ( $( '#queryLocations1' ).prop( 'checked' ) ) {
-	  	locations.push("world");		
-  	}
-  	if ( $( '#queryLocations2' ).prop( 'checked' ) ) {
-  		locations.push("halleh");
-  	}
-  	if ( $( '#queryLocations3' ).prop( 'checked' ) ) {
-	  	locations.push("congress");  		
-  	}
-  	if ( $( '#queryLocations4' ).prop( 'checked' ) ) {
-  		locations.push("transport");
-  	}
+    locations = [];
+    if ( $( '#queryLocations1' ).prop( 'checked' ) ) {
+      locations.push("world");    
+    }
+    if ( $( '#queryLocations2' ).prop( 'checked' ) ) {
+      locations.push("halleh");
+    }
+    if ( $( '#queryLocations3' ).prop( 'checked' ) ) {
+      locations.push("congress");     
+    }
+    if ( $( '#queryLocations4' ).prop( 'checked' ) ) {
+      locations.push("transport");
+    }
 
-    Session.set("query", {"name": name, "team": team, "vendor": vendor, "locations": locations});
+    query = {
+      name: $( '#queryName1' ).val(),
+      team: $( '#queryTeam1' ).val(),
+      vendor: $( '#queryVendor1' ).val()
+    };
     // prevent default handler
     return false;
   }
