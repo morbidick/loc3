@@ -18,3 +18,18 @@
 <template name="submissionGroupTextarea">
   <textarea class="form-control" id="{{id}}" placeholder="{{name}}"></textarea>
 </template>
+
+<template name="submissionGroupCheckbox">
+  <input type="checkbox" id="{{id}}">
+</template>
+
+<template name="submissionGroupDateTime">
+  <div class="row">
+    <div class="col-sm-6">
+      <input class="form-control" id="{{id}}_date" placeholder="DD.MM.YYYY">
+    </div>
+    <div class="col-sm-6">
+      <input class="form-control" id="{{id}}_time" placeholder="hh:mm">
+    </div>
+  </div>
+</template>
