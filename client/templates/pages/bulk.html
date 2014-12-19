@@ -1,22 +1,26 @@
 <template name="bulkPage">
-	<div class="row">
-		<div class="col-sm-6">
-			{{> bulkScan}}
-			<div class="row">
-				<ul class="list-group">
-				{{#each scanlist}}
-					{{> presentScan styled=style 
-									_id=this._id
-									name=this.name
-									valid=this.valid }}
-				{{/each}}
-				</ul>
+	{{#if currentUser}}
+		<div class="row">
+			<div class="col-sm-6">
+				{{> bulkScan}}
+				<div class="row">
+					<ul class="list-group">
+					{{#each scanlist}}
+						{{> presentScan styled=style 
+										_id=this._id
+										name=this.name
+										valid=this.valid }}
+					{{/each}}
+					</ul>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				{{> bulkForm items=itemlist handle=listhandle}}
 			</div>
 		</div>
-		<div class="col-sm-6">
-			{{> bulkForm items=itemlist handle=listhandle}}
-		</div>
-	</div>
+	{{else}}
+		{{> loginWarning}}
+	{{/if}}
 </template>
 
 <template name="presentScan">
