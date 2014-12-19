@@ -1,17 +1,19 @@
 <template name="locationQueryGroup">
 	{{#each mains}}
-		<div class="col-sm-4">
+		<div class="col-sm-3">
 			<div class="checkbox">
 				<label>
 					<input class="location-checkbox" value="{{_id}}" type="checkbox"> {{name}}
 				</label>
 			</div>
-			<div class="row">
-			{{#if hasSublocations}}
-				{{#each sublocations}}
-					{{> sublocationQuery this main=_id}}
-				{{/each}}
-			{{/if}}
+			<div class="col-sm-9">
+				<div class="row">
+				{{#if hasSublocations}}
+					{{#each sublocations}}
+						{{> sublocationQuery this main=_id}}
+					{{/each}}
+				{{/if}}
+				</div>
 			</div>
 		</div>
 	{{/each}}

@@ -7,6 +7,8 @@ Template.addTransportPage.events({
       "arrival_time": template.$('#arrival_time').val(),
       "departure_date": template.$('#departure_date').val(),
       "departure_time": template.$('#departure_time').val(),
+      "home": template.$('#home').val(),
+      "is_ccc": template.$('#isCCC').is(':checked'),
       "vendor": template.$('#vendor').val(),
       "comment": template.$('#comment').val(),
       "files": template.$('#files').val()

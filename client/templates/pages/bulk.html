@@ -51,7 +51,7 @@
 		<div class="form-group">
 			<label for="bScan" class="col-sm-3 control-label">Scan</label>
 			<div class="col-sm-9">
-				<input class="form-control  scan-input" id="bScan" placeholder="barcode" autofocus="true">
+				<input type="number" class="form-control scan-input" id="bScan" placeholder="barcode" autofocus="true">
 			</div>
 		</div>
 	</form>
@@ -60,7 +60,8 @@
 <template name="bulkForm">
 	<form class="form-horizontal submission" role="form">		
 		{{> submissionGroup id="submissionName" name="Name"}}
-		{{> submissionGroup id="submissionTeam" name="Team"}}
+		<!-- {{> submissionGroup id="submissionTeam" name="Team"}} -->
+		{{> teamGroup}}
 		{{> submissionGroup id="submissionVendor" name="Vendor"}}
 		{{> submissionGroup id="submissionBy" name="User"}}
 		{{> submissionGroup id="submissionComment" name="Comment"}}

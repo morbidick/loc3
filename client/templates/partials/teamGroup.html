@@ -1,0 +1,14 @@
+<template name="teamGroup">
+	<div class="form-group">
+		<label for="{{_id}}" class="col-sm-3 control-label">
+			Team
+		</label>
+		<div class="col-sm-9">
+			<select class="form-control team-select">
+				{{#each registeredTeams}}
+					<option id="{{_id}}" value="{{_id}}">{{_id}}</option>
+				{{/each}}
+			</select>
+		</div>
+	</div>
+</template>

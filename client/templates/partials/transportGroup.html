@@ -1,9 +1,12 @@
 <template name="transportGroup">
-	<div class="col-sm-12">
-		<div class="form-group">
+	<div class="form-group">
+		<label for="{{_id}}" class="col-sm-3 control-label">
+			Transport
+		</label>
+		<div class="col-sm-9">
 			<select class="form-control transport-select">
 				{{#each registeredTransports}}
-					<option value="{{_id}}">{{name}}</option>
+					<option id="{{_id}}" value="{{_id}}">{{name}}</option>
 				{{/each}}
 			</select>
 		</div>

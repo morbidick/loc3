@@ -1,5 +1,7 @@
 Template.transportGroup.helpers({
 	"registeredTransports": function () {
-		return Transports.find({});
+		var transports = Transports.find({}).fetch();
+		transports.unshift({_id: ""});
+		return transports;
 	}
 });

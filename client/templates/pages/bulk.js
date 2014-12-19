@@ -104,7 +104,7 @@ Template.bulkForm.events({
 		var handle = this.handle;
 
 		name = template.$( '#submissionName' ).val();
-		team = template.$( '#submissionTeam' ).val();
+		team = template.$( '.team-select option:selected' ).val();
 		vendor = template.$( '#submissionVendor' ).val();
 		comment = template.$( '#submissionComment' ).val();
 		transport = template.$( '.transport-select option:selected' ).val();
