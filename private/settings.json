@@ -1,6 +1,7 @@
 {
   "public": {
     "info_url": "https://orga.cccv.de/doku/31c3/loc",
+    "map_file": "lagerplan.png",
     "ean_prefix": "200",
     "ean_prefix_dev": "201"
   },
