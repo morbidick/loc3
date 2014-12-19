@@ -2,8 +2,7 @@
   "public": {
     "info_url": "https://orga.cccv.de/doku/31c3/loc",
     "map_file": "lagerplan.png",
-    "ean_prefix": "200",
-    "ean_prefix_dev": "201"
+    "ean_prefix": "202"
   },
   "preseed": {
     "items": {
@@ -46,14 +45,11 @@
       {"_id": "ccb:infotresen", "comment": "placeholder", "primary_phone_number": 1010},
       {"_id": "ccb:deko-lounge", "comment": "placeholder", "primary_phone_number": 1010},
       {"_id": "ccb:deko-house", "comment": "placeholder", "primary_phone_number": 1010},
-      {"_id": "ccb:infotresen", "comment": "placeholder", "primary_phone_number": 1010},
-      {"_id": "ccb:infotresen", "comment": "placeholder", "primary_phone_number": 1010},
-      {"_id": "ccb:infotresen", "comment": "placeholder", "primary_phone_number": 1010},
 
       {"_id": "strom", "comment": "dont touch", "primary_phone_number": 1010},
       
-      {"_id": "NOC", "comment": "", "primary_phone_number": 1234 },
-      {"_id": "VOC", "comment": "", "primary_phone_number": 1235 }
+      {"_id": "NOC", "comment": "placeholder", "primary_phone_number": 1234 },
+      {"_id": "VOC", "comment": "placeholder", "primary_phone_number": 1235 }
     ]
   }
 }
