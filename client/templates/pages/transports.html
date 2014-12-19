@@ -1,5 +1,38 @@
 <template name="transportsPage">
-  <div class="jumbotron">
-    <h1>transports</h1>
-  </div>
+  <h2>Transports</h2>
+  {{#transportsTableWrapper}}
+    {{#each transports}}
+      {{> transportTableRow}}
+    {{/each}}
+  {{/transportsTableWrapper}}
+  <a class="btn btn-default" href="{{pathFor route='addTransportPage'}}">new Transport</a>
+</template>
+
+<template name="transportTableRow">
+  <tr class="{{#if this.prioritised}}danger{{/if}}">
+    <td> {{this.name}} </td>
+    <td> {{this.arrival}} </td>
+    <td> {{this.departure}} </td>
+    <td> {{this.vendor}} </td>
+    <td> {{this.comment}} </td>
+    <td> {{this.files}} </td>
+  </tr>
+</template>
+
+<template name="transportsTableWrapper">
+  <table class="table table-condensed table-hover table-bordered">
+    <thead>
+      <tr>
+        <td>name</td>
+        <td>arrival</td>
+        <td>departure</td>
+        <td>vendor</td>
+        <td>comment</td>
+        <td>files</td>
+      </tr>
+    </thead>
+    <tbody>
+      {{> UI.contentBlock}}
+    </tbody>
+  </table>
 </template>
