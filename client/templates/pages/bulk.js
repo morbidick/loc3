@@ -35,7 +35,7 @@ Template.bulkPage.helpers({
 Template.bulkPage.events({
 	"submit .scan": function (event, template) {
 		var scan, db, item, current;
-		scan = template.$( '#bScan' ).val();
+		scan = template.$( '.scan-input' ).val();
 		if (/^\d{8}$/.test(scan)) {
 			db = Items.findOne({_id: scan});
 			if (db) {
@@ -47,8 +47,12 @@ Template.bulkPage.events({
 			current = template.list.get();
 			current[scan] = item;
 			template.list.set(current);
-			template.$( '#bScan' ).val("");
+			template.$( '.scan-input' ).val("");
 		}
+		else {
+			Flash.danger("scan invalid - faulty length");
+		}
+		template.$( '.scan-input' ).focus();
 		return false;
 	},
 	"click .remove": function (event, template) {

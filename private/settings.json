@@ -6,29 +6,51 @@
   },
   "preseed": {
     "items": {
-      "amount": 2000
+      "amount": 0
     },
     "locations": [
       {"_id": "world", "name": "World"},
       {"_id": "cch", "name": "Congress"},
       {"_id": "halleh", "name": "Halle H", "sublocationMandatory": true,
         "sublocations": {
-          "club": {"_id": "club", "name": "Club"},
-          "seidenstrasse": {"_id": "seidenstrasse", "name": "Seidenstrasse"},
-          "noc": {"_id": "noc", "name": "NOC"},
-          "gear1": {"_id": "gear1", "name": "Gear 1"},
-          "gear2": {"_id": "gear2", "name": "Gear 2"},
-          "gear3": {"_id": "gear3", "name": "Gear 3"},
+          "house": {"_id": "", "name": "Haus"},
+          "cooler": {"_id": "cooler", "name": "Kühlcontainer"},
+          "mate": {"_id": "mate", "name": "Getraenke"},
+          "dividers": {"_id": "dividers", "name": "Stellwände"},
+          "hanse": {"_id": "", "name": "Hanseatische Materialverwaltung"},
+          "gear": {"_id": "", "name": "PA & Gear"},
+          "rostock": {"_id": "", "name": "Rostock"},
+          "silkroad": {"_id": "", "name": "Seidenstrasse"},
+          "light": {"_id": "", "name": "Lichtwerkstatt"},
+          "workshop1": {"_id": "", "name": "Bauen Mona"},
+          "workshop2": {"_id": "", "name": "Bauen Projekte"},
+          "workshop3": {"_id": "", "name": "Werkstatt"},
+          "rugs": {"_id": "", "name": "Teppiche"},
+          "tmp1": {"_id": "", "name": "Fuhrpark, TMP 1"},
+          "tmp2": {"_id": "", "name": "Post, TMP 2"},
+          "tmp3": {"_id": "", "name": "asm, TMP 3"},
+          "loc": {"_id": "", "name": "LOC"},
+          "ccc": {"_id": "", "name": "CCC"},
+          "power": {"_id": "power", "name": "Strom"},
+          "voc/noc": {"_id": "", "name": "VOC / NOC"},
           "lockdown": {"_id": "lockdown", "name": "Lockdown"},
-          "furniture1": {"_id": "furniture1", "name": "Furniture 1"},
-          "furniture2": {"_id": "furniture2", "name": "Furniture 2"},
-          "furniture3": {"_id": "furniture3", "name": "Furniture 3"},
-          "furniture4": {"_id": "furniture4", "name": "Furniture 4"},
-          "asm": {"_id": "asm", "name": "Assembly"}  
+          "furniture": {"_id": "furniture", "name": "Furniture"},
+          "asm": {"_id": "asm", "name": "Assembly"}
         }
       }
     ],
     "teams": [
+      {"_id": "ccb:kitchen", "comment": "placeholder", "primary_phone_number": 1010},
+      {"_id": "ccb:cert", "comment": "placeholder", "primary_phone_number": 1010},
+      {"_id": "ccb:infotresen", "comment": "placeholder", "primary_phone_number": 1010},
+      {"_id": "ccb:deko-lounge", "comment": "placeholder", "primary_phone_number": 1010},
+      {"_id": "ccb:deko-house", "comment": "placeholder", "primary_phone_number": 1010},
+      {"_id": "ccb:infotresen", "comment": "placeholder", "primary_phone_number": 1010},
+      {"_id": "ccb:infotresen", "comment": "placeholder", "primary_phone_number": 1010},
+      {"_id": "ccb:infotresen", "comment": "placeholder", "primary_phone_number": 1010},
+
+      {"_id": "strom", "comment": "dont touch", "primary_phone_number": 1010},
+      
       {"_id": "NOC", "comment": "", "primary_phone_number": 1234 },
       {"_id": "VOC", "comment": "", "primary_phone_number": 1235 }
     ]
