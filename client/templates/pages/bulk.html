@@ -62,7 +62,7 @@
 		{{> submissionGroup id="submissionComment" name="Comment"}}
 		{{> transportGroup}}
 		{{> locationGroup}}
-		{{#if locationSubdivided main}}
+		{{#if hasSublocation}}
 			{{> sublocationGroup location=main}}
 		{{/if}}
 		<div class="form-group">

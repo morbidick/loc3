@@ -31,13 +31,10 @@ Template.relocateMode.helpers({
   "main": function () {
     return Template.instance().main.get();
   },
-  "mainIs": function (main) {
-    var current = Template.instance().main.get();
-    return main === current;
-  },
-  "mainSubdivided": function (main) {
-    var isIt = isSubdivided(main);
-    return isIt;
+  "mainSubdivided": function () {
+    var main = Template.instance().main.get();
+    var fromdb = Locations.findOne({_id: main});
+    return !!(fromdb.sublocations);
   }
 });
 

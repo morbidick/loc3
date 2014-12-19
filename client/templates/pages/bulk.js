@@ -34,13 +34,7 @@ Template.bulkPage.helpers({
 
 Template.bulkPage.events({
 	"submit .scan": function (event, template) {
-		var usr, scan, db, item, current;
-
-		usr = Meteor.userId();
-		if (!usr) {
-			console.log("pls log in to scan");
-			return false;
-		}
+		var scan, db, item, current;
 		scan = template.$( '#bScan' ).val();
 		if (/^\d{8}$/.test(scan)) {
 			db = Items.findOne({_id: scan});
@@ -84,19 +78,16 @@ Template.bulkForm.helpers({
   "main": function () {
     return Template.instance().main.get();
   },
-  "locationIs": function (location) {
-    var current = Template.instance().main.get();
-    return location === current;
-  },
-  "locationSubdivided": function (location) {
-    if (!location) {
-      return false;
-    }
-    var sublocations = Meteor.settings.public.sublocations; 
-    if (sublocations[location]) {
-      return true;
-    }
-    return false;  
+  "hasSublocation": function () {
+  	var main = Template.instance().main.get();
+  	if (!main) {
+  		return false;
+  	}
+  	var fromdb = Locations.findOne({_id: main});
+  	if (fromdb && fromdb.sublocations) {
+  		return true;
+  	}
+  	return false;
   }
 });
 
@@ -104,13 +95,8 @@ Template.bulkForm.events({
 	"click .submit": function (event, template) {
 		var name, team, vendor, comment, transport, location;
 		var radio, itemData, usr;
+		var handle = this.handle;
 
-		usr = Meteor.user();
-		if(!usr) {
-			//how did you even get here somethingsomething
-			console.log("please log in to scan")
-			return false;
-		}
 		name = template.$( '#submissionName' ).val();
 		team = template.$( '#submissionTeam' ).val();
 		vendor = template.$( '#submissionVendor' ).val();
@@ -136,9 +122,12 @@ Template.bulkForm.events({
 			if (error) {
 				Flash.danger(error);
 			}
+			else {
+				Flash.clear();
+				handle.set({});
+				template.$( '#submissionName' ).val("");				
+			}
 		});
-
-		template.$( '#submissionName' ).val("");
 
 		return false;
 	},

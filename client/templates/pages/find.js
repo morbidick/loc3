@@ -1,7 +1,10 @@
 Template.searchForm.created = function () {
   // TODO figure out setDefaults behavior and why it seems to be confusing if used here 
-  this.query = new ReactiveVar();
-  this.query.set({});
+  // this.query = new ReactiveVar();
+  // this.query.set({});
+  if(typeof Session.get("searchQuery") === "object") {
+    Session.set("searchQuery", {});
+  }
 }
 
 // Fulltext search events
@@ -11,27 +14,12 @@ Template.searchForm.events({
   "submit form": function (event, template) {
   	var name, team, vendor, locations, query;
   	// basic fields
-
-    // location checkboxes
-    locations = [];
-    if ( $( '#queryLocations1' ).prop( 'checked' ) ) {
-      locations.push("world");    
-    }
-    if ( $( '#queryLocations2' ).prop( 'checked' ) ) {
-      locations.push("halleh");
-    }
-    if ( $( '#queryLocations3' ).prop( 'checked' ) ) {
-      locations.push("congress");     
-    }
-    if ( $( '#queryLocations4' ).prop( 'checked' ) ) {
-      locations.push("transport");
-    }
-
     query = {
       name: $( '#queryName1' ).val(),
       team: $( '#queryTeam1' ).val(),
       vendor: $( '#queryVendor1' ).val()
     };
+    Session.set("searchQuery", query)
     // prevent default handler
     return false;
   }
@@ -41,13 +29,14 @@ Template.searchForm.events({
 Template.searchResults.helpers({
 	"results": function() {
 		var query, name, team, vendor, locations, results, active;
-		query = Session.get("query");
+		query = Session.get("searchQuery");
     name = "";
     var modq = {};
+    return [];
     // check we are active, i.e. a meaningfull search was submitted
-    if (query["name"] && query["name"] !== "") {
+    if (query.name && query.name !== "") {
       // build ourselves a regex for case insensitive fulltext
-      name = ".*" + name + query["name"] + ".*";
+      name = ".*" + name + query.name + ".*";
       name = new RegExp(name, "i");
       modq["name"] = {"$regex": name};
       active = true;
@@ -74,7 +63,7 @@ Template.searchResults.helpers({
     }
     // TODO push database action to server
     if(active) {
-      results = Items.find(modq, {limit: 100});
+      results = Items.find(modq);
       Session.set("resultQty", results.count());
     }
     return results;
