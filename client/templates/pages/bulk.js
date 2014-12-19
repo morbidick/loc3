@@ -127,6 +127,7 @@ Template.bulkForm.events({
 		}
 		Meteor.call("addItems", submittedIds, itemData, function (error, data) {
 			if (error) {
+				template.$( '#submissionName' ).val("");
 				Flash.danger(error);
 			}
 			else {
@@ -140,13 +141,13 @@ Template.bulkForm.events({
 	},
 
 	"change [name='locGroup']": function (event, template) {
-		var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="locGroup"]' );
+		// var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="locGroup"]' );
 		template.sub.set(null);
-		template.main.set(radio.val());
+		template.main.set(event.target.value);
 	},
 
 	"change [name='subLocGroup']": function (event, template) {
-		var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="subLocGroup"]' );
-		template.sub.set(radio.val());
+		// var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="subLocGroup"]' );
+		template.sub.set(event.target.value);
 	},  
 });
