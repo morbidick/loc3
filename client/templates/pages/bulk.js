@@ -35,6 +35,8 @@ Template.bulkPage.helpers({
 Template.bulkPage.events({
 	"submit .scan": function (event, template) {
 		var scan, db, item, current;
+		event.stopPropagation();
+		event.preventDefault();
 		scan = template.$( '.scan-input' ).val();
 		if (/^\d{8}$/.test(scan)) {
 			db = Items.findOne({_id: scan});

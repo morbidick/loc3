@@ -12,8 +12,20 @@
       </div>
       <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
         <ul class="nav navbar-nav">
-          {{> findNav}}
-          {{> scanNav}}
+          <!-- {{> findNav}} -->
+          <li>
+            <a href="{{pathFor 'findPageId'}}">Find ID</a>
+          </li>
+           <li>
+            <a href="{{pathFor 'findPageFull'}}">Search</a>
+          </li>
+          <!-- {{> scanNav}} -->
+          <li>
+            <a href="{{pathFor 'bulkPage'}}">Scan</a>
+          </li>
+           <li>
+            <a href="{{pathFor 'relocatePage'}}">Relocate</a>
+          </li>
           <li>
             <a href="{{pathFor 'transportsPage'}}">Transport</a>
           </li>
@@ -41,7 +53,7 @@
     </a>
     <ul class="dropdown-menu" role="menu">
       <li role="presentation"><a role="menuitem" tabindex="-1" href="{{pathFor 'relocatePage'}}">relocate</a></li>
-      
+
       <li role="presentation"><a role="menuitem" tabindex="-1" href="{{pathFor 'bulkPage'}}">bulk</a></li>
     </ul>
   </li>

@@ -1,18 +1,22 @@
 <template name="relocatePage">
-	<div class="row">
-		<div class="col-sm-6">
-			{{#with fromdb}}
-				{{#if found}}
-					{{> findById data}}
-				{{else}}
-					{{> noSuchId}}
-				{{/if}}
-			{{/with}}
+	{{#if currentUser}}
+		<div class="row">
+			<div class="col-sm-6">
+				{{#with fromdb}}
+					{{#if found}}
+						{{> findById data}}
+					{{else}}
+						{{> noSuchId}}
+					{{/if}}
+				{{/with}}
+			</div>
+			<div class="col-sm-6">
+				{{> relocateMode}}
+			</div>
 		</div>
-		<div class="col-sm-6">
-			{{> relocateMode}}
-		</div>
-	</div>
+	{{else}}
+		{{> loginWarning}}
+	{{/if}}
 </template>
 
 <template name="relocateMode">
