@@ -24,9 +24,14 @@
 </template>
 
 <template name="submissionGroupDateTime">
+   <script>
+$(function() {
+$( ".datepicker" ).datepicker();
+});
+</script>
   <div class="row">
     <div class="col-sm-6">
-      <input class="form-control" id="{{id}}_date" placeholder="DD.MM.YYYY">
+      <input class="form-control datepicker" id="{{id}}_date" placeholder="MM/DD/YYYY">
     </div>
     <div class="col-sm-6">
       <input class="form-control" id="{{id}}_time" placeholder="hh:mm">
