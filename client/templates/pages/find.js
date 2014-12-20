@@ -16,7 +16,7 @@ Template.searchForm.events({
     };
     // mainFilter = template.$( '.location-checkbox :checked' );
     // subFilter = [];
-    console.log(mainFilter);
+    // console.log(mainFilter);
     var field;
     for (field in query) {
       if (validate.isEmptyText(query[field])) {
