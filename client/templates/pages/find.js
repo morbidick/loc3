@@ -1,5 +1,6 @@
 Template.searchForm.created = function () {
   Session.set("searchQuery", {});
+  Session.set("keys", []);
 }
 
 // Fulltext search events
@@ -8,28 +9,22 @@ Template.searchForm.events({
   // commits an object describing the search to session
   "submit form": function (event, template) {
   	var name, team, vendor, locations, query;
-  	// basic fields
     query = {
       name: template.$( '#queryName' ).val(),
       team: template.$( '#queryTeam' ).val(),
-      vendor: template.$( '#queryVendor' ).val(),
-      shipper: template.$( '#queryShipper' ).val()
+      vendor: template.$( '#queryVendor' ).val()
     };
+    // mainFilter = template.$( '.location-checkbox :checked' );
+    // subFilter = [];
+    console.log(mainFilter);
     var field;
     for (field in query) {
-      query[field] = ".*" + query[field] + ".*";
-      query[field] = new RegExp(query[field], "i");      
+      if (validate.isEmptyText(query[field])) {
+        delete query[field];
+      }
     }
-
-    // check for correct location if (and only if) at least one location was set
-    // locations = query["locations"];
-    // if (locations.length > 0) {
-    //   modq["location.type"] = {"$in": locations}
-    //   active = true;
-    // }
-    // console.log(query);
+    console.log(query);
     Session.set("searchQuery", query)
-    // prevent default handler
     return false;
   }
 });
@@ -38,25 +33,43 @@ Template.searchForm.events({
 Template.searchResults.helpers({
   "results": function() {
     var query = Session.get("searchQuery");
-    var results = {};
-    results = Items.find(query);
+    for (field in query) {
+      if (validate.isNonEmptyText(query[field])) {
+        query[field] = new RegExp(query[field], 'i');                     // console.log(query[field]);      
+      }
+    }
+    var results = Items.find(query);
     Session.set("resultQty", results.count());
     return results;
 	},
-  "fields": function () {
-    console.log(Session.get("searchQuery"));
-    var fromdb = Items.findOne(Session.get("searchQuery"));
-    console.log(fromdb);
+  "keys": function () {
+    var fromdb = Items.findOne();
     var keys = Object.keys(fromdb);
     console.log(keys);
+    Session.set("keys", keys);
     return keys;
   },
   "values": function (name) {
-    console.log(Session.get("searchQuery"));
-    var fromdb = Items.findOne(Session.get("searchQuery"));
-    console.log(fromdb);
-    var values = $.map(sublocations, function(el) { return el; });
-    return values;
+    // var values = $.map(this, function(el) { return el; });
+    // return values;
+    var arr = [];
+    var keys = Session.get("keys");
+    for (var i = 0; i < keys.length; i++) {
+      arr.push(this[keys[i]]);
+    }
+    return arr;
+  },
+  "present": function () {
+    if (this.main) {
+      if (validate.isNonEmptyText(this.sub)) {
+        return this.main + ": " + this.sub;
+      }
+      return this.main;
+    }
+    if (this.name) {
+      return this.name;
+    }
+    return this;
   },
   // Checks for number of results
 	"qty": function() {

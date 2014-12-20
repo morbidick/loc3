@@ -14,14 +14,12 @@
 <template name="searchForm">
 	<form class="form-horizontal" role="form">
 		<!-- basic fields -->
-		{{> submissionGroup id="findName" name="Name"}}
-		{{> submissionGroup id="findTeam" name="Team"}}
-		{{> submissionGroup id="findVendor" name="Vendor"}}
-		{{> submissionGroup id="findVendor" name="Vendor"}}
-		{{> submissionGroup id="findShipper" name="Shipper"}}
-		{{> transportGroup}}
+		{{> submissionGroup id="queryName" name="Name"}}
+		{{> submissionGroup id="queryTeam" name="Team"}}
+		{{> submissionGroup id="queryVendor" name="Vendor"}}
+		<!-- {{> transportGroup}} -->
 
-		{{> locationQueryGroup}}
+		<!-- {{> locationQueryGroup}} -->
 		<!-- {{> transportQueryGroup}} -->
 		<!-- submit button -->
 		<div class="form-group">
@@ -34,14 +32,14 @@
 
 <!-- Display all results for our sessions search -->
 <!-- TODO make pretty -->
-<template name="searchResults" qty="{{qty}}">
-	<h2>{{this.heading}}</h2>
+<template name="searchResults">
+	<h2>{{qty}}</h2>
 	<div class="span3"> 
 		<table class="table table-condensed table-hover">
 			<thead>
 				<tr>
-					{{#each fields}}
-						<td>{{name}}</td>
+					{{#each keys}}
+						<td>{{this}}</td>
 					{{/each}}
 				</tr>
 			</thead>
@@ -49,7 +47,7 @@
 				{{#each results}}
 					<tr>
 					{{#each values}}
-						<td>{{this}}</td>
+						<td>{{present}}</td>
 					{{/each}}
 					</tr>
 				{{/each}}
