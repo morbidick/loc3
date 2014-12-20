@@ -49,11 +49,11 @@ Template.bulkPage.events({
 			current = template.list.get();
 			current[scan] = item;
 			template.list.set(current);
-			template.$( '.scan-input' ).val("");
 		}
 		else {
-			Flash.danger("scan invalid - faulty length");
+			Flash.danger("scan invalid - " + scan + " has faulty length");
 		}
+		template.$( '.scan-input' ).val("");
 		template.$( '.scan-input' ).focus();
 		return false;
 	},

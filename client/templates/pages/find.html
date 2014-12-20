@@ -14,11 +14,12 @@
 <template name="searchForm">
 	<form class="form-horizontal" role="form">
 		<!-- basic fields -->
-		{{> submissionGroup id="findName" name="Name"}}
-		{{> submissionGroup id="findTeam" name="Team"}}
-		{{> submissionGroup id="findVendor" name="Vendor"}}
+		{{> submissionGroup id="queryName" name="Name"}}
+		{{> submissionGroup id="queryTeam" name="Team"}}
+		{{> submissionGroup id="queryVendor" name="Vendor"}}
+		<!-- {{> transportGroup}} -->
 
-		{{> locationQueryGroup}}
+		<!-- {{> locationQueryGroup}} -->
 		<!-- {{> transportQueryGroup}} -->
 		<!-- submit button -->
 		<div class="form-group">
@@ -29,45 +30,27 @@
 	</form>
 </template>
 
-<!-- Display one-liner describing item -->
-<!-- TODO provide a link to the detailed view  -->
-<template name="result">
-	<tr>
-		<td> {{this._id}} </td>
-		<td> {{this.name}} </td>
-		<td> {{this.team}} </td>
-		<td> {{this.vendor}} </td>
-		<td> {{this.location.type}} </td>
-	</tr>
-</template>
-
 <!-- Display all results for our sessions search -->
 <!-- TODO make pretty -->
-<template name="searchResults" qty="{{qty}}">
-	{{#tableWrapper3 heading=qty field1="id" field2="name" field3="team" field4="vendor" field5="location"}}
-		{{#each results}}
-			{{> result}}
-		{{/each}}
-	{{/tableWrapper3}}
-</template>
-
-<!-- Ultra shitty table wrapper -->
-<!-- TODO get rid of this, rewrite with dynamic #columns -->
-<template name="tableWrapper3">
-	<h2>{{this.heading}}</h2>
+<template name="searchResults">
+	<h2>{{qty}}</h2>
 	<div class="span3"> 
 		<table class="table table-condensed table-hover">
 			<thead>
 				<tr>
-					<td>{{this.field1}}</td>
-					<td>{{this.field2}}</td>
-					<td>{{this.field3}}</td>
-					<td>{{this.field4}}</td>
-					<td>{{this.field5}}</td>
+					{{#each keys}}
+						<td>{{this}}</td>
+					{{/each}}
 				</tr>
 			</thead>
 			<tbody>
-				{{> UI.contentBlock}}
+				{{#each results}}
+					<tr>
+					{{#each values}}
+						<td>{{present}}</td>
+					{{/each}}
+					</tr>
+				{{/each}}
 			</tbody>
 		</table>
 	</div>

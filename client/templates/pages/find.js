@@ -1,10 +1,6 @@
 Template.searchForm.created = function () {
-  // TODO figure out setDefaults behavior and why it seems to be confusing if used here 
-  // this.query = new ReactiveVar();
-  // this.query.set({});
-  if(typeof Session.get("searchQuery") === "object") {
-    Session.set("searchQuery", {});
-  }
+  Session.set("searchQuery", {});
+  Session.set("keys", []);
 }
 
 // Fulltext search events
@@ -13,62 +9,68 @@ Template.searchForm.events({
   // commits an object describing the search to session
   "submit form": function (event, template) {
   	var name, team, vendor, locations, query;
-  	// basic fields
     query = {
-      name: $( '#queryName1' ).val(),
-      team: $( '#queryTeam1' ).val(),
-      vendor: $( '#queryVendor1' ).val()
+      name: template.$( '#queryName' ).val(),
+      team: template.$( '#queryTeam' ).val(),
+      vendor: template.$( '#queryVendor' ).val()
     };
+    // mainFilter = template.$( '.location-checkbox :checked' );
+    // subFilter = [];
+    // console.log(mainFilter);
+    var field;
+    for (field in query) {
+      if (validate.isEmptyText(query[field])) {
+        delete query[field];
+      }
+    }
+    console.log(query);
     Session.set("searchQuery", query)
-    // prevent default handler
     return false;
   }
 });
 
 // Fulltext search results helpers
 Template.searchResults.helpers({
-	"results": function() {
-		var query, name, team, vendor, locations, results, active;
-		query = Session.get("searchQuery");
-    name = "";
-    var modq = {};
-    return [];
-    // check we are active, i.e. a meaningfull search was submitted
-    if (query.name && query.name !== "") {
-      // build ourselves a regex for case insensitive fulltext
-      name = ".*" + name + query.name + ".*";
-      name = new RegExp(name, "i");
-      modq["name"] = {"$regex": name};
-      active = true;
+  "results": function() {
+    var query = Session.get("searchQuery");
+    for (field in query) {
+      if (validate.isNonEmptyText(query[field])) {
+        query[field] = new RegExp(query[field], 'i');                     // console.log(query[field]);      
+      }
     }
-    team = "";
-    if (query["team"] && query["team"] !== "") {
-      team = ".*" + team + query["team"] + ".*";
-      team = new RegExp(team, "i");
-      modq["team"] = {"$regex": team};
-      active = true;
-    }
-    vendor = "";
-    if (query["vendor"] && query["vendor"] !== "") {
-      vendor = ".*" + vendor + query["vendor"] + ".*";
-      vendor = new RegExp(vendor, "i");
-      modq["vendor"] = {"$regex": vendor};
-      active = true;
-    }
-    // check for correct location if (and only if) at least one location was set
-    locations = query["locations"];
-    if (locations.length > 0) {
-      modq["location.type"] = {"$in": locations}
-      active = true;
-    }
-    // TODO push database action to server
-    if(active) {
-      results = Items.find(modq);
-      Session.set("resultQty", results.count());
-    }
+    var results = Items.find(query);
+    Session.set("resultQty", results.count());
     return results;
 	},
-
+  "keys": function () {
+    var fromdb = Items.findOne();
+    var keys = Object.keys(fromdb);
+    console.log(keys);
+    Session.set("keys", keys);
+    return keys;
+  },
+  "values": function (name) {
+    // var values = $.map(this, function(el) { return el; });
+    // return values;
+    var arr = [];
+    var keys = Session.get("keys");
+    for (var i = 0; i < keys.length; i++) {
+      arr.push(this[keys[i]]);
+    }
+    return arr;
+  },
+  "present": function () {
+    if (this.main) {
+      if (validate.isNonEmptyText(this.sub)) {
+        return this.main + ": " + this.sub;
+      }
+      return this.main;
+    }
+    if (this.name) {
+      return this.name;
+    }
+    return this;
+  },
   // Checks for number of results
 	"qty": function() {
 		var resultQty = Session.get("resultQty");
