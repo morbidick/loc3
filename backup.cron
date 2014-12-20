@@ -1,0 +1,8 @@
+#!/bin/bash
+
+date=$(date +%F_%Hh%Mm)
+backupdir=/home/bernd/backup/mongodumps
+
+mkdir -p $backupdir/$date && cd $backupdir/$date
+mongodump -h localhost --port 3001 -d meteor
+
