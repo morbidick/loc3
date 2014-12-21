@@ -9,7 +9,7 @@
 				{{#if hasSublocations}}
 					<div class="row">
 						{{#each sublocations}}
-							{{> sublocationQuery this main=_id}}
+							{{> sublocationQuery _id=_id name=name main=../_id}}
 						{{/each}}
 					</div>
 				{{/if}}
@@ -21,7 +21,7 @@
 	<div class="col-sm-3">
 		<div class="checkbox">
 			<label>
-				<input class="sublocation-checkbox" main="{{main}}" value="{{_id}}" type="checkbox"> {{name}}
+				<input class="sublocation-checkbox" value="{{_id}}" type="checkbox"> {{name}}
 			</label>
 		</div>
 	</div>

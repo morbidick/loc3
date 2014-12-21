@@ -17,12 +17,18 @@ Template.findPageId.helpers({
 
 // Find by id events
 Template.findId.events({
-  "submit form": function () {
-    var itemId = $( '#queryId1' ).val();
+  "submit form": function (event, template) {
+    var itemId = template.$( '#queryId' ).val();
     // TODO update this to use a global and more specific query
     if ( /^\d{8}$/.test(itemId) ) {
       Session.set("findById", itemId);
+      Flash.clear();
     }
+    else {
+      Flash.danger("Invalid scan");
+    }
+    template.$( '#queryId' ).val("");
+    template.$( '#queryId' ).focus();
     // prevent default
     return false;
   }

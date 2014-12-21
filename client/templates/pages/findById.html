@@ -20,7 +20,7 @@
 		<div class="form-group">
 			<label for="queryName1" class="col-sm-2 control-label">ID</label>
 			<div class="col-sm-10">
-				<input class="form-control" id="queryId1" placeholder="8 digit id">
+				<input class="form-control" id="queryId" placeholder="8 digit id">
 			</div>
 		</div>
 	</form>
@@ -40,7 +40,7 @@
 			<span class="col-sm-2 text-right">
 				<strong>Location</strong><br>
 			</span>
-		    <span class="col-sm-10">{{> presentLocation type=location.type timestamp=location.timestamp entry_by=location.entry_by}}</span>
+		    <span class="col-sm-10">{{> presentLocation location}}</span>
 		</li>
 		<li class="list-group-item row">
 			<span class="col-sm-2 text-right"><strong>Past Locations</strong></span>
