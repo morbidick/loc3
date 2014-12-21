@@ -30,9 +30,6 @@
             <a href="{{pathFor 'transportsPage'}}">Transport</a>
           </li>
           <li>
-            <a href="{{pathFor 'teamsPage'}}">Teams</a>
-          </li>
-          <li>
             <a href="{{pathFor 'mapPage'}}">Map</a>
           </li>
         </ul>
@@ -70,4 +67,13 @@
       <li role="presentation"><a role="menuitem" tabindex="-1" href="{{pathFor 'findPageId'}}">using ID</a></li>
     </ul>
   </li>
+</template>
+
+<template name="_loginButtonsAdditionalLoggedInDropdownActions">
+    <a class="btn btn-default btn-block" href="{{pathFor 'teamsPage'}}">teams</a>
+    <a class="btn btn-default btn-block" href="{{pathFor 'transportsPage'}}">transports</a>
+    <br/>
+    {{#if isInRole 'admin'}}
+      <a class="btn btn-default btn-block" href="{{pathFor 'settingsPage'}}">Settings</a>
+    {{/if}}
 </template>

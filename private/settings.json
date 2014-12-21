@@ -1,9 +1,10 @@
 {
   "public": {
-    "info_url": "https://orga.cccv.de/doku/31c3/loc",
+    "info_url": "https://events.ccc.de/congress/2014/wiki/Static:LOC",
     "map_file": "lagerplan.png",
     "ean_prefix": "202"
   },
+  "roles": ["admin","item-add","item-remove","item-relocate","transport-add","transport-remove","team-add","team-remove"],
   "preseed": {
     "items": {
       "amount": 0
