@@ -4,6 +4,7 @@
     "map_file": "lagerplan.png",
     "ean_prefix": "202"
   },
+  "roles": ["admin","item-add","item-remove","item-relocate","transport-add","transport-remove","team-add","team-remove"],
   "preseed": {
     "items": {
       "amount": 0
