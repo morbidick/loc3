@@ -110,7 +110,6 @@ Template.bulkForm.events({
 		transport = template.$( '.transport-select option:selected' ).val();
 		location = {	"main": template.main.get(),
 						"sub": template.sub.get() };
-		console.log(location);
 		itemData = {"name": name,
 					"team": team,
 					"vendor": vendor,

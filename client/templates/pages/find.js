@@ -8,23 +8,22 @@ Template.searchForm.events({
   // Called whenever full search is used
   // commits an object describing the search to session
   "submit form": function (event, template) {
-  	var name, team, vendor, locations, query;
-    query = {
+    var query = {
       name: template.$( '#queryName' ).val(),
       team: template.$( '#queryTeam' ).val(),
       vendor: template.$( '#queryVendor' ).val()
     };
-    // mainFilter = template.$( '.location-checkbox :checked' );
-    // subFilter = [];
-    // console.log(mainFilter);
+    var mainFilter = template.$( '.location-checkbox' ).filter(':checked').toArray();
+    var subFilter = template.$( '.sublocation-checkbox' ).filter(':checked').toArray();
     var field;
     for (field in query) {
       if (validate.isEmptyText(query[field])) {
         delete query[field];
       }
     }
-    console.log(query);
-    Session.set("searchQuery", query)
+    query.mainFilter = $.map(mainFilter, function(el) { return el.value; });
+    query.subFilter = $.map(subFilter, function(el) { return el.value; });
+    Session.set("searchQuery", query);
     return false;
   }
 });
@@ -32,20 +31,26 @@ Template.searchForm.events({
 // Fulltext search results helpers
 Template.searchResults.helpers({
   "results": function() {
+    var mquery = {};
     var query = Session.get("searchQuery");
+    if (query.mainFilter && query.mainFilter[0]) {
+      mquery["location.main"] = {"$in": query.mainFilter};
+    }
+    if (query.subFilter && query.subFilter[0]) {
+      mquery["location.sub"] = {"$in": query.subFilter};
+    }
     for (field in query) {
       if (validate.isNonEmptyText(query[field])) {
-        query[field] = new RegExp(query[field], 'i');                     // console.log(query[field]);      
+        mquery[field] = new RegExp(query[field], 'i');                     // console.log(query[field]);      
       }
     }
-    var results = Items.find(query);
+    var results = Items.find(mquery);
     Session.set("resultQty", results.count());
     return results;
 	},
   "keys": function () {
     var fromdb = Items.findOne();
     var keys = Object.keys(fromdb);
-    console.log(keys);
     Session.set("keys", keys);
     return keys;
   },

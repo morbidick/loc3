@@ -15,16 +15,18 @@ Template.locationQueryGroup.helpers({
 		return [];
 	},
 	"hasSublocations": function () {
+		var state = Template.instance().locationState.get();
 		var fromdb = Locations.findOne({_id: this._id});
-		console.log(fromdb);
-		if (!fromdb) {
-			return false;
+		if (state[this._id] && state[this._id].main) {
+			if (!fromdb) {
+				return false;
+			}
+			return !!(fromdb.sublocations);
 		}
-		return !!(fromdb.sublocations);
+		return false;
 	},
 	"sublocations": function () {
 		var fromdb = Locations.findOne({_id: this._id});
-		console.log("sublocations");
 		if (!fromdb) {
 			return false;
 		}
@@ -36,22 +38,46 @@ Template.locationQueryGroup.helpers({
 
 Template.locationQueryGroup.events({
 	"change .location-checkbox": function (event, template) {
-		if (event.target.checked) {
-			if (!template.locationState[event.target.value]) {
-				template.locationState[event.target.value] = {main: true};
+		var check = event.target.checked;
+		var value = event.target.value;
+		if (check) {
+			var locationState = template.locationState.get();
+			if (!locationState[value]) {
+				locationState[value] = {main: true};
+				template.locationState.set(locationState);
 			}
-			else template.locationState[event.target.value].main = true
+			else {
+				locationState[value].main = true;
+				template.locationState.set(locationState);
+			}
 		}
 		else {
-			if (!template.locationState[event.target.value]) {
-				template.locationState[event.target.value] = {main: false};
+			var locationState = template.locationState.get();
+			if (!locationState[value]) {
+				locationState[value] = {main: false};
+				template.locationState.set(locationState);
 			}
-			else template.locationState[event.target.value].main = false
+			else {
+				locationState[value].main = false;
+				template.locationState.set(locationState);
+			}
 		}
+		console.log(template.locationState.get());
 	},
 	"change .sublocation-checkbox": function (event, template) {
-		console.log(event.target.checked);
-		console.log(event.target.value);
-		console.log(event.target.main);
+		var sub = event.target.value;
+		var main = this.main;
+		var checked = event.target.checked;
+		var locationState = template.locationState.get();
+		if (event.target.checked) {
+			locationState[main].main = true;
+			locationState[main][sub] = true;
+			template.locationState.set(locationState);
+		}
+		else {
+			// locationState[main].main = true;
+			locationState[main][sub] = false;
+			template.locationState.set(locationState);			
+		}
 	}
 });
