@@ -13,6 +13,8 @@ Template.settingsPage.events({
         if(error) {
           Flash.danger(error);
           event.target.checked = !event.target.checked;
+        } else {
+          Flash.success("permission updated!")
         }
       });
     } else {
@@ -20,6 +22,8 @@ Template.settingsPage.events({
         if(error) {
           Flash.danger(error);
           event.target.checked = !event.target.checked;
+        } else {
+          Flash.success("permission updated!")
         }
       });
     }
