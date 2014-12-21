@@ -129,11 +129,13 @@ Template.bulkForm.events({
 			if (error) {
 				template.$( '#submissionName' ).val("");
 				Flash.danger(error);
+				window.scrollTo(0,0);
 			}
 			else {
 				Flash.clear();
 				handle.set({});
-				template.$( '#submissionName' ).val("");				
+				template.$( '#submissionName' ).val("");
+				window.scrollTo(0,0);				
 			}
 		});
 

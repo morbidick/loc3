@@ -1,0 +1,30 @@
+<template name="settingsPage">
+  <h3>Settings</h3>
+  {{#if isInRole 'admin'}}
+    <h4>Permissions</h4>
+    <table class="table table-condensed table-hover table-bordered">
+      <thead>
+        <tr>
+          <td>name</td>
+          {{#each roles}}
+          <td> {{this.name}} </td>
+          {{/each}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#each users}}
+          <tr>
+            <td>{{this.username}}</td>
+            {{#each roles}}
+              <td>
+                <input type="checkbox" class="permission-toggle" role="{{this.name}}" userId="{{../_id}}" checked={{contains this.name ../roles }} />
+              </td>
+            {{/each}}
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/if}}
+</template>
+
+
