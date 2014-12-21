@@ -5,7 +5,9 @@
       {{> transportTableRow}}
     {{/each}}
   {{/transportsTableWrapper}}
-  <a class="btn btn-default" href="{{pathFor route='addTransportPage'}}">new Transport</a>
+  {{#if isInRole 'transport-add'}}
+    <a class="btn btn-default" href="{{pathFor route='addTransportPage'}}">new Transport</a>
+  {{/if}}
 </template>
 
 <template name="transportTableRow">
