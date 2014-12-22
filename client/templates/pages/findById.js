@@ -1,5 +1,5 @@
 Template.findPageId.rendered = function () {
-  template.$( '#queryId' ).focus();
+  this.$( '#queryId' ).focus();
 }
 
 // Detailed item description helpers
