@@ -49,8 +49,9 @@ Template.searchResults.helpers({
     return results;
 	},
   "keys": function () {
-    var fromdb = Items.findOne();
-    var keys = Object.keys(fromdb);
+    //var fromdb = Items.findOne();
+    //var keys = Object.keys(fromdb);
+    var keys = ["_id", "name", "location", "team", "vendor", "transport", "comment", "submitted_by"];
     Session.set("keys", keys);
     return keys;
   },
