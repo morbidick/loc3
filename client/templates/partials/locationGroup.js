@@ -6,9 +6,9 @@ Template.locationGroup.helpers({
 });
 
 Template.sublocationGroup.helpers({
-	"sublocations": function(main) {
+	"sublocations": function (main) {
 		var sublocations = Locations.findOne({_id: main}).sublocations;
-		var arr = $.map(sublocations, function(el) { return el; });
+		var arr = $.map(sublocations, function (el) { return el; });
 		return arr;
 	}
 });

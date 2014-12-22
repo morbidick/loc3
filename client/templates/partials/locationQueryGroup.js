@@ -31,7 +31,7 @@ Template.locationQueryGroup.helpers({
 			return false;
 		}
 		var sublocations = fromdb.sublocations;
-		var arr = $.map(sublocations, function(el) { return el; });
+		var arr = $.map(sublocations, function (el) { return el; });
 		return arr;	
 	}
 });
