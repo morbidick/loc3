@@ -80,6 +80,10 @@ Template.bulkForm.created = function () {
 	this.sub.set(null);
 };
 
+Template.bulkForm.rendered = function () {
+	template.$( '.scan-input' ).focus();
+};
+
 Template.bulkForm.helpers({
   "main": function () {
     return Template.instance().main.get();

@@ -1,3 +1,7 @@
+Template.findPageId.rendered = function () {
+  template.$( '#queryId' ).focus();
+}
+
 // Detailed item description helpers
 Template.findPageId.helpers({
   // Get a single doc from our db referred 

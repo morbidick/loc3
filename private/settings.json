@@ -2,6 +2,7 @@
   "public": {
     "info_url": "https://events.ccc.de/congress/2014/wiki/Static:LOC",
     "map_file": "lagerplan.png",
+    "map_deprecated": true,
     "ean_prefix": "202"
   },
   "roles": ["admin","item-add","item-remove","item-relocate","item-update","transport-add", "transport-update", "transport-remove","team-add", "team-update", "team-remove"],
