@@ -18,13 +18,15 @@
 		<!-- Dont clutter up the ui, show it only if it is supposed to work -->
 		{{#if currentUser}}
 	    	<span class="col-sm-2">
-				<button type="button" class="btn btn-default toggleEdit">
-					{{#if editing}}
-						cancel
-					{{else}}
-						edit
-					{{/if}}
-				</button>
+	    	{{#if isInRole 'item-update'}}
+					<button type="button" class="btn btn-default toggleEdit">
+						{{#if editing}}
+							cancel
+						{{else}}
+							edit
+						{{/if}}
+					</button>
+				{{/if}}
 			</span>
     	{{/if}}
 	</li>

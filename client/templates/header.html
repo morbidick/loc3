@@ -21,10 +21,14 @@
           </li>
           <!-- {{> scanNav}} -->
           <li>
-            <a href="{{pathFor 'bulkPage'}}">Scan</a>
+            {{#if isInRole 'item-add'}}
+              <a href="{{pathFor 'bulkPage'}}">Scan</a>
+            {{/if}}
           </li>
            <li>
-            <a href="{{pathFor 'relocatePage'}}">Relocate</a>
+            {{#if isInRole 'item-relocate'}}
+              <a href="{{pathFor 'relocatePage'}}">Relocate</a>
+            {{/if}}
           </li>
           <li>
             <a href="{{pathFor 'transportsPage'}}">Transport</a>

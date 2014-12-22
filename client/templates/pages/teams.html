@@ -5,7 +5,9 @@
       {{> teamTableRow}}
     {{/each}}
   {{/teamsTableWrapper}}
-  <a class="btn btn-default" href="{{pathFor route='addTeamPage'}}">new Team</a>
+  {{#if isInRole 'team-add'}}
+    <a class="btn btn-default" href="{{pathFor route='addTeamPage'}}">new Team</a>
+  {{/if}}
 </template>
 
 <template name="teamTableRow">

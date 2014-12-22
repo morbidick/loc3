@@ -1,5 +1,5 @@
 <template name="bulkPage">
-	{{#if currentUser}}
+	{{#if isInRole 'item-add'}}
 		<div class="row">
 			<div class="col-sm-6">
 				{{> bulkScan}}

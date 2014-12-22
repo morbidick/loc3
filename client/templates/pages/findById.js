@@ -1,3 +1,7 @@
+Template.findPageId.rendered = function () {
+  this.$( '#queryId' ).focus();
+}
+
 // Detailed item description helpers
 Template.findPageId.helpers({
   "fromdb": function() {

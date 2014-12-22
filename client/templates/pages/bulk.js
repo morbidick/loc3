@@ -80,6 +80,10 @@ Template.bulkForm.created = function () {
 	this.sub.set(null);
 };
 
+Template.bulkForm.rendered = function () {
+	this.$( '.scan-input' ).focus();
+};
+
 Template.bulkForm.helpers({
   "main": function () {
     return Template.instance().main.get();
@@ -113,8 +117,8 @@ Template.bulkForm.events({
 		itemData = {"name": name,
 					"team": team,
 					"vendor": vendor,
-					"transport": transport,
 					"location": location,
+					"transport": transport,
 					"past_locations": [],
 					"comment": comment };
 		var submittedIds = [];
@@ -126,7 +130,6 @@ Template.bulkForm.events({
 		}
 		Meteor.call("addItems", submittedIds, itemData, function (error, data) {
 			if (error) {
-				template.$( '#submissionName' ).val("");
 				Flash.danger(error);
 				window.scrollTo(0,0);
 			}
