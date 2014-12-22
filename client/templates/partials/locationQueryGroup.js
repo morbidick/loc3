@@ -27,12 +27,11 @@ Template.locationQueryGroup.helpers({
 	},
 	"sublocations": function () {
 		var fromdb = Locations.findOne({_id: this._id});
-		console.log("sublocations");
 		if (!fromdb) {
 			return false;
 		}
 		var sublocations = fromdb.sublocations;
-		var arr = $.map(sublocations, function(el) { return el; });
+		var arr = $.map(sublocations, function (el) { return el; });
 		return arr;	
 	}
 });

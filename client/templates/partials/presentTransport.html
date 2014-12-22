@@ -1,0 +1,36 @@
+<!-- Describes a single transport as a list group item -->
+<!-- needs location fields -->
+<template name="presentTransport">
+	{{#with fromdb}}
+		<ul class="list-group">
+			<li class="list-group-item row">
+				<span class="col-sm-3 text-right"><strong>Name</strong></span>
+		    <span class="col-sm-9">{{name}}</span>
+			</li>
+			<li class="list-group-item row">
+				<span class="col-sm-3 text-right"><strong>Arrival</strong></span>
+				<span class="col-sm-9">{{arrival}}</span>
+			</li>
+			<li class="list-group-item row">
+		<span class="col-sm-3 text-right"><strong>Departure</strong></span>
+		    <span class="col-sm-9">{{departure}}</span>
+			</li>
+			<li class="list-group-item row">
+				<span class="col-sm-3 text-right"><strong>Owner</strong></span>
+		    <span class="col-sm-9">{{vendor}}</span>
+			</li>
+			<li class="list-group-item row">
+				<span class="col-sm-3 text-right"><strong>Home</strong></span>
+		    <span class="col-sm-9">{{home}}</span>
+			</li>
+			<li class="list-group-item row">
+				<span class="col-sm-3 text-right"><strong>Shipper</strong></span>
+		    <span class="col-sm-9">{{shipper}}</span>
+			</li>
+			<li class="list-group-item row">
+				<span class="col-sm-3 text-right"><strong>Shipper</strong></span>
+		    <span class="col-sm-9">{{comment}}</span>
+			</li>
+		</ul>
+	{{/with}}
+</template>
