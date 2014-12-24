@@ -33,10 +33,14 @@
 		{{> presentValue heading="ID" content=_id dbName="_id" refId=_id}}
 		{{> presentValue heading="Name" content=name dbName="name" refId=_id}}
 		{{> presentValue heading="Team" content=team dbName="team" refId=_id}}
-		{{> presentValue heading="Vendor" content=vendor dbName="vendor" refId=_id}}
+		{{> presentValue heading="Owner" content=vendor dbName="vendor" refId=_id}}
 		{{> presentValue heading="Comment" content=comment dbName="comment" refId=_id}}
-		{{> presentTransport name=transport}}
-		<!-- locations are a bit more tricky -->
+		<li class="list-group-item row">
+			<span class="col-sm-2 text-right">
+				<strong>Transport</strong><br>
+			</span>
+		    <span class="col-sm-10">{{> presentTransport name=transport}}</span>
+		</li>
 		<li class="list-group-item row">
 			<span class="col-sm-2 text-right">
 				<strong>Location</strong><br>
