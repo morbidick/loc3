@@ -51,7 +51,7 @@ Template.searchResults.helpers({
   "keys": function () {
     //var fromdb = Items.findOne();
     //var keys = Object.keys(fromdb);
-    var keys = ["_id", "name", "location", "team", "vendor", "transport", "comment", "submitted_by"];
+    var keys = ["_id", "name", "location", "team", "vendor", "comment", "submitted_by"];
     Session.set("keys", keys);
     return keys;
   },
