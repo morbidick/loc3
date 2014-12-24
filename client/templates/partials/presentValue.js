@@ -15,11 +15,24 @@ Template.presentValue.events({
     var textF, text, newData, refId, dbName;
     textF = template.find( ".edit" );
     text = textF.value;
-    dbName = this.dbName;
-    refId = this.refId;
+
     newData = {};
     newData[dbName] = text;
-    Items.update({_id: refId}, {$set: newData});
+    Meteor.call("editItem", this.refId, this.dbName, text,
+      function (error) {
+        if (error) {
+          Flash.danger(error);
+        }
+        else {
+          Flash.success("Edit successful");
+        }
+      }
+    );
+    Meteor.call("methodName", function (error) {
+      if (error.error === "logged-out") {
+        Session.set("errorMessage", "Please log in to post a comment.");
+      }
+    });
     template.editing.set(false);
     return false;
   },
