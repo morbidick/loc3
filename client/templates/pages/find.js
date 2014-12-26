@@ -1,8 +1,7 @@
 Template.searchForm.created = function () {
   Session.set("searchQuery", {});
   Session.set("keys", []);
-}
-
+};
 // Fulltext search events
 Template.searchForm.events({
   // Called whenever full search is used
@@ -36,14 +35,17 @@ Template.searchResults.helpers({
     if (query.mainFilter && query.mainFilter[0]) {
       mquery["location.main"] = {"$in": query.mainFilter};
     }
+    delete query.mainFilter;
     if (query.subFilter && query.subFilter[0]) {
       mquery["location.sub"] = {"$in": query.subFilter};
     }
+    delete query.subFilter;
     for (field in query) {
       if (validate.isNonEmptyText(query[field])) {
         mquery[field] = new RegExp(query[field], 'i');                     // console.log(query[field]);      
       }
     }
+    console.log(mquery);
     var results = Items.find(mquery);
     Session.set("resultQty", results.count());
     return results;
@@ -65,17 +67,32 @@ Template.searchResults.helpers({
     }
     return arr;
   },
-  "present": function () {
-    if (this.main) {
-      if (validate.isNonEmptyText(this.sub)) {
-        return this.main + ": " + this.sub;
-      }
-      return this.main;
+  "present": function (field) {
+    // console.log(field);
+    // console.log(this);
+    switch (field) {
+      case "id":
+        return this._id;
+      case "name":
+        return this.name;
+      case "location":      
+        if (this.location.sub){
+          return this.location.main + ": " + this.location.sub;
+        }
+        return this.location.main;
+      case "location_default":
+        return "";
+      case "team":
+        return this.team;
+      case "vendor":
+        return this.vendor;
+      case "comment":
+        return this.comment;
+      case "submitted_by":
+        return this.submitted_by;
+      default:
+        throw new Meteor.Error("unknown field", "cant present field", JSON.stringify(field));
     }
-    if (this.name) {
-      return this.name;
-    }
-    return this;
   },
   // Checks for number of results
 	"qty": function() {
@@ -87,4 +104,27 @@ Template.searchResults.helpers({
 			return "no results";
 		}
 	}
+});
+
+Template.massEdit.created = function () {
+  this.editing = new ReactiveVar;
+  this.editing.set(false);
+};
+
+Template.massEdit.helpers({
+  "editing": function() {
+    var state = Template.instance().editing.get();
+    return state;
+  },
+  "editPrivilege": function () {
+    validate.authorized(Meteor.userId(), ["admin", "item-update"])
+    return true;
+  }
+});
+
+Template.massEdit.events({
+  "click .edit": function(event, template) {
+    var state = template.editing.get();
+    template.editing.set(!state);
+  }
 });
