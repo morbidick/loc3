@@ -1,0 +1,15 @@
+<template name="addTeamPage">
+{{#if isInRole 'team-add'}}
+  <h2>New team</h2>
+  {{#autoForm collection="Teams" id="insertTeamForm" type="insert"}}
+    <fieldset>
+      {{> afQuickField name='_id'}}
+      {{> afQuickField name='primary_phone_number'}}
+      {{> afQuickField name='comment' rows=6}}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Insert</button>
+  {{/autoForm}}
+{{else}}
+  {{> loginWarning}}
+{{/if}}
+</template>
