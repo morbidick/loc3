@@ -4,7 +4,6 @@ Template.findPageId.rendered = function () {
 
 // Detailed item description helpers
 Template.findPageId.helpers({
-  // Get a single doc from our db referred 
   "fromdb": function() {
     var itemId, data;
     itemId = Session.get("findById");
@@ -19,21 +18,20 @@ Template.findPageId.helpers({
   }
 });
 
-// Find by id events
 Template.findId.events({
   "submit form": function (event, template) {
     var itemId = template.$( '#queryId' ).val();
-    // TODO update this to use a global and more specific query
-    if ( /^\d{8}$/.test(itemId) ) {
-      Session.set("findById", itemId);
-      Flash.clear();
+    try {
+      validate.isEan8(itemId);
     }
-    else {
-      Flash.danger("Invalid scan");
+    catch (error) {
+      Flash.danger(error);
+      return false;
     }
+    Session.set("findById", itemId);
+    Flash.clear();
     template.$( '#queryId' ).val("");
     template.$( '#queryId' ).focus();
-    // prevent default
     return false;
   }
 });

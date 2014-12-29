@@ -1,18 +1,22 @@
-<!-- Describes a single location as alist group item -->
+<!-- Describes a single location as a list group item -->
 <!-- needs location fields -->
 <template name="presentLocation">
 	<ul class="list-group">
 		<li class="list-group-item row">
-			<span class="col-sm-3 text-right"><strong>Type</strong></span>
-		    <span class="col-sm-9">{{main}}</span>
+			<span class="col-sm-3 text-right"><strong>Main</strong></span>
+	    <span class="col-sm-9">{{main}}</span>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Sub</strong></span>
+			<span class="col-sm-9">{{sub}}</span>
 		</li>
 		<li class="list-group-item row">
 			<span class="col-sm-3 text-right"><strong>Timestamp</strong></span>
-		    <span class="col-sm-9">{{timestamp}}</span>
+	    <span class="col-sm-9">{{timestamp}}</span>
 		</li>
 		<li class="list-group-item row">
 			<span class="col-sm-3 text-right"><strong>Submitted By</strong></span>
-		    <span class="col-sm-9">{{submitted_by.name}}</span>
+	    <span class="col-sm-9">{{submitted_by.name}}</span>
 		</li>
 	</ul>
 </template>

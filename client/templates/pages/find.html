@@ -7,6 +7,7 @@
 <template name="findPageFull">
 	{{> searchForm}}
 	{{> searchResults}}
+	{{> massEdit}}
 </template>
 
 <!-- Big ass form to search for a single item using full text search on fields -->
@@ -17,9 +18,10 @@
 		{{> submissionGroup id="queryName" name="Name"}}
 		{{> submissionGroup id="queryTeam" name="Team"}}
 		{{> submissionGroup id="queryVendor" name="Vendor"}}
-		{{> transportGroup}}
+		{{> submissionGroup id="queryComment" name="Comment"}}
 
 		{{> locationQueryGroup}}
+		<!-- {{> submissionGroup id="queryTransport" name="Transport"}} -->
 		<!-- {{> transportQueryGroup}} -->
 		<!-- submit button -->
 		<div class="form-group">
@@ -38,20 +40,44 @@
 		<table class="table table-condensed table-hover">
 			<thead>
 				<tr>
-					{{#each keys}}
-						<td>{{this}}</td>
-					{{/each}}
+					<td>ID</td>
+					<td>Name</td>
+					<td>Location</td>
+					<td>Location Default</td>
+					<td>Team</td>
+					<td>Owner</td>
+					<td>Transport Incoming</td>
+					<td>Transport Outgoing</td>
+					<td>Comment</td>
+					<td>Submitted By</td>
 				</tr>
 			</thead>
 			<tbody>
 				{{#each results}}
 					<tr>
-					{{#each values}}
-						<td>{{present}}</td>
-					{{/each}}
+						<td>{{present "id" this=this}}</td>
+						<td>{{present "name" this=this}}</td>
+						<td>{{present "location" this=this}}</td>
+						<td>{{present "location_default" this=this}}</td>
+						<td>{{present "team" this=this}}</td>
+						<td>{{present "vendor" this=this}}</td>
+						<td>{{present "comment" this=this}}</td>
+						<td>{{present "submitted_by" this=this}}</td>
 					</tr>
 				{{/each}}
 			</tbody>
 		</table>
 	</div>
+</template>
+
+<template name="massEdit">
+	{{#if editPrivilege}}
+		<button class="btn btn-default edit">Toggle Edit</button>
+		{{#if editing}}
+			{{> submissionGroup id="1editName" name="Edit Name"}}
+			{{> submissionGroup id="editTeam" name="Edit Team"}}
+			{{> submissionGroup id="editVendor" name="Edit Vendor"}}
+			{{> submissionGroup id="editComment" name="Edit Comment"}}
+		{{/if}}
+	{{/if}}
 </template>
