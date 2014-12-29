@@ -1,13 +1,28 @@
 <template name="addTeamPage">
 {{#if isInRole 'team-add'}}
   <h2>New team</h2>
-  {{#autoForm collection="Teams" id="insertTeamForm" type="insert"}}
+  {{#autoForm collection="Teams" id="teamForm" type="insert"}}
     <fieldset>
       {{> afQuickField name='_id'}}
       {{> afQuickField name='primary_phone_number'}}
       {{> afQuickField name='comment' rows=6}}
     </fieldset>
     <button type="submit" class="btn btn-primary">Insert</button>
+  {{/autoForm}}
+{{else}}
+  {{> loginWarning}}
+{{/if}}
+</template>
+
+<template name="editTeamPage">
+{{#if isInRole 'team-update'}}
+  <h2>Edit team {{this._id}}</h2>
+  {{#autoForm collection="Teams" id="teamForm" doc=this type="update"}}
+    <fieldset>
+      {{> afQuickField name='primary_phone_number'}}
+      {{> afQuickField name='comment' rows=6}}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Submit</button>
   {{/autoForm}}
 {{else}}
   {{> loginWarning}}

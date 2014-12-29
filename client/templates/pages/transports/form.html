@@ -1,7 +1,7 @@
 <template name="addTransportPage">
 {{#if isInRole 'transport-add'}}
   <h2>New transport</h2>
-  {{#autoForm collection="Transports" id="insertTransportForm" type="insert"}}
+  {{#autoForm collection="Transports" id="transportForm" type="insert"}}
     <fieldset>
       {{> afQuickField name='name'}}
       {{> afQuickField name='prioritised'}}
@@ -14,7 +14,30 @@
       {{> afQuickField name='comment' rows=6}}
       {{> afQuickField name='files' rows=3}}
     </fieldset>
-    <button type="submit" class="btn btn-primary">Insert</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  {{/autoForm}}
+{{else}}
+  {{> loginWarning}}
+{{/if}}
+</template>
+
+<template name="editTransportPage">
+{{#if isInRole 'transport-update'}}
+  <h2>Edit transport {{this.name}}</h2>
+  {{#autoForm collection="Transports" id="transportForm" doc=this type="update"}}
+    <fieldset>
+      {{> afQuickField name='name'}}
+      {{> afQuickField name='prioritised'}}
+      {{> afQuickField name='is_ccc'}}
+      {{> afQuickField name='arrival'}}
+      {{> afQuickField name='departure'}}
+      {{> afQuickField name='vendor'}}
+      {{> afQuickField name='home'}}
+      {{> afQuickField name='shipper'}}
+      {{> afQuickField name='comment' rows=6}}
+      {{> afQuickField name='files' rows=3}}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Submit</button>
   {{/autoForm}}
 {{else}}
   {{> loginWarning}}

@@ -12,19 +12,25 @@
 
 <template name="teamTableRow">
   <tr>
-    <td> {{this._id}} </td>
+    <td> <a href="{{pathFor 'editTeamPage' this._id}}">{{this._id}}</a> </td>
     <td> {{this.primary_phone_number}} </td>
     <td> {{this.comment}} </td>
+    <td>
+      <a href="{{pathFor 'editTeamPage' this._id}}" class="btn btn-success glyphicon glyphicon-pencil"></a> 
+      {{#afModal class="btn btn-danger glyphicon glyphicon-remove" collection="Teams" operation="remove" doc=this._id title="Are you sure?" prompt="This action can't be undone!"}}
+      {{/afModal}}
+    </td>
   </tr>
 </template>
 
 <template name="teamsTableWrapper">
-  <table class="table table-condensed table-hover">
+  <table class="table table-condensed table-hover table-bordered">
     <thead>
       <tr>
         <td>Name</td>
         <td>Phone Number</td>
         <td>comment</td>
+        <td></td>
       </tr>
     </thead>
     <tbody>
