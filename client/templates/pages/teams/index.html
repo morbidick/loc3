@@ -16,9 +16,13 @@
     <td> {{this.primary_phone_number}} </td>
     <td> {{this.comment}} </td>
     <td>
-      <a href="{{pathFor 'editTeamPage' this._id}}" class="btn btn-success glyphicon glyphicon-pencil"></a> 
-      {{#afModal class="btn btn-danger glyphicon glyphicon-remove" collection="Teams" operation="remove" doc=this._id title="Are you sure?" prompt="This action can't be undone!"}}
-      {{/afModal}}
+      {{#if isInRole 'team-update'}}
+        <a href="{{pathFor 'editTeamPage' this._id}}" class="btn btn-success glyphicon glyphicon-pencil"></a> 
+      {{/if}}
+      {{#if isInRole 'team-remove'}}
+        {{#afModal class="btn btn-danger glyphicon glyphicon-remove" collection="Teams" operation="remove" doc=this._id title="Are you sure?" prompt="This action can't be undone!"}}
+        {{/afModal}}
+      {{/if}}
     </td>
   </tr>
 </template>

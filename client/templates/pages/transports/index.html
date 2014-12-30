@@ -22,9 +22,13 @@
     <td> {{this.comment}} </td>
     <td> {{this.files}} </td>
     <td>
-      <a href="{{pathFor 'editTransportPage' this._id}}" class="btn btn-success glyphicon glyphicon-pencil"></a> 
-      {{#afModal class="btn btn-danger glyphicon glyphicon-remove" collection="Transports" operation="remove" doc=this._id title="Are you sure?" prompt="This action can't be undone!"}}
-      {{/afModal}}
+      {{#if isInRole 'transport-update'}}
+        <a href="{{pathFor 'editTransportPage' this._id}}" class="btn btn-success glyphicon glyphicon-pencil"></a> 
+      {{/if}}
+      {{#if isInRole 'transport-remove'}}
+        {{#afModal class="btn btn-danger glyphicon glyphicon-remove" collection="Transports" operation="remove" doc=this._id title="Are you sure?" prompt="This action can't be undone!"}}
+        {{/afModal}}
+      {{/if}}
     </td>
   </tr>
 </template>

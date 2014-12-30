@@ -2,7 +2,7 @@
   "public": {
     "info_url": "http://events.ccc.de/congress/2014/wiki/Static:Volunteers#Build_up_.2F_Tear_down",
     "map_file": "lagerplan.png",
-    "map_deprecated": true,
+    "map_deprecated": false,
     "ean_prefix": "202"
   },
   "roles": ["admin","item-add","item-remove","item-relocate","item-update","transport-add", "transport-update", "transport-remove","team-add", "team-update", "team-remove"],
