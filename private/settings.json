@@ -1,7 +1,7 @@
 {
   "public": {
     "info_url": "http://events.ccc.de/congress/2014/wiki/Static:Volunteers#Build_up_.2F_Tear_down",
-    "map_file": "lagerplan.png",
+    "map_file": "lagerplan.svg",
     "map_deprecated": false,
     "ean_prefix": "202"
   },
