@@ -8,7 +8,7 @@
   "roles": ["admin","item-add","item-remove","item-relocate","item-update","transport-add", "transport-update", "transport-remove","team-add", "team-update", "team-remove"],
   "preseed": {
     "items": {
-      "amount": 0
+      "amount": 200
     },
     "locations": [
       {"_id": "world", "name": "World"},

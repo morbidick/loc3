@@ -47,6 +47,7 @@ Template.searchResults.helpers({
     }
     console.log(mquery);
     var results = Items.find(mquery);
+    Session.set("resultIds", results.map( function(doc) { return doc._id }));
     Session.set("resultQty", results.count());
     return results;
 	},
@@ -123,8 +124,52 @@ Template.massEdit.helpers({
 });
 
 Template.massEdit.events({
-  "click .edit": function(event, template) {
+  "click .edit-toggle": function(event, template) {
     var state = template.editing.get();
     template.editing.set(!state);
+  },
+  "click .edit-submit": function(event, template) {
+    var ids = Session.get("resultIds");
+    var edits = {
+      'name': template.$( '#editName' ).val(),
+      'team': template.$( '#editTeam' ).val(),
+      'vendor': template.$( '#editVendor' ).val(),
+      'comment': template.$( '#editComment' ).val()
+    };
+    Meteor.call("bulkEdit", ids, edits, function (error, data) {
+      if (error) {
+        Flash.danger(error);
+        window.scrollTo(0,0);
+      }
+      else {
+        Flash.clear();
+      }
+    });
+  }
+});
+
+Template.listing.created = function () {
+  this.listingActive = new ReactiveVar;
+  this.listingActive.set(false);
+};
+
+Template.listing.helpers({
+  "listingActive": function() {
+    var state = Template.instance().listingActive.get();
+    return state;
+  },
+  "listingPrivilege": function () {
+    validate.authorized(Meteor.userId(), ["admin", "item-update"])
+    return true;
+  }
+});
+
+Template.listing.events({
+  "click .listing-toggle": function(event, template) {
+    var state = template.listingActive.get();
+    template.listingActive.set(!state);
+  },
+  "click .listing-submit": function(event, template) {
+    //create new listing entries
   }
 });

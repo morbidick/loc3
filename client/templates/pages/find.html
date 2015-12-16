@@ -8,6 +8,7 @@
 	{{> searchForm}}
 	{{> searchResults}}
 	{{> massEdit}}
+	{{> listing}}
 </template>
 
 <!-- Big ass form to search for a single item using full text search on fields -->
@@ -72,12 +73,24 @@
 
 <template name="massEdit">
 	{{#if editPrivilege}}
-		<button class="btn btn-default edit">Toggle Edit</button>
+		<button class="btn btn-default edit-toggle">Toggle Edit</button>
 		{{#if editing}}
-			{{> submissionGroup id="1editName" name="Edit Name"}}
+			{{> submissionGroup id="editName" name="Edit Name"}}
 			{{> submissionGroup id="editTeam" name="Edit Team"}}
 			{{> submissionGroup id="editVendor" name="Edit Vendor"}}
 			{{> submissionGroup id="editComment" name="Edit Comment"}}
+			<button class="btn btn-default edit-submit">Submit Edits</button>
+		{{/if}}
+	{{/if}}
+</template>
+
+<template name="listing">
+	{{#if listingPrivilege}}
+		<button class="btn btn-default listing-toggle">Toggle Listing</button>
+		{{#if listingActive}}
+			{{> submissionGroup id="listingName" name="Listing Name"}}
+			{{> submissionGroup id="listingComment" name="Listing Comment"}}
+			<button class="btn btn-default listing-submit">Submit Listing</button>
 		{{/if}}
 	{{/if}}
 </template>
