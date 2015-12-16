@@ -1,6 +1,7 @@
 # Locc3 Application
 
-## Install
+## Startup
+meteor needs to be installed, no other dependencies
 ````
 meteor --settings private/settings.json
 ````
