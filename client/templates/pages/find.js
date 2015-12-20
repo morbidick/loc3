@@ -170,6 +170,17 @@ Template.listing.events({
     template.listingActive.set(!state);
   },
   "click .listing-submit": function(event, template) {
-    //create new listing entries
+    var ids = Session.get("resultIds");
+    var name = template.$( '#listingName' ).val();
+    var comment = template.$( '#listingComment' ).val();
+    Meteor.call("createListing", ids, name, comment, function (error, data) {
+      if (error) {
+        Flash.danger(error);
+        window.scrollTo(0,0);
+      }
+      else {
+        Flash.clear();
+      }
+    });
   }
 });

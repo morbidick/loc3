@@ -1,0 +1,81 @@
+<template name="listingPage">
+	<div class="row">
+		<div class="col-sm-6">
+			{{> listingOverview}}
+		</div>
+		<div class="col-sm-6">
+			{{> listingDetail}}
+		</div>
+	</div>
+</template>
+
+<template name="listingOverview">
+	<h2>overview</h2>
+	{{#each allListings}}
+		<div class="btn-group btn-group-justified listing-radio" data-toggle="buttons">
+		{{> presentListing name=this.name
+							comment=this.comment
+							total=this.total
+							resolved=this.resolved
+							unresolved=this.unresolved}}
+		</div>
+	{{/each}}
+</template>
+
+<template name="listingDetail">
+	<h2>detail</h2>
+	{{#each listingItems}}
+		{{> presentListingItem name=this.name
+								_id=this._id
+								comment=this.comment
+								team=this.team
+								resolved=this.resolved}}
+	{{/each}}
+</template>
+
+<template name="presentListing">
+	<ul class="list-group">
+		<li class="list-group-item row">
+			<label class="btn btn-primary">
+				<input type="radio" name="listingGroup" autocomplete="off" value="{{name}}">{{name}}
+			</label>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Comment</strong></span>
+	    	<span class="col-sm-9">{{comment}}</span>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Total</strong></span>
+			<span class="col-sm-9">{{total}}</span>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Resolved</strong></span>
+	    	<span class="col-sm-9">{{resolved}}</span>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Unresolved</strong></span>
+	    	<span class="col-sm-9">{{unresolved}}</span>
+		</li>
+	</ul>
+</template>
+
+<template name="presentListingItem">
+	<ul class="list-group">
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>ID</strong></span>
+	    	<span class="col-sm-9">{{_id}}</span>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Name</strong></span>
+	    	<span class="col-sm-9">{{name}}</span>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Team</strong></span>
+			<span class="col-sm-9">{{team}}</span>
+		</li>
+		<li class="list-group-item row">
+			<span class="col-sm-3 text-right"><strong>Status</strong></span>
+	    	<span class="col-sm-9">{{resolved}}</span>
+		</li>
+	</ul>
+</template>

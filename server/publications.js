@@ -10,6 +10,9 @@ Meteor.publish('locations', function() {
 Meteor.publish('teams', function() {
   return Teams.find();
 });
+Meteor.publish('listings', function() {
+  return Listings.find();
+});
 Meteor.publish("userData", function () {
   if (Roles.userIsInRole(this.userId, "admin")) {
     return Meteor.users.find({},{fields: {_id:1, username: 1, roles: 1}});
