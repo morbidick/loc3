@@ -15,7 +15,7 @@ AutoForm.addHooks("transportForm", {
         Flash.danger(error);
       } else {
         Router.go('transportsPage');
-        Flash.success("Transport deleted!");
+        Flash.success("Transport updated!");
       }
     }
   }

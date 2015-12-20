@@ -33,3 +33,7 @@ check
 huttonr:bootstrap3
 natestrauser:connection-banner
 less
+cfs:standard-packages
+cfs:gridfs
+ecmascript
+yogiben:autoform-file

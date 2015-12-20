@@ -20,3 +20,6 @@ Meteor.publish("userData", function () {
 Meteor.publish(null, function (){
   return Meteor.roles.find({})
 });
+Meteor.publish('files', function() {
+	return Files.find();
+});
