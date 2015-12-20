@@ -1,5 +1,5 @@
 Template.transportsPage.helpers({
-  "transports": function() {
-    return Transports.find().fetch();
-  } 
+	"transports": function() {
+		return Transports.find();
+	}
 });

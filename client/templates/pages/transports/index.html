@@ -1,56 +1,62 @@
 <template name="transportsPage">
-  <h2>Transports</h2>
-  {{#transportsTableWrapper}}
-    {{#each transports}}
-      {{> transportTableRow}}
-    {{/each}}
-  {{/transportsTableWrapper}}
-  {{#if isInRole 'transport-add'}}
-    <a class="btn btn-default" href="{{pathFor route='addTransportPage'}}">new Transport</a>
-  {{/if}}
+	<h2>Transports</h2>
+	{{#transportsTableWrapper}}
+		{{#each transports}}
+			{{> transportTableRow}}
+		{{/each}}
+	{{/transportsTableWrapper}}
+	{{#if isInRole 'transport-add'}}
+		<a class="btn btn-default" href="{{pathFor route='addTransportPage'}}">new Transport</a>
+	{{/if}}
 </template>
 
 <template name="transportTableRow">
-  <tr class="{{#if this.prioritised}}danger{{/if}}">
-    <td> <a href="{{pathFor 'editTransportPage' this._id}}">{{this.name}}</a> </td>
-    <td> {{this.arrival}} </td>
-    <td> {{this.departure}} </td>
-    <td> {{this.vendor}} </td>
-    <td> {{this.home}} </td>
-    <td> {{this.is_ccc}} </td>
-    <td> {{this.shipper}} </td>
-    <td> {{this.comment}} </td>
-    <td> {{this.files}} </td>
-    <td>
-      {{#if isInRole 'transport-update'}}
-        <a href="{{pathFor 'editTransportPage' this._id}}" class="btn btn-success glyphicon glyphicon-pencil"></a> 
-      {{/if}}
-      {{#if isInRole 'transport-remove'}}
-        {{#afModal class="btn btn-danger glyphicon glyphicon-remove" collection="Transports" operation="remove" doc=this._id title="Are you sure?" prompt="This action can't be undone!"}}
-        {{/afModal}}
-      {{/if}}
-    </td>
-  </tr>
+	<tr class="{{#if this.prioritised}}danger{{/if}}">
+		<td> <a href="{{pathFor 'editTransportPage' this._id}}">{{this.name}}</a> </td>
+		<td> {{this.arrival}} </td>
+		<td> {{this.departure}} </td>
+		<td> {{this.vendor}} </td>
+		<td> {{this.home}} </td>
+		<td> {{this.is_ccc}} </td>
+		<td> {{this.shipper}} </td>
+		<td> {{this.comment}} </td>
+		<td>
+			<ul class="list-unstyled">
+				{{#each files}}
+					<li><a href="{{this.url}}" target="_blank">{{this.name}}</a></li>
+				{{/each}}
+			</ul>
+		</td>
+		<td>
+			{{#if isInRole 'transport-update'}}
+				<a href="{{pathFor 'editTransportPage' this._id}}" class="btn btn-success glyphicon glyphicon-pencil"></a>
+			{{/if}}
+			{{#if isInRole 'transport-remove'}}
+				{{#afModal class="btn btn-danger glyphicon glyphicon-remove" collection="Transports" operation="remove" doc=this._id title="Are you sure?" prompt="This action can't be undone!"}}
+				{{/afModal}}
+			{{/if}}
+		</td>
+	</tr>
 </template>
 
 <template name="transportsTableWrapper">
-  <table class="table table-condensed table-hover table-bordered">
-    <thead>
-      <tr>
-        <td>name</td>
-        <td>arrival</td>
-        <td>departure</td>
-        <td>vendor</td>
-        <td>home</td>
-        <td>ccc?</td>
-        <td>shipper</td>
-        <td>comment</td>
-        <td>files</td>
-        <td></td>
-      </tr>
-    </thead>
-    <tbody>
-      {{> UI.contentBlock}}
-    </tbody>
-  </table>
+	<table class="table table-condensed table-hover table-bordered">
+		<thead>
+			<tr>
+				<td>name</td>
+				<td>arrival</td>
+				<td>departure</td>
+				<td>vendor</td>
+				<td>home</td>
+				<td>ccc?</td>
+				<td>shipper</td>
+				<td>comment</td>
+				<td>files</td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody>
+			{{> UI.contentBlock}}
+		</tbody>
+	</table>
 </template>
