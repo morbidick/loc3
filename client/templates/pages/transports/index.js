@@ -37,11 +37,13 @@ Template.transportsPage.helpers({
 			}, {
 				key: 'comment',
 				label: "Comment",
+				tmpl: Template.transportsTableComment,
 				hidden: true,
 			}, {
 				key: 'file_ids',
 				label: "Files",
 				tmpl: Template.transportsTableFiles,
+				sortable: false,
 			}, {
 				key: "modify",
 				label: "",
