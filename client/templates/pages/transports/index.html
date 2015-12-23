@@ -1,4 +1,5 @@
 <template name="transportsPage">
+	<h2>Transports</h2>
 	{{> reactiveTable settings=tableSettings }}
 	{{#if isInRole 'transport-add'}}
 		<a class="btn btn-default" href="{{pathFor route='addTransportPage'}}">new Transport</a>

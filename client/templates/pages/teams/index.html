@@ -1,44 +1,23 @@
 <template name="teamsPage">
-  <h2>Teams</h2>
-  {{#teamsTableWrapper}}
-    {{#each teams}}
-      {{> teamTableRow}}
-    {{/each}}
-  {{/teamsTableWrapper}}
-  {{#if isInRole 'team-add'}}
-    <a class="btn btn-default" href="{{pathFor route='addTeamPage'}}">new Team</a>
-  {{/if}}
+	<h2>Teams</h2>
+	{{> reactiveTable settings=tableSettings }}
+	{{#if isInRole 'team-add'}}
+		<a class="btn btn-default" href="{{pathFor route='addTeamPage'}}">new Team</a>
+	{{/if}}
 </template>
 
-<template name="teamTableRow">
-  <tr>
-    <td> <a href="{{pathFor 'editTeamPage' this._id}}">{{this._id}}</a> </td>
-    <td> {{this.primary_phone_number}} </td>
-    <td> {{this.comment}} </td>
-    <td>
-      {{#if isInRole 'team-update'}}
-        <a href="{{pathFor 'editTeamPage' this._id}}" class="btn btn-success glyphicon glyphicon-pencil"></a> 
-      {{/if}}
-      {{#if isInRole 'team-remove'}}
-        {{#afModal class="btn btn-danger glyphicon glyphicon-remove" collection="Teams" operation="remove" doc=this._id title="Are you sure?" prompt="This action can't be undone!"}}
-        {{/afModal}}
-      {{/if}}
-    </td>
-  </tr>
+<template name="teamsTableModify">
+	<div class="pull-right">
+		{{#if isInRole 'team-update'}}
+			<a href="{{pathFor 'editTeamPage' this._id}}" class="btn btn-success glyphicon glyphicon-pencil"></a>
+		{{/if}}
+		{{#if isInRole 'team-remove'}}
+			{{#afModal class="btn btn-danger glyphicon glyphicon-remove" collection="Teams" operation="remove" doc=this._id title="Are you sure?" prompt="This action can't be undone!"}}
+			{{/afModal}}
+		{{/if}}
+	</div>
 </template>
 
-<template name="teamsTableWrapper">
-  <table class="table table-condensed table-hover table-bordered">
-    <thead>
-      <tr>
-        <td>Name</td>
-        <td>Phone Number</td>
-        <td>comment</td>
-        <td></td>
-      </tr>
-    </thead>
-    <tbody>
-      {{> UI.contentBlock}}
-    </tbody>
-  </table>
+<template name="teamsTableComment">
+	{{nl2br this.comment}}
 </template>
