@@ -37,3 +37,5 @@ cfs:standard-packages
 cfs:gridfs
 ecmascript
 yogiben:autoform-file
+aslagle:reactive-table
+momentjs:moment
