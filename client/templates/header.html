@@ -31,7 +31,7 @@
             {{/if}}
           </li>
           <li>
-            <a href="{{pathFor 'transportsPage'}}">Transport</a>
+            <a href="{{pathFor 'transportsPage'}}">Transports</a>
           </li>
           <li>
             <a href="{{pathFor 'mapPage'}}">Map</a>
@@ -74,8 +74,8 @@
 </template>
 
 <template name="_loginButtonsAdditionalLoggedInDropdownActions">
-    <a class="btn btn-default btn-block" href="{{pathFor 'teamsPage'}}">teams</a>
-    <a class="btn btn-default btn-block" href="{{pathFor 'transportsPage'}}">transports</a>
+    <a class="btn btn-default btn-block" href="{{pathFor 'teamsPage'}}">Teams</a>
+    <a class="btn btn-default btn-block" href="{{pathFor 'transportsPage'}}">Transports</a>
     <br/>
     {{#if isInRole 'admin'}}
       <a class="btn btn-default btn-block" href="{{pathFor 'settingsPage'}}">Settings</a>
