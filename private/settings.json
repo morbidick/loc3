@@ -7,26 +7,27 @@
   },
   "roles": ["admin","item-add","item-remove","item-relocate","item-update","transport-add", "transport-update", "transport-remove","team-add", "team-update", "team-remove"],
   "preseed": {
+    "enabled": false,
     "items": {
-      "amount": 0
+      "amount": 100
     },
     "locations": [
       {"_id": "world", "name": "World"},
       {"_id": "cch", "name": "Congress"},
       {"_id": "halleh", "name": "Halle H", "sublocationMandatory": true,
         "sublocations": {
+          "profimiet": {"_id": "profimiet", "name": "Profimiet"},
+          "zes": {"_id": "zes", "name": "Zes"},
           "house": {"_id": "house", "name": "Haus"},
           "cooler": {"_id": "cooler", "name": "Kühlcontainer"},
-          "mate": {"_id": "mate", "name": "Getraenke"},
-          "dividers": {"_id": "dividers", "name": "Stellwände"},
-          "hanse": {"_id": "hanse", "name": "Hanseatische Materialverwaltung"},
+          "mate": {"_id": "mate", "name": "Getränke"},
+          "hanse": {"_id": "hanse", "name": "HMV: Hanseatische Materialverwaltung"},
           "gear": {"_id": "gear", "name": "PA & Gear"},
-          "rostock": {"_id": "rostock", "name": "Rostock"},
           "silkroad": {"_id": "silkroad", "name": "Seidenstrasse"},
           "light": {"_id": "light", "name": "Lichtwerkstatt"},
-          "workshop1": {"_id": "workshop1", "name": "Bauen Mona"},
-          "workshop2": {"_id": "workshop2", "name": "Bauen Projekte"},
-          "workshop3": {"_id": "workshop3", "name": "Werkstatt"},
+          "workshop1": {"_id": "workshop1", "name": "Werkstatt Hausdeko"},
+          "workshop2": {"_id": "workshop2", "name": "Werkstatt 2"},
+          "workshop3": {"_id": "workshop3", "name": "Werkstatt 3"},
           "rugs": {"_id": "rugs", "name": "Teppiche"},
           "tmp1": {"_id": "tmp1", "name": "Fuhrpark, TMP 1"},
           "tmp2": {"_id": "tmp2", "name": "Post, TMP 2"},
@@ -36,8 +37,10 @@
           "power": {"_id": "power", "name": "Strom"},
           "voc/noc": {"_id": "voc/noc", "name": "VOC / NOC"},
           "lockdown": {"_id": "lockdown", "name": "Lockdown"},
-          "furniture": {"_id": "furniture", "name": "Furniture"},
-          "asm": {"_id": "asm", "name": "Assembly"}
+          "furniture1": {"_id": "furniture1", "name": "Couches"},
+          "furniture2": {"_id": "furniture2", "name": "Tische/Stühle"},
+          "asm": {"_id": "asm", "name": "Assembly"},
+          "kids": {"_id": "kids", "name": "Kidsspace"}
         }
       }
     ],

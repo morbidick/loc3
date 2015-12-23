@@ -85,20 +85,20 @@ Template.bulkForm.rendered = function () {
 };
 
 Template.bulkForm.helpers({
-  "main": function () {
-    return Template.instance().main.get();
-  },
-  "hasSublocation": function () {
-  	var main = Template.instance().main.get();
-  	if (!main) {
-  		return false;
-  	}
-  	var fromdb = Locations.findOne({_id: main});
-  	if (fromdb && fromdb.sublocations) {
-  		return true;
-  	}
-  	return false;
-  }
+	"main": function () {
+		return Template.instance().main.get();
+	},
+	"hasSublocation": function () {
+		var main = Template.instance().main.get();
+		if (!main) {
+			return false;
+		}
+		var fromdb = Locations.findOne({_id: main});
+		if (fromdb && fromdb.sublocations) {
+			return true;
+		}
+		return false;
+	}
 });
 
 Template.bulkForm.events({
@@ -153,5 +153,5 @@ Template.bulkForm.events({
 	"change [name='subLocGroup']": function (event, template) {
 		// var radio = template.$( ':checked' ).filter( ':radio' ).filter( '[name="subLocGroup"]' );
 		template.sub.set(event.target.value);
-	},  
+	}
 });

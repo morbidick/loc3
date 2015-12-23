@@ -11,15 +11,40 @@
 
 <template name="listingOverview">
 	<h2>overview</h2>
-	{{#each allListings}}
+		{{#each allListings}}
 		<div class="btn-group btn-group-justified listing-radio" data-toggle="buttons">
+			<ul class="list-group">
+				<li class="list-group-item row">
+					<!--<label class="btn btn-primary">-->
+						<input type="radio" name="listingGroup" autocomplete="off" value="{{name}}"> {{name}}
+					<!--</label>-->
+				</li>
+				<li class="list-group-item row">
+					<span class="col-sm-3 text-right"><strong>Comment</strong></span>
+			    	<span class="col-sm-9">{{comment}}</span>
+				</li>
+				<li class="list-group-item row">
+					<span class="col-sm-3 text-right"><strong>Total</strong></span>
+					<span class="col-sm-9">{{total}}</span>
+				</li>
+				<li class="list-group-item row">
+					<span class="col-sm-3 text-right"><strong>Resolved</strong></span>
+			    	<span class="col-sm-9">{{resolved}}</span>
+				</li>
+				<li class="list-group-item row">
+					<span class="col-sm-3 text-right"><strong>Unresolved</strong></span>
+			    	<span class="col-sm-9">{{unresolved}}</span>
+				</li>
+			</ul>
+<!--
 		{{> presentListing name=this.name
 							comment=this.comment
 							total=this.total
 							resolved=this.resolved
 							unresolved=this.unresolved}}
+	-->
 		</div>
-	{{/each}}
+		{{/each}}
 </template>
 
 <template name="listingDetail">
@@ -34,29 +59,6 @@
 </template>
 
 <template name="presentListing">
-	<ul class="list-group">
-		<li class="list-group-item row">
-			<label class="btn btn-primary">
-				<input type="radio" name="listingGroup" autocomplete="off" value="{{name}}">{{name}}
-			</label>
-		</li>
-		<li class="list-group-item row">
-			<span class="col-sm-3 text-right"><strong>Comment</strong></span>
-	    	<span class="col-sm-9">{{comment}}</span>
-		</li>
-		<li class="list-group-item row">
-			<span class="col-sm-3 text-right"><strong>Total</strong></span>
-			<span class="col-sm-9">{{total}}</span>
-		</li>
-		<li class="list-group-item row">
-			<span class="col-sm-3 text-right"><strong>Resolved</strong></span>
-	    	<span class="col-sm-9">{{resolved}}</span>
-		</li>
-		<li class="list-group-item row">
-			<span class="col-sm-3 text-right"><strong>Unresolved</strong></span>
-	    	<span class="col-sm-9">{{unresolved}}</span>
-		</li>
-	</ul>
 </template>
 
 <template name="presentListingItem">

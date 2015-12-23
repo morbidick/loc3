@@ -20,21 +20,22 @@ Template.relocateMode.created = function () {
   this.sub.set(null);
 
   this.bulk = new ReactiveVar;
-  this.state = new ReactiveVar;
-  this.autolocation = new ReactiveVar;
+  this.auto = new ReactiveVar;
   this.bulk.set(true);
-  this.state.set(true);
-  this.autolocation.set(true);
+  this.auto.set(false);
 }
 
 Template.relocateMode.helpers({
-  "main": function () {
+  main: function () {
     return Template.instance().main.get();
   },
-  "mainSubdivided": function () {
+  mainSubdivided: function () {
     var main = Template.instance().main.get();
     var fromdb = Locations.findOne({_id: main});
     return !!(fromdb.sublocations);
+  },
+  autoOption: function () {
+    return template.auto.get();
   }
 });
 
@@ -55,14 +56,9 @@ Template.relocateMode.events({
     template.bulk.set(!current);
   },
 
-  "change [name='relocateStateOption']": function (event, template) {
-    var current = template.state.get();
-    template.state.set(!current);
-  },
-
-  "change [name='relocateAutolocationOption']": function (event, template) {
-    var current = template.autolocation.get();
-    template.autolocation.set(!current);
+  "change [name='relocateAutoOption']": function (event, template) {
+    var current = template.auto.get();
+    template.auto.set(!current);
   },
 
   "submit .scan": function (event, template) {
@@ -70,11 +66,23 @@ Template.relocateMode.events({
     usr = Meteor.user();
     itemId = template.$( '#rLScan' ).val();
     Session.set("relocateId", itemId);
-    location = {
-      main: template.main.get(),
-      sub: template.sub.get(),
-      moved_by: template.$( '#relocateBy' ).val(),
-      comment: template.$( '#relocateComment' ).val(),
+    if (template.auto.get()) {
+      var defLocation = Items.findOne({"_id": itemId}).defaultLocation;
+      try {
+        validate.checkLocation(defLocation);
+      }
+      catch (error) {
+        Flash.danger(error)
+      }
+      location = defLocation;
+    }
+    else {
+      location = {
+        main: template.main.get(),
+        sub: template.sub.get(),
+        moved_by: template.$( '#relocateBy' ).val(),
+        comment: template.$( '#relocateComment' ).val(),
+      }
     }
     if (template.bulk.get()) {
       Meteor.call("moveItem", itemId, location, function (error, data) {
@@ -83,10 +91,11 @@ Template.relocateMode.events({
         }
       });
     }
-    if (!template.state.get()) {
-      template.$( '#relocateBy' ).val("");
-      template.$( '#relocateComment' ).val("");
-    }
+    // if (!template.state.get()) {
+    //   template.$( '#relocateBy' ).val("");
+    //   template.$( '#relocateComment' ).val("");
+    // }
+    Flash.success(location.main + " " + location.sub);
     return false;
   }
 });

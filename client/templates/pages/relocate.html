@@ -24,24 +24,21 @@
 		<label class="btn btn-primary active">
 			<input type="checkbox" name="relocateBulkOption" id="relocateBulkOption" autocomplete="off" value="bulk" checked> Bulk
 		</label>
-		<label class="btn btn-primary active">
-			<input type="checkbox" name="relocateStateOption" id="relocateStateOption" autocomplete="off" value="bulk" checked>State
-		</label>
-		<label class="btn btn-primary active">
-			<input type="checkbox" name="relocateAutolocationOption" id="relocateAutolocationOption" autocomplete="off" value="bulk" checked> Autolocation
+
+		<label class="btn btn-primary">
+			<input type="checkbox" name="relocateAutoOption" id="relocateAutoOption" autocomplete="off" value="auto"> Auto
 		</label>
 	</div>
 	<br>
 	{{> relocateScan}}
 	<form class="form-horizontal" role="form">
+		{{#unless autoOption}}
 		{{> locationGroup name="lgRelocate"}}
-	
 		{{#if mainSubdivided}}
 			{{> sublocationGroup location=main}}
 		{{/if}}
-
 		{{> additionalLocationInput location=main}}
-
+		{{/unless}}
 		<div class="form-group">
 			<label for="relocateBy" class="col-sm-12 control-label">
 				<p class="text-left">Moved by</p>
