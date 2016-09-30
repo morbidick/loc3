@@ -1,0 +1,22 @@
+{
+  "name": "loc3",
+  "version": "1.0.0",
+  "description": "## Startup meteor needs to be installed, no other dependencies ```` meteor --settings private/settings.json ````",
+  "main": "run.sh",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morbidick/loc3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/morbidick/loc3/issues"
+  },
+  "homepage": "https://github.com/morbidick/loc3#readme",
+  "dependencies": {
+    "bcrypt": "^0.8.7"
+  }
+}
