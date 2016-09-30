@@ -1,0 +1,34 @@
+---
+- hosts: all
+
+  roles:
+    - role: morbidick.common
+      become: yes
+    - role: geerlingguy.nodejs
+      become: yes
+    - role: carlosacp.meteor
+      become: no
+
+  vars:
+    basic_packages:
+      - vim
+      - htop
+      - git
+
+    addn_packages:
+      - mongodb
+      - make
+      - node-gyp
+
+    meteor_version: "1.4.1.1"
+
+  pre_tasks:
+    - name: fix meteor update server
+      lineinfile: 
+        dest: /etc/hosts
+        line: "54.192.225.217 warehouse.meteor.com"
+      become: yes
+    - name: setting env to use installed mongodb
+      lineinfile: 
+        dest: "{{ ansible_env.HOME }}/.bashrc"
+        line: "export MONGO_URL=mongodb://localhost:27017/meteor"
