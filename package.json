@@ -1,17 +1,19 @@
 {
   "name": "loc3",
   "version": "1.0.0",
-  "description": "## Startup meteor needs to be installed, no other dependencies ```` meteor --settings private/settings.json ````",
+  "description": "Meteor warehousing system",
   "main": "run.sh",
+  "private": true,
   "scripts": {
+    "start": "meteor --settings private/settings.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/morbidick/loc3.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "morbidick, guterwhine, twi",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/morbidick/loc3/issues"
   },
