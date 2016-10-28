@@ -1,0 +1,9 @@
+---
+- src: https://github.com/morbidick/ansible-role-common
+  name: morbidick.common
+
+- src: https://github.com/geerlingguy/ansible-role-nodejs
+  name: geerlingguy.nodejs
+
+- src: https://github.com/carlosacp/ansible-meteor
+  name: carlosacp.meteor

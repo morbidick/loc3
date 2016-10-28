@@ -3,6 +3,7 @@
 ## Startup
 meteor needs to be installed, no other dependencies
 ````
+vagrant up #optional
 meteor --settings private/settings.json
 ````
 

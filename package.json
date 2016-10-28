@@ -1,0 +1,24 @@
+{
+  "name": "loc3",
+  "version": "1.0.0",
+  "description": "Meteor warehousing system",
+  "main": "run.sh",
+  "private": true,
+  "scripts": {
+    "start": "meteor --settings private/settings.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morbidick/loc3.git"
+  },
+  "author": "morbidick, guterwhine, twi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/morbidick/loc3/issues"
+  },
+  "homepage": "https://github.com/morbidick/loc3#readme",
+  "dependencies": {
+    "bcrypt": "^0.8.7"
+  }
+}
