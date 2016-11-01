@@ -5,3 +5,4 @@ packages/*
 .vagrant
 node_modules
 *.log
+.idea/
