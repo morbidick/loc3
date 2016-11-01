@@ -41,3 +41,4 @@ momentjs:moment
 standard-minifier-css
 standard-minifier-js
 shell-server
+bdunnette:leaflet-draw
