@@ -26,3 +26,6 @@ Meteor.publish(null, function (){
 Meteor.publish('files', function() {
 	return Files.find();
 });
+Meteor.publish('areas', function() {
+	return Areas.find();
+})
