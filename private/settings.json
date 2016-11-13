@@ -5,7 +5,7 @@
     "map_deprecated": false,
     "ean_prefix": "202"
   },
-  "roles": ["admin","item-add","item-remove","item-relocate","item-update","transport-add", "transport-update", "transport-remove","team-add", "team-update", "team-remove"],
+  "roles": ["admin","item-add","item-remove","item-relocate","item-update","transport-add", "transport-update", "transport-remove","team-add", "team-update", "team-remove", "areas-editor"],
   "preseed": {
     "enabled": false,
     "items": {
@@ -53,7 +53,7 @@
       {"_id": "silkroad", "comment": "Die Seidenstrasse", "primary_phone_number": 1010},
 
       {"_id": "strom", "comment": "dont touch", "primary_phone_number": 1010},
-      
+
       {"_id": "NOC", "comment": "placeholder", "primary_phone_number": 1234 },
       {"_id": "VOC", "comment": "placeholder", "primary_phone_number": 1235 }
     ]
