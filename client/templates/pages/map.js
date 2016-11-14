@@ -1,3 +1,6 @@
+require('leaflet-measure-path');
+import "leaflet-measure-path/leaflet-measure-path.css";
+
 // on startup run resizing event
 Meteor.startup(function() {
 	$(window).resize(function() {
@@ -5,6 +8,7 @@ Meteor.startup(function() {
 	});
 
 	$(window).resize(); // trigger resize event
+	$.getScript('js/leaflet-measure-path.js');
 });
 
 // create marker collection
@@ -175,11 +179,10 @@ Template.mapPage.rendered = function() {
 		added: function (newDocument) {
 			polygon = L.polygon(newDocument.latLngs, { color: newDocument.color } );
 			polygon._leaflet_id = newDocument._id;
-			polygon.addTo(areaLayers);
-
+			polygon.addTo(areaLayers).showMeasurements();
 
 			var area = L.GeometryUtil.geodesicArea(newDocument.latLngs);
-			polygon.bindTooltip(newDocument.title + "<br />" + L.GeometryUtil.readableArea(area, true), {permanent: true, direction:"center", className: "no-tooltip"}).openTooltip();
+			polygon.bindTooltip(newDocument.title, {permanent: true, offset: [0,20], direction:"center", className: "no-tooltip"}).openTooltip();
 		},
 
 		removed: function (oldDocument) {
@@ -208,10 +211,10 @@ Template.mapPage.rendered = function() {
 
 			polygon = L.polygon(newDocument.latLngs, { color: newDocument.color } );
 			polygon._leaflet_id = newDocument._id;
-			polygon.addTo(areaLayers);
+			polygon.addTo(areaLayers).showMeasurements();
 
 			var area = L.GeometryUtil.geodesicArea(newDocument.latLngs);
-			polygon.bindTooltip(newDocument.title + "<br />" + L.GeometryUtil.readableArea(area, true), {permanent: true, direction:"center", className: "no-tooltip"}).openTooltip();
+			polygon.bindTooltip(newDocument.title, {permanent: true, offset: [0,20], direction:"center", className: "no-tooltip"}).openTooltip();
 		}
  	});
 
