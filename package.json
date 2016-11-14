@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/morbidick/loc3#readme",
   "dependencies": {
-    "bcrypt": "^0.8.7"
+    "bcrypt": "^0.8.7",
+    "leaflet-measure-path": "^1.3.1"
   }
 }
