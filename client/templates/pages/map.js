@@ -119,13 +119,13 @@ Template.mapPage.rendered = function() {
 		map.addControl(drawControl);
 	}
 
-// 1378x513 is the image
-	var northEast = map.unproject(L.point(0,513), 20);
-	var southWest = map.unproject(L.point(1378, 0), 20);
+
+	var northEast = map.unproject(L.point(0,599), 20);
+	var southWest = map.unproject(L.point(1506, 0), 20);
 
 	var maxLatLngBounds = L.latLngBounds(southWest, northEast);
 
-	L.tileLayer('map-tiles/{z}/map_tile_{x}_{y}.png', {
+	L.tileLayer('map-tiles/{z}/tiles_{x}_{y}.png', {
 		minZoom: 19,
 		maxZoom: 22,
 		maxNativeZoom: 20,
@@ -134,7 +134,7 @@ Template.mapPage.rendered = function() {
 
 	map.setView(maxLatLngBounds.getCenter(), 20);
 
-// listen to the draw created event
+
 	map.on('draw:created', function(e) {
 		var layer = e.layer;
 
@@ -146,9 +146,8 @@ Template.mapPage.rendered = function() {
 
 	});
 
-// listen to the draw deleted event
-	map.on('draw:deleted', function(e) {
 
+	map.on('draw:deleted', function(e) {
 		var allLayers = e.layers._layers;
 		var key, id;
 
@@ -213,7 +212,6 @@ Template.mapPage.rendered = function() {
 			polygon._leaflet_id = newDocument._id;
 			polygon.addTo(areaLayers).showMeasurements();
 
-			var area = L.GeometryUtil.geodesicArea(newDocument.latLngs);
 			polygon.bindTooltip(newDocument.title, {permanent: true, offset: [0,20], direction:"center", className: "no-tooltip"}).openTooltip();
 		}
  	});
