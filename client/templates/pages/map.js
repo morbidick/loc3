@@ -1,4 +1,5 @@
 require('leaflet-measure-path');
+require('leaflet-draw-drag');
 import "leaflet-measure-path/leaflet-measure-path.css";
 
 // on startup run resizing event
@@ -16,8 +17,6 @@ Meteor.subscribe('areas');
 
 Template.mapPage.rendered = function() {
 	$('#map').css('height', window.innerHeight - 82 - 45);
-
-	MapHelper.MoveMarker.init();
 
 	L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images/';
 
@@ -54,6 +53,7 @@ Template.mapPage.rendered = function() {
 				remove: true,
 				featureGroup: areaLayers,
 				edit: {
+					moveMarkers: true,
 					selectedPathOptions: {
 						maintainColor: true
 					}
