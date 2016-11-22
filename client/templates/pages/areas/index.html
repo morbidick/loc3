@@ -1,0 +1,16 @@
+<template name="areasPage">
+	<h2>Teams</h2>
+	{{> reactiveTable settings=tableSettings }}
+</template>
+
+<template name="areasTableModify">
+	<div class="pull-right">
+		{{#if isInRole 'areas-editor'}}
+			<a href="{{pathFor 'editAreaPage' this._id}}" class="btn btn-success glyphicon glyphicon-pencil"></a>
+		{{/if}}
+		{{#if isInRole 'areas-editor'}}
+			{{#afModal class="btn btn-danger glyphicon glyphicon-remove" collection="Areas" operation="remove" doc=this._id title="Are you sure?" prompt="This action can't be undone!"}}
+			{{/afModal}}
+		{{/if}}
+	</div>
+</template>

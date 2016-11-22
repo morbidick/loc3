@@ -1,0 +1,14 @@
+<template name="editAreaPage">
+{{#if isInRole 'areas-editor'}}
+  <h2>Edit area (ID: {{this._id}})</h2>
+  {{#autoForm collection="Areas" id="areaForm" doc=this type="update"}}
+    <fieldset>
+      {{> afQuickField name='title'}}
+	  {{> afQuickField name='color'}}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  {{/autoForm}}
+{{else}}
+  {{> loginWarning}}
+{{/if}}
+</template>

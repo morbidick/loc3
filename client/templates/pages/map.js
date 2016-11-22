@@ -17,63 +17,7 @@ Meteor.subscribe('areas');
 Template.mapPage.rendered = function() {
 	$('#map').css('height', window.innerHeight - 82 - 45);
 
-	L.Edit.PolyVerticesEdit.prototype['__initMarkers'] = L.Edit.PolyVerticesEdit.prototype['_initMarkers'];
-	L.Edit.PolyVerticesEdit.prototype['__onMarkerDrag'] = L.Edit.PolyVerticesEdit.prototype['_onMarkerDrag'];
-
-	L.Edit.PolyVerticesEdit.include({
-
-		_initMarkers: function() {
-			L.Edit.PolyVerticesEdit.prototype.__initMarkers.call(this);
-			L.Edit.PolyVerticesEdit.prototype._createMoveMarker.call(this);
-		},
-
-		_createMoveMarker: function () {
-			var center = this._poly.getCenter();
-			this._moveMarker = this._createMarker(center, this.options.moveIcon);
-		},
-
-		_onMarkerDrag: function (e) {
-			var marker = e.target,
-				latlng = marker.getLatLng();
-
-			if (marker === this._moveMarker) {
-				this._move(latlng);
-				this._poly.redraw();
-				this._poly.fire('editdrag');
-			} else {
-				this.__onMarkerDrag(e);
-			}
-
-		},
-
-		_move: function (newCenter) {
-			var latlngs = this._poly.getLatLngs(),
-				center = this._poly.getCenter(),
-				offset, newLatLngs = [];
-
-			// Offset the latlngs to the new center
-			for (var j = 0, l2 = latlngs.length; j < l2; j++ ) {
-				var polyLatLng = latlngs[j];
-				var newPolyLatLngs = [];
-				for (var i = 0, l = polyLatLng.length; i < l; i++) {
-					offset = [polyLatLng[i].lat - center.lat, polyLatLng[i].lng - center.lng];
-					newPolyLatLngs.push([newCenter.lat + offset[0], newCenter.lng + offset[1]]);
-				}
-				newLatLngs.push(newPolyLatLngs);
-			}
-
-			this._poly.setLatLngs(newLatLngs);
-
-			this._markerGroup.eachLayer(function (marker) {
-				if (marker != this._moveMarker) {
-					marker.remove();
-				}
-			}, this);
-			this.__initMarkers();
-			this._map.fire(L.Draw.Event.EDITMOVE, {layer: this._poly});
-		},
-
-	});
+	MapHelper.MoveMarker.init();
 
 	L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images/';
 
@@ -125,7 +69,7 @@ Template.mapPage.rendered = function() {
 
 	var maxLatLngBounds = L.latLngBounds(southWest, northEast);
 
-	L.tileLayer('map-tiles/{z}/tiles_{x}_{y}.png', {
+	var hall_h = L.tileLayer('map-tiles/{z}/tiles_{x}_{y}.png', {
 		minZoom: 19,
 		maxZoom: 22,
 		maxNativeZoom: 20,
@@ -135,85 +79,52 @@ Template.mapPage.rendered = function() {
 	map.setView(maxLatLngBounds.getCenter(), 20);
 
 
-	map.on('draw:created', function(e) {
-		var layer = e.layer;
-
-		Areas.insert({
-			title: $("#map-area-name").val(),
-			color: $("#map-area-color").val(),
-			latLngs: e.layer._latlngs[0]
-		});
-
-	});
-
-
-	map.on('draw:deleted', function(e) {
-		var allLayers = e.layers._layers;
-		var key, id;
-
-		for (key in allLayers) {
-			id = allLayers[key]._leaflet_id;
-			Areas.remove(id);
-		}
-	});
-
-
-	map.on('draw:edited', function(e) {
-		var key,val;
-
-		for (key in e.layers._layers) {
-			val = e.layers._layers[key];
-
-			Areas.update(key, {$set: {
-				latLngs: val._latlngs[0]
-			}});
-
-		}
-
-	});
+	map.on('draw:created', MapHelper.DrawEventHandler.drawCreated);
+	map.on('draw:deleted', MapHelper.DrawEventHandler.drawDeleted);
+	map.on('draw:edited', MapHelper.DrawEventHandler.drawEdited);
 
 	var query = Areas.find();
 	query.observe({
-
 		added: function (newDocument) {
-			polygon = L.polygon(newDocument.latLngs, { color: newDocument.color } );
-			polygon._leaflet_id = newDocument._id;
-			polygon.addTo(areaLayers).showMeasurements();
-
-			var area = L.GeometryUtil.geodesicArea(newDocument.latLngs);
-			polygon.bindTooltip(newDocument.title, {permanent: true, offset: [0,20], direction:"center", className: "no-tooltip"}).openTooltip();
+			drawArea(newDocument);
 		},
 
 		removed: function (oldDocument) {
-			layers = areaLayers._layers;
-			var key, val;
-			for (key in layers) {
-				val = layers[key];
-
-				if (val._leaflet_id == oldDocument._id) {
-					areaLayers.removeLayer(val);
-				}
-			}
+			removeArea(oldDocument);
 		},
 
 		changed: function (newDocument, oldDocument) {
-			layers = areaLayers._layers;
-			var key, val;
-
-			for (key in layers) {
-				val = layers[key];
-
-				if (val._leaflet_id == oldDocument._id) {
-					areaLayers.removeLayer(val);
-				}
-			}
-
-			polygon = L.polygon(newDocument.latLngs, { color: newDocument.color } );
-			polygon._leaflet_id = newDocument._id;
-			polygon.addTo(areaLayers).showMeasurements();
-
-			polygon.bindTooltip(newDocument.title, {permanent: true, offset: [0,20], direction:"center", className: "no-tooltip"}).openTooltip();
+			removeArea(oldDocument);
+			drawArea(newDocument);
 		}
  	});
 
+
+	function drawArea(areaDocument) {
+		polygon = L.polygon(areaDocument.latLngs, { color: areaDocument.color } );
+		polygon._leaflet_id = areaDocument._id;
+		polygon.addTo(areaLayers).showMeasurements();
+
+		polygon.on("click", function(e) {
+			if (e.target.editing._enabled != true) {
+				Router.go('editAreaPage', { _id: e.target._leaflet_id });
+			}
+		});
+
+		var tooltip = polygon.bindTooltip(areaDocument.title, {permanent: true, offset: [0,20], direction:"center", className: "no-tooltip"}).openTooltip();
+
+	}
+
+	function removeArea(areaDocument) {
+		layers = areaLayers._layers;
+		var key, val;
+
+		for (key in layers) {
+			val = layers[key];
+
+			if (val._leaflet_id == areaDocument._id) {
+				areaLayers.removeLayer(val);
+			}
+		}
+	}
 };
