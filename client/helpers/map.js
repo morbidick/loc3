@@ -3,13 +3,19 @@ require('leaflet-draw-drag');
 import "leaflet-measure-path/leaflet-measure-path.css";
 
 LeafletMap = function(divId) {
+	var instance;
 	var map;
 	var areaLayers;
+
+	var _inDeleteMode = false;
 
 	this.init(divId);
 };
 
 LeafletMap.prototype.init = function (divId) {
+
+	this.instance = this;
+
 	this.map = L.map(divId, {
 		crs: L.CRS.Simple,
 		minZoom: 19,
@@ -71,6 +77,12 @@ LeafletMap.prototype.init = function (divId) {
 	this.map.on('draw:created', MapHelper.DrawEventHandler.drawCreated);
 	this.map.on('draw:deleted', MapHelper.DrawEventHandler.drawDeleted);
 	this.map.on('draw:edited', MapHelper.DrawEventHandler.drawEdited);
+	this.map.on('draw:deletestart', $.proxy(function(e) {
+		this._inDeleteMode = true;
+	}, this));
+	this.map.on('draw:deletestop', $.proxy(function(e) {
+		this._inDeleteMode = false;
+	}, this));
 
 	var query = Areas.find();
 
@@ -99,12 +111,13 @@ LeafletMap.prototype.drawArea = function(areaDocument) {
 	polygon._leaflet_id = areaDocument._id;
 	polygon.addTo(this.areaLayers).showMeasurements();
 
-	polygon.on("click", function(e) {
+	polygon.on("click", $.proxy(function(e) {
+		console.log(this);
 		console.log(e);
-		//if (e.target.editing._enabled != true && drawControl._toolbars.edit._modes.remove.handler._enabled) {
-		//	Router.go('editAreaPage', { _id: e.target._leaflet_id });
-		//}
-	});
+		if (e.target.editing._enabled != true && !this._inDeleteMode) {
+			Router.go('editAreaPage', { _id: e.target._leaflet_id });
+		}
+	}, this));
 
 	var tooltip = polygon.bindTooltip(areaDocument.title, {permanent: true, offset: [0,20], direction:"center", className: "no-tooltip"}).openTooltip();
 
