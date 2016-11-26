@@ -3,7 +3,6 @@ require('leaflet-draw-drag');
 import "leaflet-measure-path/leaflet-measure-path.css";
 
 LeafletMap = function(divId) {
-	var instance;
 	var map;
 	var areaLayers;
 
@@ -13,8 +12,6 @@ LeafletMap = function(divId) {
 };
 
 LeafletMap.prototype.init = function (divId) {
-
-	this.instance = this;
 
 	this.map = L.map(divId, {
 		crs: L.CRS.Simple,
