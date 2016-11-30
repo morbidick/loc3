@@ -15,7 +15,7 @@ Template.mapPage.rendered = function() {
 	$('#map').css('height', window.innerHeight - 82 - 45);
 
 	var leafletMap = new LeafletMap("map", [
-		new LeafletDataLayer("Halle H", ""),
+		new LeafletDataLayer("Halle H", null),
 		new LeafletDataLayer("Aufbauplan", "aufbau"),
 		new LeafletDataLayer("Abbauplan", "abbau")
 	]);
