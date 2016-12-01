@@ -9,6 +9,7 @@ LeafletMap = function(divId, dataLayers) {
 	this.currentDataLayer = null;
 	this._inDeleteMode = false;
 	this._showMeasurements = false;
+	this._showLabels = true;
 
 	this.init();
 };
@@ -33,22 +34,22 @@ LeafletMap.prototype.init = function () {
 	}
 
 	var overlays = {};
-	var measurementsLayer = new L.FeatureGroup();
-	overlays["Measurements"] = measurementsLayer;
-	this.map.addLayer(overlays["Measurements"]);
+	overlays["Measurements"] = new L.FeatureGroup();
+	overlays["Labels"] = new L.FeatureGroup();
+	this.map.addLayer(overlays["Labels"]);
 
 	this.map.on("overlayadd", $.proxy(function (o) {
-		if (o.layer == overlays["Measurements"]) {
-			this._showMeasurements = true;
-			this.renderMeasurements();
-		}
+		if (o.layer == overlays["Measurements"]) this._showMeasurements = true;
+		if (o.layer == overlays["Labels"]) this._showLabels = true;
+
+		this.renderParts();
 	}, this));
 
 	this.map.on("overlayremove", $.proxy(function (o) {
-		if (o.layer == overlays["Measurements"]) {
-			this._showMeasurements = false;
-			this.renderMeasurements();
-		}
+		if (o.layer == overlays["Measurements"]) this._showMeasurements = false;
+		if (o.layer == overlays["Labels"]) this._showLabels = false;
+
+		this.renderParts();
 	}, this));
 
 	L.control.layers(layers, overlays, { collapsed: false }).addTo(this.map);
@@ -99,13 +100,29 @@ LeafletMap.prototype.renderMeasurements = function() {
 	}
 }
 
+LeafletMap.prototype.renderLabels = function() {
+	for (key in this.currentLayer._layers) {
+		value = this.currentLayer._layers[key];
+
+		if (this._showLabels == true) {
+			value.openTooltip();
+		} else {
+			value.closeTooltip();
+		}
+	}
+}
+
+LeafletMap.prototype.renderParts = function() {
+	this.renderMeasurements();
+	this.renderLabels();
+}
+
 LeafletMap.prototype.switchLayer = function (layer) {
 	this.currentLayer = layer;
 	this.currentDataLayer = this.determineDataLayer(layer);
 
 	this.map.addLayer(layer)
 	this.drawEditControl(layer);
-	this.renderMeasurements();
 }
 
 LeafletMap.prototype.determineDataLayer = function (layer) {
@@ -165,15 +182,13 @@ LeafletMap.prototype.drawArea = function(areaDocument, areaLayer) {
 	polygon.addTo(areaLayer);
 
 	polygon.on("click", $.proxy(function(e) {
-		console.log(this);
-		console.log(e);
 		if (e.target.editing._enabled != true && !this._inDeleteMode) {
 			Router.go('editAreaPage', { _id: e.target._leaflet_id });
 		}
 	}, this));
 
-	var tooltip = polygon.bindTooltip(areaDocument.title, {permanent: true, offset: [0,20], direction:"center", className: "no-tooltip"});
-
+	var tooltip = polygon.bindTooltip(areaDocument.title, {permanent: true, offset: [0,0], direction:"center", className: "no-tooltip"});
+	this.renderParts();
 }
 
 LeafletMap.prototype.removeArea = function(areaDocument, areaLayer) {
@@ -187,6 +202,7 @@ LeafletMap.prototype.removeArea = function(areaDocument, areaLayer) {
 			areaLayer.removeLayer(val);
 		}
 	}
+	this.renderParts();
 }
 
 
@@ -196,8 +212,6 @@ LeafletMap.prototype.DrawEventHandler = {
 	 * @param e
 	 */
 	drawCreated: function (e) {
-		console.log(this.currentDataLayer);
-
 		var layer = e.layer;
 		var latLngs = MapHelper.LatLngUtil.latLngsToObjectArray(layer._latlngs[0]);
 
