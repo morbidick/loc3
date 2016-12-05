@@ -37,10 +37,14 @@
                 <a href="{{pathFor 'mapPage'}}">Map</a>
             </li>
             <li>
-                <a href="{{pathFor 'areasPage'}}">Areas</a>
+				{{#if isInRole 'areas-editor'}}
+                    <a href="{{pathFor 'areasPage'}}">Areas</a>
+				{{/if}}
             </li>
             <li>
-                <a href="{{pathFor 'layerPage'}}">Layers</a>
+				{{#if isInRole 'areas-editor'}}
+                    <a href="{{pathFor 'layerPage'}}">Layers</a>
+				{{/if}}
             </li>
 
         </ul>
