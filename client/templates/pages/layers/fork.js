@@ -11,7 +11,7 @@ Template.forkLayerPage.events({
 		// Get value from form element
 		var target = event.target;
 
-		var old_id = target.old_id.value;
+		var old_id = target.base_id.value;
 		var id = target.id.value;
 		var title = target.title.value;
 
