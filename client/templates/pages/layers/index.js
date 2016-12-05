@@ -1,7 +1,7 @@
-Template.areasPage.helpers({
+Template.layerPage.helpers({
 	tableSettings: function () {
 		return {
-			collection: Areas,
+			collection: Layers,
 			rowsPerPage: 50,
 			showFilter: true,
 			showColumnToggles: true,
@@ -13,12 +13,6 @@ Template.areasPage.helpers({
 			}, {
 				key: "title",
 				label: "Title",
-			}, {
-				key: "color",
-				label: "Color",
-			},{
-				key: "layer",
-				label: "Layer",
 			}, /*{
 				key: 'comment',
 				label: "Comment",
@@ -27,7 +21,7 @@ Template.areasPage.helpers({
 				key: "modify",
 				label: "",
 				hideToggle: true,
-				tmpl: Template.areasTableModify,
+				tmpl: Template.layerTableModify,
 				sortable: false,
 			}],
 		};

@@ -2,11 +2,13 @@ LeafletMap = function(divId, dataLayers) {
 	this.divId = divId;
 	this.dataLayers = dataLayers;
 
-
 	this.map;
 	this.drawControl;
 	this.currentLayer = null;
 	this.currentDataLayer = null;
+	this.dataLayerControl = null;
+	this.overlays = null;
+	this.layers = null;
 	this._inDeleteMode = false;
 	this._showMeasurements = false;
 	this._showLabels = true;
@@ -26,35 +28,27 @@ LeafletMap.prototype.init = function () {
 		this.switchLayer(e.layer);
 	}, this));
 
+	this.overlays = {};
+	this.overlays["Measurements"] = new L.FeatureGroup();
+	this.overlays["Labels"] = new L.FeatureGroup();
+	this.map.addLayer(this.overlays["Labels"]);
 
-	var layers = {};
-	for (key in this.dataLayers) {
-		value = this.dataLayers[key];
-		layers[value.name] = value.featureGroup;
-	}
 
-	var overlays = {};
-	overlays["Measurements"] = new L.FeatureGroup();
-	overlays["Labels"] = new L.FeatureGroup();
-	this.map.addLayer(overlays["Labels"]);
+	this.renderLayers();
 
 	this.map.on("overlayadd", $.proxy(function (o) {
-		if (o.layer == overlays["Measurements"]) this._showMeasurements = true;
-		if (o.layer == overlays["Labels"]) this._showLabels = true;
+		if (o.layer == this.overlays["Measurements"]) this._showMeasurements = true;
+		if (o.layer == this.overlays["Labels"]) this._showLabels = true;
 
 		this.renderParts();
 	}, this));
 
 	this.map.on("overlayremove", $.proxy(function (o) {
-		if (o.layer == overlays["Measurements"]) this._showMeasurements = false;
-		if (o.layer == overlays["Labels"]) this._showLabels = false;
+		if (o.layer == this.overlays["Measurements"]) this._showMeasurements = false;
+		if (o.layer == this.overlays["Labels"]) this._showLabels = false;
 
 		this.renderParts();
 	}, this));
-
-	L.control.layers(layers, overlays, { collapsed: false }).addTo(this.map);
-	var defaultLayer = layers[Object.keys(layers)[0]];
-	this.switchLayer(defaultLayer);
 
 	var northEast = this.map.unproject(L.point(0,599), 20);
 	var southWest = this.map.unproject(L.point(1506, 0), 20);
@@ -88,6 +82,55 @@ LeafletMap.prototype.init = function () {
 
 }
 
+LeafletMap.prototype.addDataLayer = function (dataLayer) {
+	if (this.dataLayers == null) this.dataLayers = [];
+
+
+	this.dataLayers.push(dataLayer);
+
+	for (key in this.dataLayers) {
+		value = this.dataLayers[key];
+		value.bindToData(this);
+	}
+
+	this.renderLayers();
+
+
+}
+
+LeafletMap.prototype.removeDataLayer = function (id) {
+	for (key in this.dataLayers) {
+		value = this.dataLayers[key];
+
+		if (value.layerName == id) {
+			this.map.removeLayer(value.featureGroup);
+			delete this.dataLayers[key];
+		}
+		this.switchToDefaultLayer();
+		this.renderLayers();
+	}
+}
+
+LeafletMap.prototype.renderLayers = function () {
+
+	layers = {};
+
+	for (key in this.dataLayers) {
+		value = this.dataLayers[key];
+		layers[value.name] = value.featureGroup;
+	}
+
+	if (this.dataLayerControl != null) this.map.removeControl(this.dataLayerControl);
+
+	this.dataLayerControl = L.control.layers(layers, this.overlays, { collapsed: false });
+	this.dataLayerControl.addTo(this.map);
+
+	var defaultLayer = layers[Object.keys(layers)[0]];
+	this.switchLayer(defaultLayer);
+
+}
+
+
 LeafletMap.prototype.renderMeasurements = function() {
 	for (key in this.currentLayer._layers) {
 		value = this.currentLayer._layers[key];
@@ -117,11 +160,28 @@ LeafletMap.prototype.renderParts = function() {
 	this.renderLabels();
 }
 
+LeafletMap.prototype.switchToDefaultLayer = function() {
+	var layer = null;
+
+	for (key in this.dataLayers) {
+		value = this.dataLayers[key];
+		layer = value.featureGroup;
+		break;
+	}
+	this.switchLayer(layer);
+
+}
+
 LeafletMap.prototype.switchLayer = function (layer) {
+
+	if (layer == null) {
+		layer = new L.FeatureGroup();
+	}
+
 	this.currentLayer = layer;
 	this.currentDataLayer = this.determineDataLayer(layer);
 
-	this.map.addLayer(layer)
+	this.map.addLayer(layer);
 	this.drawEditControl(layer);
 }
 

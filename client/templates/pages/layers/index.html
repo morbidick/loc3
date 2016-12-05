@@ -1,0 +1,20 @@
+<template name="layerPage">
+	<h2>Layers</h2>
+	{{#if isInRole 'areas-editor'}}
+        <a class="btn btn-default" href="{{pathFor route='addLayerPage'}}">new layer</a>
+        <a class="btn btn-default" href="{{pathFor route='forkLayerPage'}}">fork layer</a>
+	{{/if}}
+	{{> reactiveTable settings=tableSettings }}
+</template>
+
+<template name="layerTableModify">
+	<div class="pull-right">
+		{{#if isInRole 'areas-editor'}}
+			<a href="{{pathFor 'editLayerPage' this._id}}" class="btn btn-success glyphicon glyphicon-pencil"></a>
+		{{/if}}
+		{{#if isInRole 'areas-editor'}}
+			{{#afModal class="btn btn-danger glyphicon glyphicon-remove" collection="Layers" operation="remove" doc=this._id title="Are you sure?" prompt="This action can't be undone!"}}
+			{{/afModal}}
+		{{/if}}
+	</div>
+</template>

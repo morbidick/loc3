@@ -13,7 +13,7 @@ AutoForm.addHooks("teamForm", {
         Flash.danger(error);
       } else {
         Router.go('teamsPage');
-        Flash.success("Team succesfully added!");
+        Flash.success("Team succesfully up!");
       }
     }
   }

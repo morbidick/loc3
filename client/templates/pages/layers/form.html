@@ -1,0 +1,28 @@
+<template name="addLayerPage">
+	{{#if isInRole 'areas-editor'}}
+        <h2>New layer</h2>
+		{{#autoForm collection="Layers" id="layerForm" type="insert"}}
+            <fieldset>
+				{{> afQuickField name='_id'}}
+				{{> afQuickField name='title'}}
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Insert</button>
+		{{/autoForm}}
+	{{else}}
+		{{> loginWarning}}
+	{{/if}}
+</template>
+
+<template name="editLayerPage">
+{{#if isInRole 'areas-editor'}}
+  <h2>Edit layer (ID: {{this._id}})</h2>
+  {{#autoForm collection="Layers" id="layerForm" doc=this type="update"}}
+    <fieldset>
+      	{{> afQuickField name='title'}}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  {{/autoForm}}
+{{else}}
+  {{> loginWarning}}
+{{/if}}
+</template>

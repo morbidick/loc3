@@ -11,12 +11,28 @@ Meteor.startup(function() {
 // create marker collection
 Meteor.subscribe('areas');
 
+
 Template.mapPage.rendered = function() {
 	$('#map').css('height', window.innerHeight - 82);
 
-	var leafletMap = new LeafletMap("map", [
-		new LeafletDataLayer("Halle H", "halleh"),
-		new LeafletDataLayer("Aufbau", "aufbau"),
-		new LeafletDataLayer("Abbau", "abbau")
-	]);
+	var leafletMap = new LeafletMap("map");
+
+	Meteor.subscribe('layers');
+	Layers.find().observe({
+		added: $.proxy(function (newDocument) {
+			leafletMap.addDataLayer(new LeafletDataLayer(newDocument.title, newDocument._id));
+		}, leafletMap),
+		removed: $.proxy(function (oldDocument) {
+			this.removeDataLayer(oldDocument._id);
+		}, leafletMap),
+		changed: $.proxy(function (newDocument, oldDocument) {
+
+			oldDataLayerName = this.currentDataLayer.layerName;
+			newDataLayer = new LeafletDataLayer(newDocument.title, newDocument._id);
+
+			this.removeDataLayer(oldDocument._id);
+			this.addDataLayer(newDataLayer);
+		}, leafletMap)
+
+	});
 };
