@@ -3,8 +3,9 @@
   <h2>Edit area (ID: {{this._id}})</h2>
   {{#autoForm collection="Areas" id="areaForm" doc=this type="update"}}
     <fieldset>
-      {{> afQuickField name='title'}}
-	  {{> afQuickField name='color'}}
+        {{> afQuickField name='title'}}
+	    {{> afQuickField name='color'}}
+		{{> afQuickField name='comment' rows=6}}
 		{{> afQuickField name='layer'}}
     </fieldset>
     <button type="submit" class="btn btn-primary">Submit</button>
