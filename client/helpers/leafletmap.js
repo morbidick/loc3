@@ -132,6 +132,7 @@ LeafletMap.prototype.renderLayers = function () {
 
 
 LeafletMap.prototype.renderMeasurements = function() {
+
 	for (key in this.currentLayer._layers) {
 		value = this.currentLayer._layers[key];
 
@@ -183,6 +184,7 @@ LeafletMap.prototype.switchLayer = function (layer) {
 
 	this.map.addLayer(layer);
 	this.drawEditControl(layer);
+	this.renderParts();
 }
 
 LeafletMap.prototype.determineDataLayer = function (layer) {
