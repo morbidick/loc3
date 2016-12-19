@@ -275,7 +275,7 @@ LeafletMap.prototype.DrawEventHandler = {
 	 */
 	drawCreated: function (e) {
 		var layer = e.layer;
-		var latLngs = MapHelper.LatLngUtil.latLngsToObjectArray(layer._latlngs[0]);
+		var latLngs = MapHelper.latLngsToObjectArray(layer._latlngs[0]);
 
 		this.currentDataLayer.handleDrawCreated({
 			latLngs: latLngs
@@ -291,7 +291,7 @@ LeafletMap.prototype.DrawEventHandler = {
 
 		for (key in e.layers._layers) {
 			val = e.layers._layers[key];
-			latLngs = MapHelper.LatLngUtil.latLngsToObjectArray(val._latlngs[0]);
+			latLngs = MapHelper.latLngsToObjectArray(val._latlngs[0]);
 
 			this.currentDataLayer.handleDrawEdited(key, {
 				latLngs: latLngs

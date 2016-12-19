@@ -1,14 +1,12 @@
-MapHelper = {
+MapHelper = function() {
+}
 
-	LatLngUtil: {
-		latLngsToObjectArray: function(latLngs) {
-			var latLngsArray = [];
+MapHelper.prototype.latLngsToObjectArray = function(latLngs) {
+	var latLngsArray = [];
 
-			latLngs.forEach(function (o) {
-				latLngsArray.push({lat: o.lat, lng: o.lng});
-			});
+	latLngs.forEach(function (o) {
+		latLngsArray.push({lat: o.lat, lng: o.lng});
+	});
 
-			return latLngsArray;
-		}
-	}
+	return latLngsArray;
 }
