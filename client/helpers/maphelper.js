@@ -1,7 +1,7 @@
 MapHelper = function() {
 }
 
-MapHelper.prototype.latLngsToObjectArray = function(latLngs) {
+MapHelper.latLngsToObjectArray = function(latLngs) {
 	var latLngsArray = [];
 
 	latLngs.forEach(function (o) {
