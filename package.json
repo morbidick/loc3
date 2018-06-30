@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/morbidick/loc3#readme",
   "dependencies": {
-    "bcrypt": "^0.8.7"
+    "bcrypt": "^2.0.1"
   }
 }
