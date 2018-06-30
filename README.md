@@ -1,5 +1,7 @@
 # Locc3 Application
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/morbidick/loc3.svg)](https://greenkeeper.io/)
+
 ## Startup
 meteor needs to be installed, no other dependencies
 ````
